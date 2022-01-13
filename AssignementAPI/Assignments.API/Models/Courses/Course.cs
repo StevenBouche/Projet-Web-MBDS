@@ -11,17 +11,9 @@ namespace Assignments.API.Models.Courses
         public string Name { get; set; } = string.Empty;
         [JsonPropertyName("description")]
         public string Description { get; set; } = string.Empty;
-
-        public Course()
-        {
-
-        }
-
-        public Course(CourseEntity entity)
-        {
-            Id = entity.Id;
-            Name = entity.Name;
-            Description = entity.Description;
-        }
+        [JsonPropertyName("pictureId")]
+        public int? PictureId { get; set; }
+        [JsonPropertyName("userId")]
+        public int UserId { get; set; }
     }
 }

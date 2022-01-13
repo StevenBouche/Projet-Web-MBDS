@@ -14,17 +14,17 @@ using System.Security.Cryptography;
 
 namespace Assignments.API.Services.Authentification
 {
-    public class SecurityService : BaseService<RefreshTokenEntity, IRefreshTokenRepository>, ISecurityService
+    public class AuthentificationService : BaseService<RefreshTokenEntity, IRefreshTokenRepository>, IAuthentificationService
     {
         private readonly JwtTokenConfig Config;
         private readonly IUserService UserService;
         private readonly RandomNumberGenerator RandomGenerator = RandomNumberGenerator.Create();
 
-        public SecurityService(
+        public AuthentificationService(
             IOptions<JwtTokenConfig> config,
             IRefreshTokenRepository repository,
             IUserService userService,
-            ILogger<SecurityService> logger
+            ILogger<AuthentificationService> logger
         ) : base(repository, logger)
         {
             Config = config.Value;

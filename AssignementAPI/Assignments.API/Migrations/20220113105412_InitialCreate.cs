@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace AssignmentAPI.Migrations
+namespace Assignments.API.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -153,6 +153,7 @@ namespace AssignmentAPI.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Grade = table.Column<double>(type: "float", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     State = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),

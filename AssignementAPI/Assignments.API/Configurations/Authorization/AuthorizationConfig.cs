@@ -4,7 +4,9 @@ namespace Assignments.API.Configurations.Authorization
 {
     public enum AuthorizationTypes
     {
-        CREATE_COURSE
+        CREATE_COURSE,
+        UPDATE_COURSE,
+        DELETE_COURSE
     }
 
     public class AuthorizationConfig

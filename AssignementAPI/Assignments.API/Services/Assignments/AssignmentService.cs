@@ -13,12 +13,12 @@ namespace Assignments.API.Services.Assignments
         {
         }
 
-        public Task<Assignment> CreateAssignmentAsync(AssignmentForm form, UserIdentity? identity)
+        public Task<Assignment> CreateAssignmentAsync(AssignmentForm form, UserIdentity identity)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAssignmentAsync(int id, UserIdentity? identity)
+        public Task DeleteAssignmentAsync(int id, UserIdentity identity)
         {
             throw new NotImplementedException();
         }
@@ -33,12 +33,12 @@ namespace Assignments.API.Services.Assignments
             throw new NotImplementedException();
         }
 
-        public Task<PaginationResult<Assignment>> GetMyAssignmentsAsync(PaginationForm form, UserIdentity? identity)
+        public Task<PaginationResult<Assignment>> GetMyAssignmentsAsync(PaginationForm form, UserIdentity identity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Assignment> UpdateAssignmentAsync(AssignmentForm form, UserIdentity? identity)
+        public Task<Assignment> UpdateAssignmentAsync(AssignmentForm form, UserIdentity identity)
         {
             throw new NotImplementedException();
         }

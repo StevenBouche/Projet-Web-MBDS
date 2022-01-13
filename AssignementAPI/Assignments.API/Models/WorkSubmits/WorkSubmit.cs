@@ -18,19 +18,5 @@ namespace Assignments.API.Models.WorkSubmits
         public string Comment { get; set; } = string.Empty;
         [JsonPropertyName("state")]
         public WorkSubmitState State { get; set; }
-
-        public WorkSubmit()
-        {
-
-        }
-
-        public WorkSubmit(WorkSubmitEntity entity)
-        {
-            Id = entity.Id;
-            Label = entity.Label;
-            Grade = entity.Grade;
-            Comment = entity.Comment;
-            State = entity.State;
-        }
     }
 }

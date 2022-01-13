@@ -5,7 +5,7 @@ using Assignments.DAL.Models;
 
 namespace Assignments.API.Services.Authentification
 {
-    public interface ISecurityService : IBaseService<RefreshTokenEntity>
+    public interface IAuthentificationService : IBaseService<RefreshTokenEntity>
     {
         Task<LoginResult> LoginAsync(LoginForm login);
         Task<LoginResult> RefreshLoginAsync(RefreshToken token);

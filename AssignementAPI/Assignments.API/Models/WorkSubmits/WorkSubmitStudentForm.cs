@@ -2,17 +2,15 @@
 
 namespace Assignments.API.Models.WorkSubmits
 {
-    public class WorkSubmitForm
+    public class WorkSubmitStudentForm
     {
         [JsonPropertyName("id")]
-        public int? Id { get; set; }
+        public int? Id { get; set; } = null;
         [JsonPropertyName("label")]
         public string Label { get; set; } = string.Empty;
         [JsonPropertyName("description")]
         public string Description { get; set; } = string.Empty;
-        [JsonPropertyName("comment")]
-        public string Comment { get; set; } = string.Empty;
         [JsonPropertyName("assignmentId")]
-        public int? AssignmentId { get; set; }
+        public int? AssignmentId { get; set; } = null;
     }
 }

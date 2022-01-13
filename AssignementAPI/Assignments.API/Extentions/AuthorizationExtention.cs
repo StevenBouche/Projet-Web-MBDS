@@ -1,7 +1,9 @@
-﻿using Assignments.API.Handlers.Authorization;
+﻿using Assignments.API.Configurations.Authorization;
+using Assignments.API.Handlers.Authorization;
 using Assignments.API.Models.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+
 using System.Security.Claims;
 
 namespace Assignments.API.Extentions
@@ -10,6 +12,7 @@ namespace Assignments.API.Extentions
     {
         public static void ConfigureAuthorization(this IServiceCollection services)
         {
+            services.Configure<AuthorizationConfig>((_) => new AuthorizationConfig());
             services.AddSingleton<IAuthorizationHandler, RequirementHandler>();
 
             services.AddAuthorization(config =>

@@ -16,6 +16,7 @@ using Assignments.API.Services.Users;
 using Assignments.API.Extentions;
 using Assignments.DAL.Repositories.Courses;
 using Assignments.DAL.Repositories.WorkSubmits;
+using Assignments.API.Services.Authorization;
 
 namespace Assignments.API
 {
@@ -106,7 +107,8 @@ namespace Assignments.API
             services.AddTransient<IWorkSubmitService, WorkSubmitService>();
 
             //Security
-            services.AddTransient<ISecurityService, SecurityService>();
+            services.AddTransient<IAuthentificationService, AuthentificationService>();
+            services.AddTransient<IAuthorizeService, AuthorizeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

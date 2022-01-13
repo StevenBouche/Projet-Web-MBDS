@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AssignmentAPI.Migrations
+namespace Assignments.API.Migrations
 {
     [DbContext(typeof(AssignmentContext))]
-    [Migration("20220112173936_InitialCreate")]
+    [Migration("20220113105412_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace AssignmentAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Assignment.DAL.Models.AssignmentEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.AssignmentEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace AssignmentAPI.Migrations
                     b.ToTable("Assignments");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.CourseEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.CourseEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,7 +99,7 @@ namespace AssignmentAPI.Migrations
                     b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.CourseImageEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.CourseImageEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,7 +129,7 @@ namespace AssignmentAPI.Migrations
                     b.ToTable("CourseImages");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.RefreshTokenEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.RefreshTokenEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,7 +164,7 @@ namespace AssignmentAPI.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.UserEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.UserEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -209,7 +209,7 @@ namespace AssignmentAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.UserProfilImageEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.UserProfilImageEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -239,7 +239,7 @@ namespace AssignmentAPI.Migrations
                     b.ToTable("UserProfilImages");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.WorkSubmitEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.WorkSubmitEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -256,6 +256,10 @@ namespace AssignmentAPI.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Grade")
                         .HasColumnType("float");
@@ -284,9 +288,9 @@ namespace AssignmentAPI.Migrations
                     b.ToTable("WorkSubmits");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.AssignmentEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.AssignmentEntity", b =>
                 {
-                    b.HasOne("Assignment.DAL.Models.CourseEntity", "Course")
+                    b.HasOne("Assignments.DAL.Models.CourseEntity", "Course")
                         .WithMany("Assignments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -295,14 +299,14 @@ namespace AssignmentAPI.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.CourseEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.CourseEntity", b =>
                 {
-                    b.HasOne("Assignment.DAL.Models.CourseImageEntity", "Image")
+                    b.HasOne("Assignments.DAL.Models.CourseImageEntity", "Image")
                         .WithOne("Course")
-                        .HasForeignKey("Assignment.DAL.Models.CourseEntity", "ImageId")
+                        .HasForeignKey("Assignments.DAL.Models.CourseEntity", "ImageId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Assignment.DAL.Models.UserEntity", "User")
+                    b.HasOne("Assignments.DAL.Models.UserEntity", "User")
                         .WithMany("Courses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -313,35 +317,35 @@ namespace AssignmentAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.RefreshTokenEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.RefreshTokenEntity", b =>
                 {
-                    b.HasOne("Assignment.DAL.Models.UserEntity", "User")
+                    b.HasOne("Assignments.DAL.Models.UserEntity", "User")
                         .WithOne("RefreshToken")
-                        .HasForeignKey("Assignment.DAL.Models.RefreshTokenEntity", "UserId")
+                        .HasForeignKey("Assignments.DAL.Models.RefreshTokenEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.UserEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.UserEntity", b =>
                 {
-                    b.HasOne("Assignment.DAL.Models.UserProfilImageEntity", "Image")
+                    b.HasOne("Assignments.DAL.Models.UserProfilImageEntity", "Image")
                         .WithOne("User")
-                        .HasForeignKey("Assignment.DAL.Models.UserEntity", "ImageId")
+                        .HasForeignKey("Assignments.DAL.Models.UserEntity", "ImageId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Image");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.WorkSubmitEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.WorkSubmitEntity", b =>
                 {
-                    b.HasOne("Assignment.DAL.Models.AssignmentEntity", "Assignment")
+                    b.HasOne("Assignments.DAL.Models.AssignmentEntity", "Assignment")
                         .WithMany("WorkSubmits")
                         .HasForeignKey("AssignmentId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Assignment.DAL.Models.UserEntity", "User")
+                    b.HasOne("Assignments.DAL.Models.UserEntity", "User")
                         .WithMany("WorkSubmits")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -352,23 +356,23 @@ namespace AssignmentAPI.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.AssignmentEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.AssignmentEntity", b =>
                 {
                     b.Navigation("WorkSubmits");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.CourseEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.CourseEntity", b =>
                 {
                     b.Navigation("Assignments");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.CourseImageEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.CourseImageEntity", b =>
                 {
                     b.Navigation("Course")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.UserEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.UserEntity", b =>
                 {
                     b.Navigation("Courses");
 
@@ -377,7 +381,7 @@ namespace AssignmentAPI.Migrations
                     b.Navigation("WorkSubmits");
                 });
 
-            modelBuilder.Entity("Assignment.DAL.Models.UserProfilImageEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.UserProfilImageEntity", b =>
                 {
                     b.Navigation("User")
                         .IsRequired();

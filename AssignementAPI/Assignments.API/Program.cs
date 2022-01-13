@@ -1,4 +1,5 @@
 using Assignments.API;
+using Assignments.API.Extentions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,8 @@ startup.ConfigureServices(builder.Services);
 var app = builder.Build();
 
 startup.Configure(app, app.Environment);
+
+app.SeedData();
 
 try
 {

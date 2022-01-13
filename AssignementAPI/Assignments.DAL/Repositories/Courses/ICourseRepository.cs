@@ -5,5 +5,6 @@ namespace Assignments.DAL.Repositories.Courses
 {
     public interface ICourseRepository : IBaseRepository<CourseEntity>
     {
+        IEnumerable<CourseEntity> GetStudentCoursesAsync(int userId);
     }
 }

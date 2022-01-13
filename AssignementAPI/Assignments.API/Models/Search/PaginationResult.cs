@@ -4,10 +4,12 @@ namespace Assignments.API.Models.Search
 {
     public class PaginationResult<T>
     {
-        [JsonPropertyName("pagesize")]
+        [JsonPropertyName("pageSize")]
         public int PageSize { get; set; }
         [JsonPropertyName("page")]
         public int Page { get; set; }
+        [JsonPropertyName("totalPage")]
+        public int TotalPage { get; set; }
         [JsonPropertyName("total")]
         public int Total { get; set; }
         [JsonPropertyName("results")]

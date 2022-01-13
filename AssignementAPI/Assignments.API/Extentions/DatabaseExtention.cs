@@ -15,7 +15,7 @@ namespace Assignments.API.Extentions
                 .UseSqlServer(configuration.GetConnectionString(nameof(AssignmentContext)), sqlServerOptions =>
                 {
                     sqlServerOptions.CommandTimeout(Timeout);
-                    sqlServerOptions.MigrationsAssembly("AssignmentAPI");
+                    sqlServerOptions.MigrationsAssembly("Assignments.API");
                 });
 
                 options.ConfigureWarnings(warnings =>

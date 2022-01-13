@@ -4,6 +4,7 @@ using Assignments.API.Models.Api;
 using Assignments.API.Models.Authentification;
 using Assignments.API.Models.Authentification.Tokens;
 using Assignments.API.Services.Authentification;
+using Assignments.API.Services.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -15,9 +16,9 @@ namespace Assignments.API.Controllers
     [Produces("application/json")]
     public class AuthController : BaseAssignmentController
     {
-        private readonly ISecurityService SecurityService;
+        private readonly IAuthentificationService SecurityService;
 
-        public AuthController(ISecurityService securityService, ILogger<AuthController> logger) : base(logger)
+        public AuthController(IAuthentificationService securityService, IAuthorizeService authorizationService, ILogger<AuthController> logger) : base(authorizationService, logger)
         {
             SecurityService = securityService;
         }
@@ -50,8 +51,11 @@ namespace Assignments.API.Controllers
         [HttpDelete("revoke")]
         public async Task<ActionResult> Logout()
         {
-            await SecurityService.LogoutAsync(Identity);
-            return Ok();
+            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
+            {
+                await SecurityService.LogoutAsync(identity);
+                return Ok();
+            });
         }
 
         protected override ActionResult HandleException(Exception exception)

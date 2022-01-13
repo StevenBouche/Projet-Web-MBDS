@@ -1,7 +1,9 @@
 ﻿using Assignments.API.Controllers.Base;
+using Assignments.API.Models.Api;
 using Assignments.API.Models.Authorization;
 using Assignments.API.Models.Search;
 using Assignments.API.Models.WorkSubmits;
+using Assignments.API.Services.Authorization;
 using Assignments.API.Services.WorkSubmits;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +20,7 @@ namespace Assignments.API.Controllers
     {
         private readonly IWorkSubmitService Service;
 
-        protected WorkSubmitsController(IWorkSubmitService service, ILogger<WorkSubmitsController> logger) : base(logger)
+        protected WorkSubmitsController(IWorkSubmitService service, IAuthorizeService authorizationService, ILogger<WorkSubmitsController> logger) : base(authorizationService, logger)
         {
             Service = service;
         }
@@ -46,33 +48,36 @@ namespace Assignments.API.Controllers
         [HttpPost("my")]
         [Authorize(AuthorizationConstants.AuthorizationPolicy_Student)]
         [ProducesResponseType(typeof(PaginationResult<WorkSubmit>), 200)]
+        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
         public async Task<ActionResult> GetMy([FromBody] PaginationForm form)
         {
-            return await TryExecuteAsync<ActionResult>(async () =>
+            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
             {
-                return Ok(await Service.GetMyWorkSubmitsAsync(form, Identity));
+                return Ok(await Service.GetMyWorkSubmitsAsync(form, identity));
             });
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(WorkSubmit), 200)]
         [Authorize(AuthorizationConstants.AuthorizationPolicy_Student)]
-        public async Task<ActionResult> Create([FromBody] WorkSubmitForm form)
+        [ProducesResponseType(typeof(WorkSubmit), 200)]
+        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
+        public async Task<ActionResult> Create([FromBody] WorkSubmitStudentForm form)
         {
-            return await TryExecuteAsync<ActionResult>(async () =>
+            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
             {
-                return Ok(await Service.CreateWorkSubmitAsync(form, Identity));
+                return Ok(await Service.CreateWorkSubmitAsync(form, identity));
             });
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(WorkSubmit), 200)]
         [Authorize(AuthorizationConstants.AuthorizationPolicy_Student)]
-        public async Task<ActionResult> Update([FromBody] WorkSubmitForm form)
+        [ProducesResponseType(typeof(WorkSubmit), 200)]
+        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
+        public async Task<ActionResult> Update([FromBody] WorkSubmitStudentForm form)
         {
-            return await TryExecuteAsync<ActionResult>(async () =>
+            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
             {
-                return Ok(await Service.UpdateWorkSubmitAsync(form, Identity));
+                return Ok(await Service.UpdateWorkSubmitAsync(form, identity));
             });
         }
 
@@ -80,11 +85,12 @@ namespace Assignments.API.Controllers
         [ProducesResponseType(200)]
         [Authorize(AuthorizationConstants.AuthorizationPolicy_Student)]
         [Authorize(AuthorizationConstants.AuthorizationPolicy_Admin)]
+        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
         public async Task<ActionResult> Delete(int id)
         {
-            return await TryExecuteAsync<ActionResult>(async () =>
+            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
             {
-                await Service.DeleteWorkSubmitAsync(id, Identity);
+                await Service.DeleteWorkSubmitAsync(id, identity);
                 return Ok();
             });
         }

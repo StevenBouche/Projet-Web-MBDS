@@ -9,10 +9,10 @@ namespace Assignments.API.Services.Assignments
     public interface IAssignmentService : IBaseService<AssignmentEntity>
     {
         Task<Assignment> GetAssignmentByIdAsync(int id);
-        Task<Assignment> UpdateAssignmentAsync(AssignmentForm form, UserIdentity? identity);
-        Task DeleteAssignmentAsync(int id, UserIdentity? identity);
-        Task<Assignment> CreateAssignmentAsync(AssignmentForm form, UserIdentity? identity);
-        Task<PaginationResult<Assignment>> GetMyAssignmentsAsync(PaginationForm form, UserIdentity? identity);
+        Task<Assignment> UpdateAssignmentAsync(AssignmentForm form, UserIdentity identity);
+        Task DeleteAssignmentAsync(int id, UserIdentity identity);
+        Task<Assignment> CreateAssignmentAsync(AssignmentForm form, UserIdentity identity);
+        Task<PaginationResult<Assignment>> GetMyAssignmentsAsync(PaginationForm form, UserIdentity identity);
         Task<PaginationResult<Assignment>> GetAllAssignmentsAsync(PaginationForm form);
     }
 }

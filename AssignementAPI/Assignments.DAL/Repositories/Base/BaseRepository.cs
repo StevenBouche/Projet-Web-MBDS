@@ -2,6 +2,7 @@
 using Assignments.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Assignments.DAL.Repositories.Base
@@ -26,9 +27,19 @@ namespace Assignments.DAL.Repositories.Base
             return DbSet.Where(predicate).CountAsync();
         }
 
+        public Task<int> CountAllAsync()
+        {
+            return DbSet.CountAsync();
+        }
+
         public Task<T?> GetByIdAsync(int id)
         {
             return DbSet.Where(model => model.Id == id).FirstOrDefaultAsync();
+        }
+
+        public Task<T?> GetFirstByCriteria(Expression<Func<T, bool>> predicate)
+        {
+            return DbSet.Where(predicate).FirstOrDefaultAsync();
         }
 
         public async Task<T> AddAsync(T entity)
@@ -101,6 +112,16 @@ namespace Assignments.DAL.Repositories.Base
         public bool AnyById(int id)
         {
             return DbSet.Any(entity => entity.Id == id);
+        }
+
+        public IEnumerable<T> GetPagination(int pageNumber, int pageSize)
+        {
+            return DbSet.AsNoTracking().Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
+        }
+
+        public IEnumerable<T> GetPagination(int pageNumber, int pageSize, Expression<Func<T, bool>> predicate)
+        {
+            return DbSet.AsNoTracking().Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
         }
     }
 }

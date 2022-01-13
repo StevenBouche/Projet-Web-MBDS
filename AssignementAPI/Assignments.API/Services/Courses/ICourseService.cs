@@ -10,9 +10,9 @@ namespace Assignments.API.Services.Courses
     {
         Task<Course> GetCourseByIdAsync(int id);
         Task<PaginationResult<Course>> GetAllCoursesAsync(PaginationForm form);
-        Task<PaginationResult<Course>> GetMyCoursesAsync(PaginationForm form, UserIdentity? identity);
-        Task<Course> CreateCourseAsync(CourseForm form, UserIdentity? identity);
-        Task<Course> UpdateCourseAsync(CourseForm form, UserIdentity? identity);
-        Task DeleteCourseAsync(int id, UserIdentity? identity);
+        Task<PaginationResult<Course>> GetMyCoursesAsync(PaginationForm form, UserIdentity identity);
+        Task<Course> CreateCourseAsync(CourseForm form, UserIdentity identity);
+        Task<Course> UpdateCourseAsync(CourseForm form, UserIdentity identity);
+        Task DeleteCourseAsync(int id, UserIdentity identity);
     }
 }
