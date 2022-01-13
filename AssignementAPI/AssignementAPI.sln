@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssignmentAPI", "AssignementAPI\AssignmentAPI.csproj", "{E14CEA97-F1F6-4C7D-B078-A52DE42C89FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assignments.API", "Assignments.API\Assignments.API.csproj", "{E14CEA97-F1F6-4C7D-B078-A52DE42C89FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assignment.DAL", "Assignement.DAL\Assignment.DAL.csproj", "{4AFA5E75-EA02-45BE-8943-30C04C48C843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assignments.DAL", "Assignments.DAL\Assignments.DAL.csproj", "{4AFA5E75-EA02-45BE-8943-30C04C48C843}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DB61EA81-3DFE-449E-B4BC-8D68024A71EE}"
 EndProject

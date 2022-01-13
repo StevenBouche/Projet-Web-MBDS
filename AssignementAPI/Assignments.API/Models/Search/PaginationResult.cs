@@ -1,0 +1,16 @@
+﻿using System.Text.Json.Serialization;
+
+namespace Assignments.API.Models.Search
+{
+    public class PaginationResult<T>
+    {
+        [JsonPropertyName("pagesize")]
+        public int PageSize { get; set; }
+        [JsonPropertyName("page")]
+        public int Page { get; set; }
+        [JsonPropertyName("total")]
+        public int Total { get; set; }
+        [JsonPropertyName("results")]
+        public List<T> Results { get; set; } = new List<T>();
+    }
+}

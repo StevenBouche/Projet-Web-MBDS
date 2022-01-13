@@ -10,4 +10,4 @@ services:
     image: ${DOCKER_REGISTRY-}assignmentapi
     build:
       context: .
-      dockerfile: AssignementAPI/Dockerfile
+      dockerfile: Assignments.API/Dockerfile
