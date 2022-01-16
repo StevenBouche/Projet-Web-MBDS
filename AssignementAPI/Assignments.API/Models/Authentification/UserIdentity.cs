@@ -10,6 +10,10 @@ namespace Assignments.API.Models.Authentification
         public string Name { get; set; } = string.Empty;
         public int? PictureId { get; set; }
 
+        public UserIdentity()
+        {
+        }
+
         public UserIdentity(UserEntity userAccount)
         {
             Id = userAccount.Id;
@@ -20,10 +24,12 @@ namespace Assignments.API.Models.Authentification
 
         public UserIdentity(ClaimsPrincipal claims)
         {
-            Id = int.Parse(claims.FindFirstValue(ClaimTypes.NameIdentifier));
-            Role = claims.FindFirstValue(ClaimTypes.Role);
-            Name = claims.FindFirstValue(ClaimTypes.Surname);
+            var claimId = claims.FindFirstValue(ClaimTypes.NameIdentifier);
             var pid = claims.FindFirstValue("UrlPicture");
+
+            Id = claimId != null ? int.Parse(claimId) : default;
+            Role = claims.FindFirstValue(ClaimTypes.Role) ?? string.Empty;
+            Name = claims.FindFirstValue(ClaimTypes.Surname) ?? string.Empty;
             PictureId = string.IsNullOrWhiteSpace(pid) ? null : int.Parse(pid);
         }
 

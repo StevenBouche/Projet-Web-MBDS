@@ -1,26 +1,23 @@
 ﻿using Assignments.API.Controllers.Base;
-using Assignments.API.Models.Api;
+using Assignments.API.Models.Authentification;
 using Assignments.API.Models.Authorization;
 using Assignments.API.Models.Search;
 using Assignments.API.Models.WorkSubmits;
-using Assignments.API.Services.Authorization;
 using Assignments.API.Services.WorkSubmits;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Assignments.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize( Roles = AuthorizationConstants.ALL)]
     [Produces("application/json")]
     public class WorkSubmitsController : BaseAssignmentController
     {
         private readonly IWorkSubmitService Service;
 
-        protected WorkSubmitsController(IWorkSubmitService service, IAuthorizeService authorizationService, ILogger<WorkSubmitsController> logger) : base(authorizationService, logger)
+        public WorkSubmitsController(IWorkSubmitService service, UserIdentity identity, ILogger<WorkSubmitsController> logger) : base(identity, logger)
         {
             Service = service;
         }
@@ -45,53 +42,71 @@ namespace Assignments.API.Controllers
             });
         }
 
-        [HttpPost("my")]
-        [Authorize(AuthorizationConstants.AuthorizationPolicy_Student)]
-        [ProducesResponseType(typeof(PaginationResult<WorkSubmit>), 200)]
-        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
-        public async Task<ActionResult> GetMy([FromBody] PaginationForm form)
-        {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
-            {
-                return Ok(await Service.GetMyWorkSubmitsAsync(form, identity));
-            });
-        }
-
         [HttpPost]
-        [Authorize(AuthorizationConstants.AuthorizationPolicy_Student)]
+        [Authorize(Roles = AuthorizationConstants.STUDENT)]
         [ProducesResponseType(typeof(WorkSubmit), 200)]
-        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
         public async Task<ActionResult> Create([FromBody] WorkSubmitStudentForm form)
         {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
+            return await TryExecuteAsync<ActionResult>(async () =>
             {
-                return Ok(await Service.CreateWorkSubmitAsync(form, identity));
-            });
-        }
-
-        [HttpPut]
-        [Authorize(AuthorizationConstants.AuthorizationPolicy_Student)]
-        [ProducesResponseType(typeof(WorkSubmit), 200)]
-        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
-        public async Task<ActionResult> Update([FromBody] WorkSubmitStudentForm form)
-        {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
-            {
-                return Ok(await Service.UpdateWorkSubmitAsync(form, identity));
+                return Ok(await Service.CreateWorkSubmitAsync(form));
             });
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = AuthorizationConstants.STUDENT_ADMIN)]
         [ProducesResponseType(200)]
-        [Authorize(AuthorizationConstants.AuthorizationPolicy_Student)]
-        [Authorize(AuthorizationConstants.AuthorizationPolicy_Admin)]
-        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
         public async Task<ActionResult> Delete(int id)
         {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
+            return await TryExecuteAsync<ActionResult>(async () =>
             {
-                await Service.DeleteWorkSubmitAsync(id, identity);
+                await Service.DeleteWorkSubmitAsync(id);
                 return Ok();
+            });
+        }
+
+        [HttpPut("submit-evaluation")]
+        [Authorize(Roles = AuthorizationConstants.PROFESSOR)]
+        [ProducesResponseType(typeof(WorkSubmit), 200)]
+        public async Task<ActionResult> SubmitEvaluation([FromBody] WorkSubmitActionForm form)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.EvaluateWorkSubmitAsync(form));
+            });
+        }
+
+        [HttpPut("submit-work")]
+        [Authorize(Roles = AuthorizationConstants.STUDENT)]
+        [ProducesResponseType(typeof(WorkSubmit), 200)]
+        public async Task<ActionResult> SubmitWork([FromBody] WorkSubmitActionForm form)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.SubmitWorkSubmitAsync(form));
+            });
+        }
+
+        [HttpPut("work")]
+        [Authorize(Roles = AuthorizationConstants.STUDENT_ADMIN)]
+        [ProducesResponseType(typeof(WorkSubmit), 200)]
+        public async Task<ActionResult> UpdateWork([FromBody] WorkSubmitStudentForm form)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.UpdateWorkSubmitAsync(form));
+            });
+        }
+
+        [HttpPut("evaluation")]
+        [ProducesResponseType(200)]
+        [Authorize(Roles = AuthorizationConstants.PROFESSOR_ADMIN)]
+        [ProducesResponseType(typeof(WorkSubmit), 200)]
+        public async Task<ActionResult> UpdateEvaluation([FromBody] WorkSubmitProfessorForm form)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.UpdateWorkSubmitAsync(form));
             });
         }
     }

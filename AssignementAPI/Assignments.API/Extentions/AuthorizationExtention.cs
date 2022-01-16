@@ -13,7 +13,7 @@ namespace Assignments.API.Extentions
         public static void ConfigureAuthorization(this IServiceCollection services)
         {
             services.Configure<AuthorizationConfig>((_) => new AuthorizationConfig());
-            services.AddSingleton<IAuthorizationHandler, RequirementHandler>();
+           // services.AddSingleton<IAuthorizationHandler, RequirementHandler>();
 
             services.AddAuthorization(config =>
             {
@@ -22,21 +22,21 @@ namespace Assignments.API.Extentions
                     options.RequireAuthenticatedUser();
                     options.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
                     options.RequireClaim(ClaimTypes.Role);
-                    options.Requirements.Add(new ShouldBeRequirement() { Role = "ADMIN" });
+                    //tions.Requirements.Add(new ShouldBeRequirement() { Role = "ADMIN" });
                 });
                 config.AddPolicy(AuthorizationConstants.AuthorizationPolicy_Student, options =>
                 {
                     options.RequireAuthenticatedUser();
                     options.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
                     options.RequireClaim(ClaimTypes.Role);
-                    options.Requirements.Add(new ShouldBeRequirement() { Role = "STUDENT" });
+                    //tions.Requirements.Add(new ShouldBeRequirement() { Role = "STUDENT" });
                 });
                 config.AddPolicy(AuthorizationConstants.AuthorizationPolicy_Professor, options =>
                 {
                     options.RequireAuthenticatedUser();
                     options.AuthenticationSchemes.Add(JwtBearerDefaults.AuthenticationScheme);
                     options.RequireClaim(ClaimTypes.Role);
-                    options.Requirements.Add(new ShouldBeRequirement() { Role = "PROFESSOR" });
+                    //tions.Requirements.Add(new ShouldBeRequirement() { Role = "PROFESSOR" });
                 });
             });
         }

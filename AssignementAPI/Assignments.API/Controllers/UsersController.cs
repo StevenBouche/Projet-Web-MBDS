@@ -1,6 +1,6 @@
 ﻿using Assignments.API.Controllers.Base;
+using Assignments.API.Models.Authentification;
 using Assignments.API.Models.Users;
-using Assignments.API.Services.Authorization;
 using Assignments.API.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +14,7 @@ namespace Assignments.API.Controllers
     public class UsersController : BaseAssignmentController
     {
         private readonly IUserService UserService;
-        public UsersController(IUserService service, IAuthorizeService authorizationService, ILogger<UsersController> logger) : base(authorizationService, logger)
+        public UsersController(IUserService service, UserIdentity identity, ILogger<UsersController> logger) : base(identity, logger)
         {
             UserService = service;
         }

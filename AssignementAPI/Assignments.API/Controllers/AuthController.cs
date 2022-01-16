@@ -4,7 +4,6 @@ using Assignments.API.Models.Api;
 using Assignments.API.Models.Authentification;
 using Assignments.API.Models.Authentification.Tokens;
 using Assignments.API.Services.Authentification;
-using Assignments.API.Services.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -18,7 +17,7 @@ namespace Assignments.API.Controllers
     {
         private readonly IAuthentificationService SecurityService;
 
-        public AuthController(IAuthentificationService securityService, IAuthorizeService authorizationService, ILogger<AuthController> logger) : base(authorizationService, logger)
+        public AuthController(IAuthentificationService securityService, UserIdentity identity, ILogger<AuthController> logger) : base(identity, logger)
         {
             SecurityService = securityService;
         }
@@ -51,9 +50,9 @@ namespace Assignments.API.Controllers
         [HttpDelete("revoke")]
         public async Task<ActionResult> Logout()
         {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
+            return await TryExecuteAsync<ActionResult>(async () =>
             {
-                await SecurityService.LogoutAsync(identity);
+                await SecurityService.LogoutAsync(Identity);
                 return Ok();
             });
         }

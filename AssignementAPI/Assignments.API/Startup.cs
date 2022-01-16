@@ -17,6 +17,7 @@ using Assignments.API.Extentions;
 using Assignments.DAL.Repositories.Courses;
 using Assignments.DAL.Repositories.WorkSubmits;
 using Assignments.API.Services.Authorization;
+using Assignments.API.Handlers.Authentification;
 
 namespace Assignments.API
 {
@@ -52,7 +53,9 @@ namespace Assignments.API
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             // Add services to the container.
-            services.AddControllers();
+            services.AddControllers(option => {
+                option.Filters.Add(new ActiveUserFilter());
+            });
 
             // Swagger
             services.AddEndpointsApiExplorer();

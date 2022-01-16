@@ -14,7 +14,8 @@ namespace Assignments.API.Extentions.ModelExtentions
                 Grade = entity.Grade,
                 Comment = entity.Comment,
                 Description = entity.Description,
-                State = entity.State
+                State = entity.State,
+                UserId = entity.UserId
             };
         }
     }

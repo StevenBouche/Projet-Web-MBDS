@@ -18,5 +18,7 @@ namespace Assignments.API.Models.WorkSubmits
         public string Comment { get; set; } = string.Empty;
         [JsonPropertyName("state")]
         public WorkSubmitState State { get; set; }
+        [JsonPropertyName("comment")]
+        public int UserId { get; set; }
     }
 }

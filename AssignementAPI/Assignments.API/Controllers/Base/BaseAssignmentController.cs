@@ -4,7 +4,6 @@ using Assignments.API.Exceptions.Business;
 using Assignments.API.Exceptions.Entities;
 using Assignments.API.Models.Api;
 using Assignments.API.Models.Authentification;
-using Assignments.API.Services.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Net;
@@ -14,20 +13,13 @@ namespace Assignments.API.Controllers.Base
     public class BaseAssignmentController : ControllerBase
     {
 
-        protected readonly ILogger<BaseAssignmentController> logger;
-        protected readonly IAuthorizeService AuthorizationService;
-        /*protected UserIdentity? Identity
-        {
-            get
-            {
-                return User != null ? new UserIdentity(User) : null;
-            }
-        }*/
+        protected readonly ILogger<BaseAssignmentController> Logger;
+        protected readonly UserIdentity Identity;
 
-        protected BaseAssignmentController(IAuthorizeService authorizationService, ILogger<BaseAssignmentController> logger)
+        public BaseAssignmentController(UserIdentity identity, ILogger<BaseAssignmentController> logger)
         {
-            this.logger = logger;
-            AuthorizationService = authorizationService;
+            Logger = logger;
+            Identity = identity;
         }
 
         protected async Task<ActionResult> TryExecuteAsync<T>(Func<Task<T>> action)
@@ -56,32 +48,6 @@ namespace Assignments.API.Controllers.Base
             }
         }
 
-        protected async Task<ActionResult> TryExecuteWithAuthorizationAsync<T>(Func<UserIdentity, Task<T>> action, AuthorizationTypes? type = null)
-            where T : ActionResult
-        {
-            try
-            {
-                return await action(VerifyAuthorizationAndGetIdentity(type));
-            }
-            catch (Exception exception)
-            {
-                return HandleException(exception);
-            }
-        }
-
-        protected ActionResult TryExecuteWithAuthorization<T>(Func<UserIdentity, T> action, AuthorizationTypes? type = null)
-            where T : ActionResult
-        {
-            try
-            {
-                return action(VerifyAuthorizationAndGetIdentity(type));
-            }
-            catch (Exception exception)
-            {
-                return HandleException(exception);
-            }
-        }
-
         protected virtual ActionResult HandleException(Exception exception)
         {
             switch (exception)
@@ -101,32 +67,20 @@ namespace Assignments.API.Controllers.Base
 
         protected ActionResult LogErrorAndReturn(Exception error, HttpStatusCode code)
         {
-            logger.LogError(error, GetErrorString(error));
+            Logger.LogError(error, GetErrorString(error));
             return StatusCode((int)code, GetReturnResponse(error, code));
         }
 
         protected ActionResult LogWarningAndReturn(Exception error, HttpStatusCode code)
         {
-            logger.LogWarning(error, GetErrorString(error));
+            Logger.LogWarning(error, GetErrorString(error));
             return StatusCode((int)code, GetReturnResponse(error, code));
         }
 
         protected ActionResult LogInfoAndReturn(Exception error, HttpStatusCode code)
         {
-            logger.LogInformation(error, GetErrorString(error));
+            Logger.LogInformation(error, GetErrorString(error));
             return StatusCode((int)code, GetReturnResponse(error, code));
-        }
-
-        private UserIdentity VerifyAuthorizationAndGetIdentity(AuthorizationTypes? type = null)
-        {
-            var userClaims = AuthorizationService.HaveClaims(User);
-
-            if (type != null)
-            {
-                AuthorizationService.IsAuthorize(userClaims, (AuthorizationTypes)type);
-            }
-
-            return userClaims;
         }
 
         private string GetErrorString(Exception error)

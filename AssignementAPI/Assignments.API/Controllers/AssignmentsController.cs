@@ -4,8 +4,8 @@ using Assignments.API.Controllers.Base;
 using Assignments.API.Services.Assignments;
 using Assignments.API.Models.Assignments;
 using Assignments.API.Models.Search;
-using Assignments.API.Services.Authorization;
 using Assignments.API.Models.Api;
+using Assignments.API.Models.Authentification;
 
 namespace Assignments.API.Controllers
 {
@@ -17,7 +17,7 @@ namespace Assignments.API.Controllers
     {
         private readonly IAssignmentService Service;
 
-        public AssignmentsController(IAssignmentService service, IAuthorizeService authorizationService, ILogger<AssignmentsController> logger) : base(authorizationService, logger)
+        public AssignmentsController(IAssignmentService service, UserIdentity identity, ILogger<AssignmentsController> logger) : base(identity, logger)
         {
             Service = service;
         }
@@ -47,9 +47,9 @@ namespace Assignments.API.Controllers
         [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
         public async Task<ActionResult> GetMy([FromBody] PaginationForm form)
         {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
+            return await TryExecuteAsync<ActionResult>(async () =>
             {
-                return Ok(await Service.GetMyAssignmentsAsync(form, identity));
+                return Ok(await Service.GetMyAssignmentsAsync(form, Identity));
             });
         }
 
@@ -58,9 +58,9 @@ namespace Assignments.API.Controllers
         [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
         public async Task<ActionResult> Create([FromBody] AssignmentForm form)
         {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
+            return await TryExecuteAsync<ActionResult>(async () =>
             {
-                return Ok(await Service.CreateAssignmentAsync(form, identity));
+                return Ok(await Service.CreateAssignmentAsync(form, Identity));
             });
         }
 
@@ -69,9 +69,9 @@ namespace Assignments.API.Controllers
         [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
         public async Task<ActionResult> Update([FromBody] AssignmentForm form)
         {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
+            return await TryExecuteAsync<ActionResult>(async () =>
             {
-                return Ok(await Service.UpdateAssignmentAsync(form, identity));
+                return Ok(await Service.UpdateAssignmentAsync(form, Identity));
             });
         }
 
@@ -80,9 +80,9 @@ namespace Assignments.API.Controllers
         [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
         public async Task<ActionResult> Delete(int id)
         {
-            return await TryExecuteWithAuthorizationAsync<ActionResult>(async (identity) =>
+            return await TryExecuteAsync<ActionResult>(async () =>
             {
-                await Service.DeleteAssignmentAsync(id, identity);
+                await Service.DeleteAssignmentAsync(id, Identity);
                 return Ok();
             });
         }

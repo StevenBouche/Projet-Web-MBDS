@@ -9,7 +9,7 @@ namespace Assignments.DAL.Models
         public string Description { get; set; } = string.Empty;
         public string Comment { get; set; } = string.Empty;
         public WorkSubmitState State { get; set; }
-        public virtual UserEntity User { get; set; } = new();
+        public virtual UserEntity? User { get; set; } = null;
         public int UserId { get; set; }
         public virtual AssignmentEntity? Assignment { get; set; } = null;
         public int? AssignmentId { get; set; }

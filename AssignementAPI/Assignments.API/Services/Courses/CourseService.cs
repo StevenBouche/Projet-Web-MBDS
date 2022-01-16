@@ -6,23 +6,26 @@ using Assignments.DAL.Models;
 using Assignments.DAL.Repositories.Courses;
 using Assignments.API.Extentions.ModelExtentions;
 using Assignments.API.Exceptions.Entities;
-using Assignments.DAL.Enumerations;
+using Assignments.API.Models.Authorization;
 
 namespace Assignments.API.Services.Courses
 {
     public class CourseService : BaseService<CourseEntity, ICourseRepository>, ICourseService
     {
-        public CourseService(ICourseRepository repository, ILogger<CourseService> logger) : base(repository, logger)
+        private readonly UserIdentity Identity;
+
+        public CourseService(ICourseRepository repository, UserIdentity identity, ILogger<CourseService> logger) : base(repository, logger)
         {
+            Identity = identity;
         }
 
-        public async Task<Course> CreateCourseAsync(CourseForm form, UserIdentity identity)
+        public async Task<Course> CreateCourseAsync(CourseForm form)
         {
-            var entity = await Repository.AddAsync(new CourseEntity() { Name = form.Name, Description = form.Description, UserId = identity.Id });
+            var entity = await Repository.AddAsync(new CourseEntity() { Name = form.Name, Description = form.Description, UserId = Identity.Id });
             return entity.ToCourse();
         }
 
-        public Task DeleteCourseAsync(int id, UserIdentity identity)
+        public Task DeleteCourseAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -43,11 +46,25 @@ namespace Assignments.API.Services.Courses
             return result.ToCourse();
         }
 
-        public async Task<PaginationResult<Course>> GetMyCoursesAsync(PaginationForm form, UserIdentity identity)
+        public async Task<PaginationResult<Course>> GetMyCoursesAsync(PaginationForm form)
         {
             PaginationResult<CourseEntity> pagination;
 
-            if (identity.Role == UserRoles.STUDENT.ToString())
+            if (Identity.Role == AuthorizationConstants.STUDENT)
+            {
+                var courses = Repository.GetStudentCoursesAsync(Identity.Id);
+                pagination = GetPaginationAsync(form, courses);
+            }
+            else if (Identity.Role == AuthorizationConstants.PROFESSOR)
+            {
+                pagination = await GetPaginationAsync(form, entity => entity.UserId == Identity.Id);
+            }
+            else
+            {
+                pagination = await GetPaginationAsync(form);
+            }
+
+           /* if (identity.Role == UserRoles.STUDENT.ToString())
             {
                 var courses = Repository.GetStudentCoursesAsync(identity.Id);
                 pagination = GetPaginationAsync(form, courses);
@@ -55,12 +72,12 @@ namespace Assignments.API.Services.Courses
             else
             {
                 pagination = await GetPaginationAsync(form, entity => entity.UserId == identity.Id);
-            }
+            }*/
 
             return MapPagination(pagination, entity => entity.ToCourse());
         }
 
-        public async Task<Course> UpdateCourseAsync(CourseForm form, UserIdentity identity)
+        public async Task<Course> UpdateCourseAsync(CourseForm form)
         {
             if (form.Id is null)
                 throw new ArgumentException("id column missing"); //TODO change
@@ -70,7 +87,7 @@ namespace Assignments.API.Services.Courses
             if (entity == null)
                 throw new EntityException(EntityExceptionTypes.NOT_FOUND);
 
-            if(entity.UserId != identity.Id)
+            if(entity.UserId != Identity.Id)
                 throw new EntityException(EntityExceptionTypes.NOT_FOUND); //TODO change
 
             entity.Name = form.Name;

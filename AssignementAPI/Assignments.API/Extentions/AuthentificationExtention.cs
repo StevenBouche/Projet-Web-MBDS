@@ -1,4 +1,5 @@
 ﻿using Assignments.API.Configurations.Authentification;
+using Assignments.API.Models.Authentification;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -11,6 +12,8 @@ namespace Assignments.API.Extentions
             var jwtTokenConfig = config.GetSection(nameof(JwtTokenConfig));
             var jwtTokenConfigValue = jwtTokenConfig.Get<JwtTokenConfig>();
             services.Configure<JwtTokenConfig>(jwtTokenConfig);
+
+            services.AddScoped<UserIdentity>();
 
             services.AddAuthentication(x =>
             {
