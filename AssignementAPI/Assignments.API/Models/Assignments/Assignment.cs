@@ -14,6 +14,8 @@ namespace Assignments.API.Models.Assignments
         public AssignmentState State { get; set; }
         [JsonPropertyName("delivryDate")]
         public DateTime DelivryDate { get; set; }
+        [JsonPropertyName("courseId")]
+        public int? CourseId { get; set; }
 
         public Assignment()
         {

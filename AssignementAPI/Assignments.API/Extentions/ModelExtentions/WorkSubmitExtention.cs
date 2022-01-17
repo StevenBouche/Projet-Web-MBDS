@@ -15,6 +15,7 @@ namespace Assignments.API.Extentions.ModelExtentions
                 Comment = entity.Comment,
                 Description = entity.Description,
                 State = entity.State,
+                AssignmentId = entity.AssignmentId,
                 UserId = entity.UserId
             };
         }

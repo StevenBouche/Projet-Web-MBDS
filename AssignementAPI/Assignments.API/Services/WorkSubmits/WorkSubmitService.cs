@@ -1,5 +1,4 @@
 ﻿using Assignments.API.Exceptions.Business;
-using Assignments.API.Exceptions.Entities;
 using Assignments.API.Extentions.ModelExtentions;
 using Assignments.API.Models.Authentification;
 using Assignments.API.Models.Authorization;
@@ -26,32 +25,30 @@ namespace Assignments.API.Services.WorkSubmits
 
         public async Task<WorkSubmit> GetWorkSubmitByIdAsync(int id)
         {
-            var entity = await VerifyAndGetEntity(id, Identity);
+            var entity = await VerifyAndGetEntity(id);
 
             return entity.ToWorkSubmit();
         }
 
         public async Task<PaginationResult<WorkSubmit>> GetAllWorkSubmitsAsync(PaginationForm form)
         {
-            PaginationResult<WorkSubmitEntity> pagination;
-
-            if (Identity.Role == AuthorizationConstants.STUDENT)
+            var pagination = Identity.Role switch
             {
-                pagination = await GetPaginationAsync(form, entity => entity.UserId == Identity.Id);
-            }
-            else if (Identity.Role == AuthorizationConstants.PROFESSOR)
-            {
-                pagination = await GetPaginationAsync(form, entity => 
-                        entity.Assignment != null && 
+                AuthorizationConstants.STUDENT => await GetPaginationAsync(form, entity => entity.UserId == Identity.Id),
+                AuthorizationConstants.PROFESSOR => await GetPaginationAsync(form, entity =>
+                        entity.Assignment != null &&
+                        entity.Assignment.Course != null &&
                         entity.Assignment.Course.UserId == Identity.Id
-                    );
-            }
-            else
-            {
-                pagination = await GetPaginationAsync(form);
-            }
+                    ),
+                _ => await GetPaginationAsync(form)
+            };
 
             return MapPagination(pagination, entity => entity.ToWorkSubmit());
+        }
+
+        public async Task<PaginationResult<WorkSubmit>> GetAllWorksAssignmentAsync(int id, PaginationForm form)
+        {
+            return await GetAllSubmitsOfAssignmentAsync(new PaginationIdForm() { Id = id, Page = form.Page, PageSize = form.PageSize });
         }
 
         public async Task<PaginationResult<WorkSubmit>> GetAllSubmitsOfAssignmentAsync(PaginationIdForm form)
@@ -83,11 +80,22 @@ namespace Assignments.API.Services.WorkSubmits
 
         public async Task<WorkSubmit> UpdateWorkSubmitAsync(WorkSubmitStudentForm form)
         {
-            var entity = await VerifyUpdateAngGetEntityStudent(form.Id, Identity);
+            var entity = await GetEntityAndVerifyOwner(form.Id);
+
+            VerifyUpdate(entity);
+
+            if (entity.AssignmentId != form.AssignmentId)
+            {
+                var any = await Repository.AnyByCriteria(entity => entity.UserId == Identity.Id && entity.AssignmentId == form.AssignmentId);
+                if (!any)
+                {
+                    entity.AssignmentId = form.AssignmentId;
+                }
+                else throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UPDATE, "Only one work per user is authorized for an assignment");
+            }
 
             entity.Label = form.Label;
             entity.Description = form.Description;
-            entity.AssignmentId = form.AssignmentId;
 
             await Repository.UpdateAsync(entity);
 
@@ -96,7 +104,9 @@ namespace Assignments.API.Services.WorkSubmits
 
         public async Task<WorkSubmit> UpdateWorkSubmitAsync(WorkSubmitProfessorForm form)
         {
-            var entity = await VerifyUpdateAngGetEntityProfessor(form.Id, Identity);
+            var entity = await GetEntityAndVerifyOwner(form.Id);
+
+            VerifyUpdate(entity);
 
             entity.Grade = form.Grade;
             entity.Comment = form.Comment;
@@ -108,7 +118,9 @@ namespace Assignments.API.Services.WorkSubmits
 
         public async Task<WorkSubmit> EvaluateWorkSubmitAsync(WorkSubmitActionForm form)
         {
-            var entity = await VerifyUpdateAngGetEntityProfessor(form.Id, Identity);
+            var entity = await GetEntityAndVerifyOwner(form.Id);
+
+            VerifyUpdate(entity);
 
             entity.State = WorkSubmitState.EVALUATED;
 
@@ -119,10 +131,12 @@ namespace Assignments.API.Services.WorkSubmits
 
         public async Task<WorkSubmit> SubmitWorkSubmitAsync(WorkSubmitActionForm form)
         {
-            var entity = await VerifyUpdateAngGetEntityStudent(form.Id, Identity);
+            var entity = await GetEntityAndVerifyOwner(form.Id);
+
+            VerifyUpdate(entity);
 
             if (entity.AssignmentId == null)
-                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_IS_NOT_LINK_ASSIGNMENT);
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UPDATE, "Cannot submit a work which is not assigned to an assignments");
 
             entity.State = WorkSubmitState.SUBMITTED;
 
@@ -144,68 +158,55 @@ namespace Assignments.API.Services.WorkSubmits
 
         #region VERIFICATION
 
-        private async Task<WorkSubmitEntity> VerifyAndGetEntity(int? id, UserIdentity identity)
+        private async Task<WorkSubmitEntity> GetEntityAndVerifyOwner(int? id)
         {
-            if (id is null)
-                throw new ArgumentException("id column missing"); //TODO change
-
-            var entity = await Repository.GetByIdAsync((int)id);
-
-            if (entity == null)
-                throw new EntityException(EntityExceptionTypes.NOT_FOUND);
-
-            if (identity.Role == AuthorizationConstants.STUDENT)
-            {
-                VerifyAuthorizationStudent(entity, identity);
-            }
-            else if (identity.Role == AuthorizationConstants.PROFESSOR)
-            {
-                VerifyAuthorizationProfessor(entity, identity);
-            }
-
+            var entity = await VerifyAndGetEntity(id);
+            VerifyOwner(entity);
             return entity;
         }
 
-        private async Task<WorkSubmitEntity> VerifyUpdateAngGetEntityStudent(int? id, UserIdentity identity)
+        private void VerifyOwner(WorkSubmitEntity entity)
         {
-            var entity = await VerifyAndGetEntity(id, identity);
-
-            if (entity.State != WorkSubmitState.CREATED)
-                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_IS_NOT_CREATED);
-
-            return entity;
+            if (Identity.Role == AuthorizationConstants.STUDENT) VerifyOwnerStudent(entity);
+            else if (Identity.Role == AuthorizationConstants.PROFESSOR) VerifyOwnerProfessor(entity);
         }
 
-        private async Task<WorkSubmitEntity> VerifyUpdateAngGetEntityProfessor(int? id, UserIdentity identity)
+        private void VerifyOwnerStudent(WorkSubmitEntity entity)
         {
-            var entity = await VerifyAndGetEntity(id, identity);
-
-            if (entity.State != WorkSubmitState.SUBMITTED)
-                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_EVALUATE_IS_NOT_SUBMITTED);
-
-            return entity;
+            if (entity.UserId != Identity.Id)
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UNAUTHORIZE, "Not the owner of the resource");
         }
 
-        private void VerifyAuthorizationStudent(WorkSubmitEntity entity, UserIdentity identity)
+        private void VerifyOwnerProfessor(WorkSubmitEntity entity)
         {
-            if (entity.UserId != identity.Id)
-                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UNAUTHORIZE);
-        }
-
-        private void VerifyAuthorizationProfessor(WorkSubmitEntity entity, UserIdentity identity)
-        {
-            if (entity.Assignment == null)
+            if (entity.Assignment == null || entity.Assignment.Course == null || entity.Assignment.Course.UserId != Identity.Id)
             {
-                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UNAUTHORIZE);
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_EVALUATE_UNAUTHORIZE, "Not the owner of the resource");
             }
+        }
 
-            if (entity.Assignment.Course.UserId != identity.Id)
-            {
-                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UNAUTHORIZE);
-            }
+        private void VerifyUpdate(WorkSubmitEntity entity)
+        {
+            if (Identity.Role == AuthorizationConstants.STUDENT) VerifyUpdateStudent(entity);
+            else if (Identity.Role == AuthorizationConstants.PROFESSOR) VerifyUpdateProfessor(entity);
+        }
+
+        private void VerifyUpdateStudent(WorkSubmitEntity entity)
+        {
+            if (entity.State == WorkSubmitState.SUBMITTED)
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UPDATE, "Cannot update work when is submitted");
+            else if (entity.State == WorkSubmitState.EVALUATED)
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UPDATE, "Cannot update work when is evaluate");
+        }
+
+        private void VerifyUpdateProfessor(WorkSubmitEntity entity)
+        {
+            if (entity.State == WorkSubmitState.CREATED)
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_EVALUATE_UPDATE, "Cannot update evaluation when work is not submitted");
+            else if (entity.State == WorkSubmitState.EVALUATED)
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_EVALUATE_UPDATE, "Cannot update evaluation when work is already evaluated");
         }
 
         #endregion VERIFICATION
-  
     }
 }

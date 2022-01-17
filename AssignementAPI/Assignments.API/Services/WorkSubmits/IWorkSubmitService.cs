@@ -17,5 +17,6 @@ namespace Assignments.API.Services.WorkSubmits
         Task<WorkSubmit> EvaluateWorkSubmitAsync(WorkSubmitActionForm form);
         Task<PaginationResult<WorkSubmit>> GetAllWorkSubmitsAsync(PaginationForm form);
         Task<PaginationResult<WorkSubmit>> GetAllSubmitsOfAssignmentAsync(PaginationIdForm form);
+        Task<PaginationResult<WorkSubmit>> GetAllWorksAssignmentAsync(int id, PaginationForm form);
     }
 }

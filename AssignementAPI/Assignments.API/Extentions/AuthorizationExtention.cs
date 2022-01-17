@@ -12,10 +12,10 @@ namespace Assignments.API.Extentions
     {
         public static void ConfigureAuthorization(this IServiceCollection services)
         {
-            services.Configure<AuthorizationConfig>((_) => new AuthorizationConfig());
+            //services.Configure<AuthorizationConfig>((_) => new AuthorizationConfig());
            // services.AddSingleton<IAuthorizationHandler, RequirementHandler>();
 
-            services.AddAuthorization(config =>
+           /* services.AddAuthorization(config =>
             {
                 config.AddPolicy(AuthorizationConstants.AuthorizationPolicy_Admin, options =>
                 {
@@ -38,7 +38,7 @@ namespace Assignments.API.Extentions
                     options.RequireClaim(ClaimTypes.Role);
                     //tions.Requirements.Add(new ShouldBeRequirement() { Role = "PROFESSOR" });
                 });
-            });
+            });*/
         }
     }
 }

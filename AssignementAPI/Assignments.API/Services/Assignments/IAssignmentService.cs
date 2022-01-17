@@ -1,6 +1,6 @@
 ﻿using Assignments.API.Models.Assignments;
-using Assignments.API.Models.Authentification;
 using Assignments.API.Models.Search;
+using Assignments.API.Models.WorkSubmits;
 using Assignments.API.Services.Base;
 using Assignments.DAL.Models;
 
@@ -8,11 +8,14 @@ namespace Assignments.API.Services.Assignments
 {
     public interface IAssignmentService : IBaseService<AssignmentEntity>
     {
-        Task<Assignment> GetAssignmentByIdAsync(int id);
-        Task<Assignment> UpdateAssignmentAsync(AssignmentForm form, UserIdentity identity);
-        Task DeleteAssignmentAsync(int id, UserIdentity identity);
-        Task<Assignment> CreateAssignmentAsync(AssignmentForm form, UserIdentity identity);
-        Task<PaginationResult<Assignment>> GetMyAssignmentsAsync(PaginationForm form, UserIdentity identity);
+        Task<Assignment> GetAssignmentByIdAsync(int? id);
+        Task<Assignment> UpdateAssignmentAsync(AssignmentForm form);
+        Task DeleteAssignmentAsync(int id);
+        Task<Assignment> CreateAssignmentAsync(AssignmentForm form);
+        Task<Assignment> OpenAssignmentAsync(int? id);
+        Task<Assignment> CloseAssignmentAsync(int? id);
         Task<PaginationResult<Assignment>> GetAllAssignmentsAsync(PaginationForm form);
+        Task<PaginationResult<Assignment>> GetAllAssignmentsOfCourseAsync(int course, PaginationForm form);
+        Task<PaginationResult<WorkSubmit>> GetAllWorksAssignmentAsync(int id, PaginationForm form);
     }
 }

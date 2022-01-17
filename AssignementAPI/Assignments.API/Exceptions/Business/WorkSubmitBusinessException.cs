@@ -6,16 +6,14 @@ namespace Assignments.API.Exceptions.Business
 {
     public enum WorkSubmitBusinessExceptionTypes
     {
-        [Description("Unauthorize to evaluate this work")]
+        [Description("Unauthorize evaluate")]
         WORK_EVALUATE_UNAUTHORIZE,
-        [Description("Cannot evaluate an unsubmitted work")]
-        WORK_EVALUATE_IS_NOT_SUBMITTED,
-        [Description("Cannot update an un work where is not in created state")]
-        WORK_SUBMIT_IS_NOT_CREATED,
-        [Description("Unauthorize to update/submit this work")]
+        [Description("Update evaluation")]
+        WORK_EVALUATE_UPDATE,
+        [Description("Update work")]
+        WORK_SUBMIT_UPDATE,
+        [Description("Unauthorize work")]
         WORK_SUBMIT_UNAUTHORIZE,
-        [Description("Cannot submit a work where doesnt have assignment link")]
-        WORK_SUBMIT_IS_NOT_LINK_ASSIGNMENT
     }
 
     public class WorkSubmitBusinessException : BusinessException
@@ -23,7 +21,7 @@ namespace Assignments.API.Exceptions.Business
         public WorkSubmitBusinessExceptionTypes WorkSubmitType;
         public override HttpStatusCode HttpStatusCode => SelectHttpCode(WorkSubmitType);
 
-        public WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes type) : base(BusinessExceptionTypes.WORK_SUBMIT, type.ToDescriptionString())
+        public WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes type, string message = "") : base(BusinessExceptionTypes.WORK_SUBMIT, $"{type.ToDescriptionString()} {message}")
         {
             WorkSubmitType = type;
         }

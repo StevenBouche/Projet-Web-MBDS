@@ -10,11 +10,12 @@ namespace Assignments.API.Services.Users
         Task<User?> CreateUserAsync(UserForm element);
         Task<bool> DeleteUserByIdAsync(int id);
         IEnumerable<UserEntity> GetAllUser();
-        UserEntity GetUserById(int id);
+        Task<UserEntity> GetUserByIdAsync(int id);
         UserEntity UpdateUser(UserEntity element);
         UserEntity? GetUserWithUserName(string name);
         void UpdateUserFromView(User element);
         IEnumerable<User> GetAllUserView();
         UserEntity GetUserWithRefreshToken(RefreshToken token);
+        Task AddPictureId(int id, int id1);
     }
 }

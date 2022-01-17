@@ -1,6 +1,5 @@
-﻿using Assignments.API.Configurations.Authorization;
-using Assignments.API.Controllers.Base;
-using Assignments.API.Models.Api;
+﻿using Assignments.API.Controllers.Base;
+using Assignments.API.Models.Assignments;
 using Assignments.API.Models.Authentification;
 using Assignments.API.Models.Authorization;
 using Assignments.API.Models.Courses;
@@ -35,6 +34,16 @@ namespace Assignments.API.Controllers
             });
         }
 
+        [HttpPost("{id}/assignments")]
+        [ProducesResponseType(typeof(PaginationResult<Assignment>), 200)]
+        public async Task<ActionResult> GetAllAssignments(int id, [FromBody] PaginationForm form)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.GetAllAssignmentCourseAsync(id, form));
+            });
+        }
+
         [HttpPost("all")]
         [ProducesResponseType(typeof(PaginationResult<Course>), 200)]
         public async Task<ActionResult> GetAll([FromBody] PaginationForm form)
@@ -45,17 +54,23 @@ namespace Assignments.API.Controllers
             });
         }
 
+        [HttpPost("mine")]
+        [ProducesResponseType(typeof(PaginationResult<Course>), 200)]
+        public async Task<ActionResult> GetMine([FromBody] PaginationForm form)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.GetMineCoursesAsync(form));
+            });
+        }
+
         [HttpPost]
         [ProducesResponseType(typeof(Course), 200)]
         [Authorize(Roles = AuthorizationConstants.PROFESSOR)]
-        public async Task<ActionResult> Create([FromBody] CourseForm form)
+        public async Task<ActionResult> Create([FromBody] CourseFormCreate form)
         {
             return await TryExecuteAsync<ActionResult>(async () =>
                 {
-                   /* if (!ModelState.IsValid)
-                    {
-                        return ();
-                    }*/
                     return Ok(await Service.CreateCourseAsync(form));
                 }
             );
@@ -64,7 +79,7 @@ namespace Assignments.API.Controllers
         [HttpPut]
         [ProducesResponseType(typeof(Course), 200)]
         [Authorize(Roles = AuthorizationConstants.PROFESSOR)]
-        public async Task<ActionResult> Update([FromBody] CourseForm form)
+        public async Task<ActionResult> Update([FromBody] CourseFormUpdate form)
         {
             return await TryExecuteAsync<ActionResult>(async () =>
                 {

@@ -123,5 +123,10 @@ namespace Assignments.DAL.Repositories.Base
         {
             return DbSet.AsNoTracking().Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
         }
+
+        public Task<bool> AnyByCriteria(Expression<Func<T, bool>> predicate)
+        {
+            return DbSet.AnyAsync(predicate);
+        }
     }
 }

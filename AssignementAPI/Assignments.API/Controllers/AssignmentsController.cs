@@ -4,8 +4,9 @@ using Assignments.API.Controllers.Base;
 using Assignments.API.Services.Assignments;
 using Assignments.API.Models.Assignments;
 using Assignments.API.Models.Search;
-using Assignments.API.Models.Api;
 using Assignments.API.Models.Authentification;
+using Assignments.API.Models.Authorization;
+using Assignments.API.Models.WorkSubmits;
 
 namespace Assignments.API.Controllers
 {
@@ -42,48 +43,69 @@ namespace Assignments.API.Controllers
             });
         }
 
-        [HttpPost("my")]
-        [ProducesResponseType(typeof(PaginationResult<Assignment>), 200)]
-        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
-        public async Task<ActionResult> GetMy([FromBody] PaginationForm form)
+        [HttpPost("{id}/works")]
+        [ProducesResponseType(typeof(PaginationResult<WorkSubmit>), 200)]
+        public async Task<ActionResult> GetAllAssignments(int id, [FromBody] PaginationForm form)
         {
             return await TryExecuteAsync<ActionResult>(async () =>
             {
-                return Ok(await Service.GetMyAssignmentsAsync(form, Identity));
+                return Ok(await Service.GetAllWorksAssignmentAsync(id, form));
             });
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Assignment), 200)]
-        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
+        [Authorize(Roles = AuthorizationConstants.PROFESSOR)]
         public async Task<ActionResult> Create([FromBody] AssignmentForm form)
         {
             return await TryExecuteAsync<ActionResult>(async () =>
             {
-                return Ok(await Service.CreateAssignmentAsync(form, Identity));
+                return Ok(await Service.CreateAssignmentAsync(form));
             });
         }
 
         [HttpPut]
         [ProducesResponseType(typeof(Assignment), 200)]
-        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
+        [Authorize(Roles = AuthorizationConstants.PROFESSOR)]
         public async Task<ActionResult> Update([FromBody] AssignmentForm form)
         {
             return await TryExecuteAsync<ActionResult>(async () =>
             {
-                return Ok(await Service.UpdateAssignmentAsync(form, Identity));
+                return Ok(await Service.UpdateAssignmentAsync(form));
             });
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(PaginationResult<ApiErrorResponse>), 403)]
+        [Authorize(Roles = AuthorizationConstants.PROFESSOR)]
         public async Task<ActionResult> Delete(int id)
         {
             return await TryExecuteAsync<ActionResult>(async () =>
             {
-                await Service.DeleteAssignmentAsync(id, Identity);
+                await Service.DeleteAssignmentAsync(id);
                 return Ok();
+            });
+        }
+
+        [HttpPut("open/{id}")]
+        [ProducesResponseType(typeof(Assignment), 200)]
+        [Authorize(Roles = AuthorizationConstants.PROFESSOR)]
+        public async Task<ActionResult> Open(int id)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.OpenAssignmentAsync(id));
+            });
+        }
+
+        [HttpPut("close/{id}")]
+        [ProducesResponseType(typeof(Assignment), 200)]
+        [Authorize(Roles = AuthorizationConstants.PROFESSOR)]
+        public async Task<ActionResult> Close(int id)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.CloseAssignmentAsync(id));
             });
         }
     }

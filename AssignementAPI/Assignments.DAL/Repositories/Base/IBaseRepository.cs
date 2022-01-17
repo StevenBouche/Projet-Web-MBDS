@@ -12,6 +12,7 @@ namespace Assignments.DAL.Repositories.Base
         Task<int> CountAllAsync();
         Task<T?> GetByIdAsync(int id);
         Task<T?> GetFirstByCriteria(Expression<Func<T, bool>> predicate);
+        Task<bool> AnyByCriteria(Expression<Func<T, bool>> predicate);
         IEnumerable<T> GetPagination(int pageNumber, int pageSize);
         IEnumerable<T> GetPagination(int pageNumber, int pageSize, Expression<Func<T, bool>> predicate);
         Task<T> AddAsync(T entity);

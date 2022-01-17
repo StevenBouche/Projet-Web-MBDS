@@ -3,10 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Assignments.API.Models.Courses
 {
-    public class CourseForm
+    public class CourseFormCreate
     {
-        [JsonPropertyName("id")]
-        public int? Id { get; set; } = null;
         [Required]
         [JsonPropertyName("name")]
         public string Name { get; set; } = string.Empty;

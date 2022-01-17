@@ -1,6 +1,8 @@
 ﻿using Assignments.API.Models.Authentification.Tokens;
+using Assignments.API.Models.Authorization;
 using Assignments.API.Models.Users;
 using Assignments.API.Services.Base;
+using Assignments.DAL.Enumerations;
 using Assignments.DAL.Models;
 using Assignments.DAL.Repositories.Users;
 
@@ -12,16 +14,33 @@ namespace Assignments.API.Services.Users
         {
         }
 
+        public async Task AddPictureId(int id, int id1)
+        {
+            var entity = await VerifyAndGetEntity(id);
+
+            entity.ImageId = id1;
+
+            await Repository.UpdateAsync(entity);
+        }
+
         public async Task<User?> CreateUserAsync(UserForm element)
         {
-            int nbAccountWithSameMail = await Repository.CountAsync(acc => acc.Name.Equals(element.Name));
+            var withSameMail = await Repository.AnyByCriteria(acc => acc.Name.Equals(element.Name));
 
-            if (nbAccountWithSameMail == 0)
+            if (withSameMail)
             {
                 var entity = new UserEntity()
                 {
                     Name = element.Name,
                     Password = element.Password
+                };
+
+                entity.Role = element.Role switch
+                {
+                    AuthorizationConstants.STUDENT => UserRoles.STUDENT,
+                    AuthorizationConstants.PROFESSOR => UserRoles.PROFESSOR,
+                    AuthorizationConstants.ADMIN => UserRoles.ADMIN,
+                    _ => UserRoles.NONE
                 };
 
                 await Repository.AddAsync(entity);
@@ -53,9 +72,9 @@ namespace Assignments.API.Services.Users
             throw new NotImplementedException();
         }
 
-        public UserEntity GetUserById(int id)
+        public async Task<UserEntity> GetUserByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await VerifyAndGetEntity(id);
         }
 
         public UserEntity GetUserWithRefreshToken(RefreshToken token)

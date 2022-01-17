@@ -103,12 +103,14 @@ namespace Assignments.API.Services.Authentification
                 };
 
                 await Repository.AddAsync(account.RefreshToken);
+                await UserService.AddRefreshTokenId(account.Id, account.RefreshToken.Id);
             }
             else if (account.RefreshToken.ExpireAt < unixTimestamp)
             {
                 account.RefreshToken.ExpireAt = unixTimestamp + Config.RefreshTokenExpiration * 60 * 1000;
                 account.RefreshToken.Token = GenerateRefreshToken();
                 await Repository.UpdateAsync(account.RefreshToken);
+                await UserService.AddRefreshTokenId(account.Id, account.RefreshToken.Id);
             }
             return new RefreshToken(account.RefreshToken);
         }

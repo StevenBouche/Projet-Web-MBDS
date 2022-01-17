@@ -1,4 +1,5 @@
-﻿using Assignments.API.Models.Search;
+﻿using Assignments.API.Exceptions.Entities;
+using Assignments.API.Models.Search;
 using Assignments.DAL.Models;
 using Assignments.DAL.Repositories.Base;
 using System.Linq.Expressions;
@@ -17,6 +18,25 @@ namespace Assignments.API.Services.Base
             Repository = repository;
             Logger = logger;
         }
+
+        #region VERIFICATION
+
+        protected async Task<T> VerifyAndGetEntity(int? id)
+        {
+            if (id is null)
+                throw new ArgumentException("id column missing"); //TODO change
+
+            var entity = await Repository.GetByIdAsync((int)id);
+
+            if (entity == null)
+                throw new EntityException(EntityExceptionTypes.NOT_FOUND);
+
+            return entity;
+        }
+
+        #endregion VERIFICATION
+
+        #region PAGINATION
 
         public async Task<PaginationResult<T>> GetPaginationAsync(PaginationForm form)
         {
@@ -72,5 +92,7 @@ namespace Assignments.API.Services.Base
                 Total = count
             };
         }
+
+        #endregion PAGINATION
     }
 }

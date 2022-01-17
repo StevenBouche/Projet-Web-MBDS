@@ -6,8 +6,12 @@ namespace Assignments.API.Exceptions.Business
 {
     public enum BusinessExceptionTypes
     {
+        [Description("Course business")]
+        COURSE,
         [Description("WorkSubmit business")]
         WORK_SUBMIT,
+        [Description("Assignment business")]
+        ASSIGNMENT,
     }
 
     public abstract class BusinessException : Exception

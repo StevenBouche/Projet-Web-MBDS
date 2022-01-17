@@ -1,5 +1,6 @@
 ﻿using Assignments.API.Controllers.Base;
 using Assignments.API.Models.Authentification;
+using Assignments.API.Models.Authorization;
 using Assignments.API.Models.Users;
 using Assignments.API.Services.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -19,13 +20,25 @@ namespace Assignments.API.Controllers
             UserService = service;
         }
 
-        [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<User>> Create([FromBody] UserForm element)
+        [Authorize(Roles = AuthorizationConstants.ADMIN)]
+        [ProducesResponseType(typeof(User), 200)]
+        public async Task<ActionResult> Create([FromBody] UserForm element)
         {
-            var result = await UserService.CreateUserAsync(element);
-            return Ok(result);
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await UserService.CreateUserAsync(element));
+            });
         }
+
+        [HttpGet("identity")]
+        [ProducesResponseType(typeof(UserIdentity), 200)]
+        public ActionResult<UserIdentity> MyIdentity()
+        {
+            return Ok(Identity);
+        }
+
+
 
         /*  [HttpDelete("{id}")]
           public ActionResult Delete(string id)
@@ -38,18 +51,6 @@ namespace Assignments.API.Controllers
            public ActionResult<AccountView> MyIdentity()
            {
                return Ok(this.Manager.GetAccountById(this.Identity.ID).ToAccountView());
-           }
-
-           [AllowAnonymous]
-           [HttpGet("picture/{id}")]
-           public ActionResult<string> UserPicture(string id)
-           {
-               var img = this.Manager.GetPictureUser(id);
-               var items = img.Split(new char[] { ',', ':', ';' });
-               var type = items[1];
-               var image = items[3];
-               byte[] b = Convert.FromBase64String(image);
-               return new FileContentResult(b, type);
            }
 
            [HttpGet("{id}")]
