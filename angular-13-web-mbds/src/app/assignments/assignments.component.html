@@ -1,0 +1,34 @@
+<main class="container">
+
+  <div class="ajouterBtn">
+    <button mat-flat-button color="accent" (click)="peuplerBD()">
+      PeuplerBD
+    </button>
+
+    <a routerLink="/add">
+      <button mat-flat-button color="accent">
+        Ajouter Assignment
+      </button>
+    </a>
+
+  </div>
+
+<button mat-button (click)="pagePrecedente()" [disabled]="!hasPrevPage">Page précédente</button>
+&nbsp;&nbsp;
+<button mat-button (click)="pageSuivante()" [disabled]="!hasNextPage">Page Suivante</button>
+
+  <mat-list *ngFor="let assignment of assignments">
+    <a routerLink="/assignment/{{assignment.id}}">
+      <h3 mat-subheader>{{assignment.dateDeRendu | date}}</h3>
+      <mat-list-item (click)="assignmentClique(assignment)">
+        <p *ngIf="assignment.rendu; else nonsoumis" appRendu>
+          {{assignment.nom}}, a été rendu par l'élève.
+          rendu : {{assignment.rendu}}</p>
+        <ng-template #nonsoumis>
+          {{assignment.nom}} pas encore rendu.
+        </ng-template>
+      </mat-list-item>
+    </a>
+    <mat-divider></mat-divider>
+  </mat-list>
+</main>
