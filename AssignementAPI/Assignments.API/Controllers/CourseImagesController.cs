@@ -1,6 +1,6 @@
 ﻿using Assignments.API.Controllers.Base;
-using Assignments.API.Models.Authentification;
-using Assignments.API.Services.CourseImage;
+using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Services.CourseImage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +11,6 @@ namespace Assignments.API.Controllers
     [Authorize]
     public class CourseImagesController : BaseAssignmentController
     {
-
         private readonly ICourseImageService Service;
 
         public CourseImagesController(ICourseImageService service, UserIdentity identity, ILogger<CourseImagesController> logger) : base(identity, logger)

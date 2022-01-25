@@ -1,6 +1,6 @@
 ﻿using Assignments.API.Controllers.Base;
-using Assignments.API.Models.Authentification;
-using Assignments.API.Services.UserProfilImage;
+using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Services.UserProfilImage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +11,6 @@ namespace Assignments.API.Controllers
     [Authorize]
     public class UserProfilImagesController : BaseAssignmentController
     {
-
         private readonly IUserProfilImageService Service;
 
         public UserProfilImagesController(IUserProfilImageService service, UserIdentity identity, ILogger<UserProfilImagesController> logger) : base(identity, logger)

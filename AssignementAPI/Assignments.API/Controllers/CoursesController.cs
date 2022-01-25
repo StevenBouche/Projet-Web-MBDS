@@ -1,10 +1,10 @@
 ﻿using Assignments.API.Controllers.Base;
-using Assignments.API.Models.Assignments;
-using Assignments.API.Models.Authentification;
-using Assignments.API.Models.Authorization;
-using Assignments.API.Models.Courses;
-using Assignments.API.Models.Search;
-using Assignments.API.Services.Courses;
+using Assignments.Business.Dto.Assignments;
+using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Dto.Authorization;
+using Assignments.Business.Dto.Courses;
+using Assignments.Business.Dto.Search;
+using Assignments.Business.Services.Courses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,6 @@ namespace Assignments.API.Controllers
     [Produces("application/json")]
     public class CoursesController : BaseAssignmentController
     {
-
         private readonly ICourseService Service;
 
         public CoursesController(ICourseService service, UserIdentity identity, ILogger<CoursesController> logger) : base(identity, logger)

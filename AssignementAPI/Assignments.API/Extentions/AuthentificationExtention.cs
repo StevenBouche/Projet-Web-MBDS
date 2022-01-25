@@ -1,5 +1,5 @@
-﻿using Assignments.API.Configurations.Authentification;
-using Assignments.API.Models.Authentification;
+﻿using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Settings.Authentification;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

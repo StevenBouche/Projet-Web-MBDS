@@ -1,4 +1,5 @@
 ﻿using Assignments.API.Extentions;
+using Assignments.Business.Extentions;
 using System.ComponentModel;
 
 namespace Assignments.API.Exceptions.Authorization
@@ -7,6 +8,7 @@ namespace Assignments.API.Exceptions.Authorization
     {
         [Description("Unauthorized")]
         UNAUTHORIZED,
+
         [Description("No claims found")]
         NO_CLAIMS
     }

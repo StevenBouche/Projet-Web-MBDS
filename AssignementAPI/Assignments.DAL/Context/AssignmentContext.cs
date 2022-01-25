@@ -8,16 +8,15 @@ namespace Assignments.DAL.Context
         public AssignmentContext(DbContextOptions<AssignmentContext> options)
             : base(options)
         {
-
         }
 
-        virtual public DbSet<UserEntity> Users => Set<UserEntity>();
-        virtual public DbSet<CourseEntity> Courses => Set<CourseEntity>();
-        virtual public DbSet<CourseImageEntity> CourseImages => Set<CourseImageEntity>();
-        virtual public DbSet<UserProfilImageEntity> UserProfilImages => Set<UserProfilImageEntity>();
-        virtual public DbSet<AssignmentEntity> Assignments => Set<AssignmentEntity>();
-        virtual public DbSet<RefreshTokenEntity> RefreshTokens => Set<RefreshTokenEntity>();
-        virtual public DbSet<WorkSubmitEntity> WorkSubmits => Set<WorkSubmitEntity>();
+        public virtual DbSet<UserEntity> Users => Set<UserEntity>();
+        public virtual DbSet<CourseEntity> Courses => Set<CourseEntity>();
+        public virtual DbSet<CourseImageEntity> CourseImages => Set<CourseImageEntity>();
+        public virtual DbSet<UserProfilImageEntity> UserProfilImages => Set<UserProfilImageEntity>();
+        public virtual DbSet<AssignmentEntity> Assignments => Set<AssignmentEntity>();
+        public virtual DbSet<RefreshTokenEntity> RefreshTokens => Set<RefreshTokenEntity>();
+        public virtual DbSet<WorkSubmitEntity> WorkSubmits => Set<WorkSubmitEntity>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -101,11 +100,11 @@ namespace Assignments.DAL.Context
 
             modelBuilder.Entity<UserProfilImageEntity>(entity =>
             {
-                entity.HasOne(e => e.User)
+                /*entity.HasOne(e => e.User)
                     .WithOne(p => p.Image)
                     .HasForeignKey<UserEntity>(b => b.ImageId)
                     .OnDelete(DeleteBehavior.Restrict)
-                    .IsRequired(false);
+                    .IsRequired(false);*/
             });
         }
 

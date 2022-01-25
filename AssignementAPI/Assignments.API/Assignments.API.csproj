@@ -46,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Assignments.Business\Assignments.Business.csproj" />
     <ProjectReference Include="..\Assignments.DAL\Assignments.DAL.csproj" />
   </ItemGroup>
 

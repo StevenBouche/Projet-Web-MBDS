@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Assignments.API.Controllers.Base;
-using Assignments.API.Services.Assignments;
-using Assignments.API.Models.Assignments;
-using Assignments.API.Models.Search;
-using Assignments.API.Models.Authentification;
-using Assignments.API.Models.Authorization;
-using Assignments.API.Models.WorkSubmits;
+using Assignments.Business.Services.Assignments;
+using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Dto.Assignments;
+using Assignments.Business.Dto.Search;
+using Assignments.Business.Dto.WorkSubmits;
+using Assignments.Business.Dto.Authorization;
 
 namespace Assignments.API.Controllers
 {

@@ -1,8 +1,8 @@
 ﻿using Assignments.API.Controllers.Base;
-using Assignments.API.Models.Authentification;
-using Assignments.API.Models.Authorization;
-using Assignments.API.Models.Users;
-using Assignments.API.Services.Users;
+using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Dto.Authorization;
+using Assignments.Business.Dto.Users;
+using Assignments.Business.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +15,7 @@ namespace Assignments.API.Controllers
     public class UsersController : BaseAssignmentController
     {
         private readonly IUserService UserService;
+
         public UsersController(IUserService service, UserIdentity identity, ILogger<UsersController> logger) : base(identity, logger)
         {
             UserService = service;
@@ -37,8 +38,6 @@ namespace Assignments.API.Controllers
         {
             return Ok(Identity);
         }
-
-
 
         /*  [HttpDelete("{id}")]
           public ActionResult Delete(string id)

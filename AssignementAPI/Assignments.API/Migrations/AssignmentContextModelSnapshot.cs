@@ -173,9 +173,6 @@ namespace Assignments.API.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ImageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -186,9 +183,6 @@ namespace Assignments.API.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<int?>("RefreshTokenId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -196,10 +190,6 @@ namespace Assignments.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImageId")
-                        .IsUnique()
-                        .HasFilter("[ImageId] IS NOT NULL");
 
                     b.HasIndex("Name")
                         .IsUnique();
@@ -233,6 +223,9 @@ namespace Assignments.API.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("UserProfilImages");
                 });
@@ -326,14 +319,15 @@ namespace Assignments.API.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Assignments.DAL.Models.UserEntity", b =>
+            modelBuilder.Entity("Assignments.DAL.Models.UserProfilImageEntity", b =>
                 {
-                    b.HasOne("Assignments.DAL.Models.UserProfilImageEntity", "Image")
-                        .WithOne("User")
-                        .HasForeignKey("Assignments.DAL.Models.UserEntity", "ImageId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("Assignments.DAL.Models.UserEntity", "User")
+                        .WithOne("Image")
+                        .HasForeignKey("Assignments.DAL.Models.UserProfilImageEntity", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Image");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Assignments.DAL.Models.WorkSubmitEntity", b =>
@@ -366,23 +360,18 @@ namespace Assignments.API.Migrations
 
             modelBuilder.Entity("Assignments.DAL.Models.CourseImageEntity", b =>
                 {
-                    b.Navigation("Course")
-                        .IsRequired();
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Assignments.DAL.Models.UserEntity", b =>
                 {
                     b.Navigation("Courses");
 
+                    b.Navigation("Image");
+
                     b.Navigation("RefreshToken");
 
                     b.Navigation("WorkSubmits");
-                });
-
-            modelBuilder.Entity("Assignments.DAL.Models.UserProfilImageEntity", b =>
-                {
-                    b.Navigation("User")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

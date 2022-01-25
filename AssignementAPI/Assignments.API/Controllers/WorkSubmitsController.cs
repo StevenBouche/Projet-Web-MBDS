@@ -1,9 +1,9 @@
 ﻿using Assignments.API.Controllers.Base;
-using Assignments.API.Models.Authentification;
-using Assignments.API.Models.Authorization;
-using Assignments.API.Models.Search;
-using Assignments.API.Models.WorkSubmits;
-using Assignments.API.Services.WorkSubmits;
+using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Dto.Authorization;
+using Assignments.Business.Dto.Search;
+using Assignments.Business.Dto.WorkSubmits;
+using Assignments.Business.Services.WorkSubmits;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +11,7 @@ namespace Assignments.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize( Roles = AuthorizationConstants.ALL)]
+    [Authorize(Roles = AuthorizationConstants.ALL)]
     [Produces("application/json")]
     public class WorkSubmitsController : BaseAssignmentController
     {

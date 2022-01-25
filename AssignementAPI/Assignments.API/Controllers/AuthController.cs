@@ -1,9 +1,9 @@
 ﻿using Assignments.API.Controllers.Base;
-using Assignments.API.Exceptions.Authentification;
-using Assignments.API.Models.Api;
-using Assignments.API.Models.Authentification;
-using Assignments.API.Models.Authentification.Tokens;
-using Assignments.API.Services.Authentification;
+using Assignments.Business.Dto.Api;
+using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Dto.Authentification.Tokens;
+using Assignments.Business.Exceptions.Authentification;
+using Assignments.Business.Services.Authentification;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -63,11 +63,10 @@ namespace Assignments.API.Controllers
             {
                 case AuthentificationException _:
                     return LogInfoAndReturn(exception, HttpStatusCode.BadRequest);
+
                 default:
                     return base.HandleException(exception);
             }
         }
-
-
     }
 }

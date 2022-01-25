@@ -1,9 +1,8 @@
-﻿using Assignments.API.Configurations.Authorization;
-using Assignments.API.Exceptions.Authorization;
-using Assignments.API.Exceptions.Business;
-using Assignments.API.Exceptions.Entities;
-using Assignments.API.Models.Api;
-using Assignments.API.Models.Authentification;
+﻿using Assignments.API.Exceptions.Authorization;
+using Assignments.Business.Dto.Api;
+using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Exceptions.Business;
+using Assignments.Business.Exceptions.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Net;
@@ -12,7 +11,6 @@ namespace Assignments.API.Controllers.Base
 {
     public class BaseAssignmentController : ControllerBase
     {
-
         protected readonly ILogger<BaseAssignmentController> Logger;
         protected readonly UserIdentity Identity;
 
@@ -54,12 +52,16 @@ namespace Assignments.API.Controllers.Base
             {
                 case EntityException e:
                     return LogInfoAndReturn(exception, e.HttpStatusCode);
+
                 case BusinessException e:
                     return LogInfoAndReturn(exception, e.HttpStatusCode);
+
                 case AuthorizationException _:
                     return LogInfoAndReturn(exception, HttpStatusCode.Forbidden);
+
                 case ArgumentException _:
                     return LogErrorAndReturn(exception, HttpStatusCode.BadRequest);
+
                 default:
                     return LogErrorAndReturn(exception, HttpStatusCode.InternalServerError);
             }

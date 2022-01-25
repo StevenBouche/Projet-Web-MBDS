@@ -1,23 +1,21 @@
 ﻿using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
 using Assignments.DAL.Repositories.UserProfilImage;
 using Assignments.DAL.Repositories.Assignments;
 using Assignments.DAL.Repositories.Authentification;
 using Assignments.DAL.Repositories.CourseImage;
-using Assignments.API.Services.CourseImage;
-using Assignments.API.Services.Courses;
 using Assignments.API.Configurations.Policies;
-using Assignments.API.Services.Assignments;
-using Assignments.API.Services.Authentification;
-using Assignments.API.Services.UserProfilImage;
-using Assignments.API.Services.WorkSubmits;
 using Assignments.DAL.Repositories.Users;
-using Assignments.API.Services.Users;
 using Assignments.API.Extentions;
 using Assignments.DAL.Repositories.Courses;
 using Assignments.DAL.Repositories.WorkSubmits;
-using Assignments.API.Services.Authorization;
 using Assignments.API.Handlers.Authentification;
+using Assignments.Business.Services.Users;
+using Assignments.Business.Services.Assignments;
+using Assignments.Business.Services.Courses;
+using Assignments.Business.Services.CourseImage;
+using Assignments.Business.Services.UserProfilImage;
+using Assignments.Business.Services.WorkSubmits;
+using Assignments.Business.Services.Authentification;
 
 namespace Assignments.API
 {
@@ -36,7 +34,6 @@ namespace Assignments.API
 
         private static IConfiguration BuildConfig(string basePath, string environmentName, string name)
         {
-
             var path = string.IsNullOrEmpty(name) ? basePath : $"{basePath}/{name}";
             var file = string.IsNullOrEmpty(name) ? $"appsettings.{environmentName}.json" : $"appsettings.{name}.{environmentName}.json";
 
@@ -53,7 +50,8 @@ namespace Assignments.API
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
             // Add services to the container.
-            services.AddControllers(option => {
+            services.AddControllers(option =>
+            {
                 option.Filters.Add(new ActiveUserFilter());
             });
 
@@ -71,7 +69,7 @@ namespace Assignments.API
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement() {
                     {
-                        new OpenApiSecurityScheme { 
+                        new OpenApiSecurityScheme {
                             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" },
                             Scheme = "oauth2",
                             Name = "Bearer",
@@ -90,9 +88,6 @@ namespace Assignments.API
 
             //Security
             services.ConfigureAuthentification(Configuration);
-            services.ConfigureAuthorization();
-
-            //services.AddScoped<ClaimsPrincipal>(s => s.GetService<IHttpContextAccessor>().HttpContext.User);
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAssignmentRepository, AssignmentRepository>();
@@ -111,7 +106,6 @@ namespace Assignments.API
 
             //Security
             services.AddTransient<IAuthentificationService, AuthentificationService>();
-            services.AddTransient<IAuthorizeService, AuthorizeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
