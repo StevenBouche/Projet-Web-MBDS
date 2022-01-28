@@ -1,18 +1,20 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
-import { ROUTES } from './menu-items';
-import { RouteInfo } from './sidebar.metadata';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-//declare var $: any;
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SidebarService } from 'app/core/sidebar/sidebar.service';
+import { RouteInfo } from 'app/core/sidebar/sidebar.types';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html'
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
+
   showMenu = '';
   showSubMenu = '';
-  public sidebarnavItems:RouteInfo[]=[];
+
+  public sidebarnavItems: RouteInfo[] = [];
+  private subscription$?: Subscription | null;
+
   // this is for the open close
   addExpandClass(element: string) {
     if (element === this.showMenu) {
@@ -23,13 +25,17 @@ export class SidebarComponent implements OnInit {
   }
 
   constructor(
-    private modalService: NgbModal,
-    private router: Router,
-    private route: ActivatedRoute
+    private _sidebarService: SidebarService
   ) {}
+
+  ngOnDestroy(): void {
+    if(this.subscription$){
+      this.subscription$.unsubscribe();
+    }
+  }
 
   // End open close
   ngOnInit() {
-    this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
+    this.subscription$ = this._sidebarService.routeItems.subscribe((routes: RouteInfo[]) => this.sidebarnavItems = routes);
   }
 }

@@ -1,0 +1,36 @@
+<div class="flex border-b">
+  <!-- Selected product form -->
+  <form class="flex flex-col w-full" [formGroup]="form">
+
+      <div class="flex flex-col sm:flex-row p-8">
+
+          <!-- Name, SKU & etc. -->
+          <div class="flex flex-col w-full sm:pl-8">
+
+              <!-- Name -->
+              <div>
+                  <mat-form-field class="fuse-mat-no-subscript w-full">
+                      <mat-label>Title</mat-label>
+                      <input matInput [formControlName]="'name'" [placeholder]="'Name'" [spellcheck]="false">
+                  </mat-form-field>
+              </div>
+
+              <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
+                <mat-form-field class="fuse-mat-textarea flex-auto">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput [formControlName]="'description'" [rows]="12"></textarea>
+                </mat-form-field>
+            </div>
+          </div>
+      </div>
+
+      <div class="flex items-center justify-between w-full border-t px-8 py-4">
+          <div class="flex items-center">
+              <button mat-flat-button [color]="'primary'" [disabled]="form.invalid"
+                  (click)="create()">
+                  Save
+              </button>
+          </div>
+      </div>
+  </form>
+</div>

@@ -1,0 +1,80 @@
+<div class="flex flex-col flex-auto items-center sm:justify-center min-w-0">
+  <div
+    class="w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl sm:shadow sm:bg-card"
+  >
+    <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+
+      <!-- Logo -->
+      <div class="flex flex-col flex-auto items-center sm:justify-center">
+        <img src="assets/images/logos/logo-icon.png" />
+      </div>
+
+      <!-- Title -->
+      <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">
+        Sign in
+      </div>
+      <div class="flex items-baseline mt-0.5 font-medium">
+        <div>Don't have an account?</div>
+        <a
+          class="ml-1 text-primary-500 hover:underline"
+          [routerLink]="['/sign-up']"
+          >Sign up
+        </a>
+      </div>
+
+      <!-- Sign in form -->
+      <form class="mt-8" [formGroup]="signInForm">
+        <!-- Email field -->
+        <mat-form-field class="w-full">
+          <mat-label>Name</mat-label>
+          <input id="name" matInput [formControlName]="'name'" />
+          <mat-error *ngIf="signInForm.get('email')?.hasError('required')">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Password field -->
+        <mat-form-field class="w-full">
+          <mat-label>Password</mat-label>
+          <input
+            id="password"
+            matInput
+            type="password"
+            [formControlName]="'password'"
+            #passwordField
+            [type]="hide ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error> Password is required </mat-error>
+        </mat-form-field>
+
+        <!-- Submit button -->
+        <button
+          *ngIf="!signInForm.disabled"
+          class="w-full mt-6"
+          mat-flat-button
+          [color]="'primary'"
+          [disabled]="signInForm.disabled"
+          (click)="signIn()"
+        >
+          <span> Sign in </span>
+        </button>
+        <div class="flex flex-col flex-auto items-center sm:justify-center">
+          <mat-progress-spinner
+            *ngIf="signInForm.disabled"
+            [diameter]="24"
+            [mode]="'indeterminate'"
+          ></mat-progress-spinner>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

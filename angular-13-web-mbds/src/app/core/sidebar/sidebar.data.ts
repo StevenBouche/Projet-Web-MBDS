@@ -1,7 +1,14 @@
-import { RouteInfo } from './sidebar.metadata';
+import { RouteInfo } from "./sidebar.types";
 
 export const ROUTES: RouteInfo[] = [
- 
+  {
+    path: '/courses',
+    title: 'Courses',
+    icon: 'bi bi-person-workspace',
+    class: '',
+    extralink: false,
+    submenu: []
+  },
   {
     path: '/dashboard',
     title: 'Dashboard',

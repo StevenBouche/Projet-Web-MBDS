@@ -28,7 +28,11 @@
           class="nav-toggler waves-effect waves-light d-block d-lg-none"
           href="javascript:void(0)"
         >
-          <i [ngClass]="showMobileMenu ? 'bi bi-text-left fs-6' : 'bi bi-text-left fs-6'"></i>
+          <i
+            [ngClass]="
+              showMobileMenu ? 'bi bi-text-left fs-6' : 'bi bi-text-left fs-6'
+            "
+          ></i>
         </a>
         <!-- ============================================================== -->
         <!-- Logo -->
@@ -100,7 +104,7 @@
     (mouseover)="Logo()"
     (mouseout)="Logo()"
   >
-      <app-sidebar></app-sidebar>
+    <app-sidebar></app-sidebar>
   </aside>
   <!-- ============================================================== -->
   <!-- End Left Sidebar - style you can find in sidebar.scss  -->
@@ -127,10 +131,7 @@
     <!-- ============================================================== -->
     <!-- footer -->
     <!-- ============================================================== -->
-    <footer class="footer text-center">
-      All Rights Reserved by Monster Admin. Designed and Developed by
-      <a href="https://www.wrappixel.com">WrapPixel</a>.
-    </footer>
+
     <!-- ============================================================== -->
     <!-- End footer -->
     <!-- ============================================================== -->

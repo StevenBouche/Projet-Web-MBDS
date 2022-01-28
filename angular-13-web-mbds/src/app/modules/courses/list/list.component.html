@@ -1,0 +1,14 @@
+<div class="flex flex-col  items-center justify-center">
+  <div>
+    <mat-checkbox [formControl]="hideRequiredControl">Hide required marker</mat-checkbox>
+  </div>
+  <div>
+    <ngb-pagination
+          [collectionSize]="120"
+          [(page)]="page"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+        ></ngb-pagination>
+  </div>
+</div>

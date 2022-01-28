@@ -11,12 +11,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { FullComponent } from './layouts/full/full.component';
-
-
-import { NavigationComponent } from './shared/header/navigation.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
-
 import { Approutes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpinnerComponent } from './shared/spinner.component';
@@ -44,6 +38,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ToastrModule } from 'ngx-toastr';
+import { EmptyLayoutModule } from './layouts/empty/empty.module';
+import { CoreModule } from './core/core.module';
+import { FullModule } from './layouts/full/full.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -56,20 +54,18 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   declarations: [
     AppComponent,
     SpinnerComponent,
-    FullComponent,
-    NavigationComponent,
-    SidebarComponent,
     AssignmentsComponent,
     RenduDirective,
     AssignmentDetailComponent,
     AddAssignmentComponent,
     EditAssignmentComponent
-
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     CommonModule,
+    FullModule,
+    EmptyLayoutModule,
     FormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatIconModule, MatDividerModule,
     MatDatepickerModule, MatNativeDateModule,
@@ -79,7 +75,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NgbModule,
     PerfectScrollbarModule,
     ReactiveFormsModule,
+    // Core module of your application
+    CoreModule,
     RouterModule.forRoot(Approutes, { useHash: false, relativeLinkResolution: 'legacy' }),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-full-width',
+      preventDuplicates: true
+  })
   ],
   providers: [
     {
