@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { PaginationResult } from 'app/core/api/api.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
+import { ComponentState } from 'app/core/shared/shared.types';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -45,5 +46,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
       .subscribe((paginationResult: PaginationResult<Course>) => {
         this.paginationResult = paginationResult;
       })
+
+    this._coursesService.setStateComponent(ComponentState.List);
   }
 }

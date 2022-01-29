@@ -29,6 +29,13 @@ export const coursesRoutes: Route[] = [
         resolve: {
           //tasks    : AdvertsResolver
         }
+      },
+      {
+        path: 'edit/:id',
+        component: CourseDetailsComponent,
+        resolve: {
+          //tasks    : AdvertsResolver
+        }
       }
     ]
   }

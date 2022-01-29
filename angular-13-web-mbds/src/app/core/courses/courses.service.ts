@@ -8,6 +8,7 @@ import { Course, CourseFormCreate, CourseFormUpdate } from './courses.type';
 import { PaginationForm, PaginationResult } from '../api/api.types';
 import { Assignment } from '../assignments/assignments.type';
 import { BehaviorSubject } from 'rxjs';
+import { ComponentState } from '../shared/shared.types';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +17,17 @@ export class CoursesService extends ApiService {
 
 
   private store: {
-    paginationForm: PaginationForm
+    paginationForm: PaginationForm,
+    stateComponent: ComponentState,
+    courseSelected: Course | null
   } = {
-      paginationForm: { pagesize: 20, page: 1, }
+      paginationForm: { pagesize: 20, page: 1, },
+      stateComponent: ComponentState.None,
+      courseSelected: null
     };
 
+  private _courseSelected = new BehaviorSubject<Course | null>(this.store.courseSelected);
+  private _stateComponent = new BehaviorSubject<ComponentState>(this.store.stateComponent);
   private _pagination$ = new BehaviorSubject<PaginationResult<Course>>(
     {
       pageSize: this.store.paginationForm.pagesize,
@@ -31,6 +38,8 @@ export class CoursesService extends ApiService {
     }
   );
 
+  public courseSelected = this._courseSelected.asObservable();
+  public stateComponent = this._stateComponent.asObservable();
   public pagination = this._pagination$.asObservable();
 
   getName(): string {
@@ -39,6 +48,11 @@ export class CoursesService extends ApiService {
 
   constructor(http: HttpClient, toastr: ToastrService) {
     super(http, toastr);
+  }
+
+  public setStateComponent(state: ComponentState){
+    this.store.stateComponent = state;
+    this._stateComponent.next(state);
   }
 
   public async createAsync(form: CourseFormCreate): Promise<Course> {

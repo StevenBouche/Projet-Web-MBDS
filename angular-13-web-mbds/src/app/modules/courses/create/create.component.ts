@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CoursesService } from 'app/core/courses/courses.service';
+import { ComponentState } from 'app/core/shared/shared.types';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -13,7 +15,8 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _coursesService: CoursesService
   ) {
     this.form = this._formBuilder.group({
       name: ['', [Validators.required]],
@@ -26,10 +29,7 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
-
-
-
+    //this._coursesService.setStateComponent(ComponentState.Create);
   }
 
   async create(): Promise<void> {

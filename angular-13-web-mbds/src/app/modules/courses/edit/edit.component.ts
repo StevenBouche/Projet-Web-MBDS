@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CoursesService } from 'app/core/courses/courses.service';
+import { ComponentState } from 'app/core/shared/shared.types';
 
 @Component({
   selector: 'app-edit',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _coursesService: CoursesService) { }
 
   ngOnInit(): void {
+    this._coursesService.setStateComponent(ComponentState.Edit);
   }
 
 }

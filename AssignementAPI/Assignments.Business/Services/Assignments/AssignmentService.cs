@@ -76,7 +76,7 @@ namespace Assignments.Business.Services.Assignments
             {
                 Term = form.Term,
                 CourseId = form.CourseId,
-                Results = result.Select(entity => entity.ToAssignment()).ToList()
+                Results = result.Select(entity => entity.ToAssignment()).OrderBy(entity => entity.Label).ToList()
             };
         }
 

@@ -84,7 +84,7 @@ namespace Assignments.Business.Services.Courses
             return new CoursesSearchResult()
             {
                 Term = form.Term,
-                Results = Search(entity => entity.Name.Contains(form.Term)).Select(entity => entity.ToCourse()).ToList()
+                Results = Search(entity => entity.Name.Contains(form.Term)).Select(entity => entity.ToCourse()).OrderBy(entity => entity.Name).ToList()
             };
         }
 

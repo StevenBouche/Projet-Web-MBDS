@@ -16,5 +16,3 @@ export interface Course {
   pictureId: number;
   userId: number;
 }
-
-
