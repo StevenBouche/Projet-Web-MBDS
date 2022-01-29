@@ -7,6 +7,7 @@ using Assignments.Business.Dto.Assignments;
 using Assignments.Business.Dto.Search;
 using Assignments.Business.Dto.WorkSubmits;
 using Assignments.Business.Dto.Authorization;
+using Assignments.Business.Dto.Search.Assignments;
 
 namespace Assignments.API.Controllers
 {
@@ -40,6 +41,26 @@ namespace Assignments.API.Controllers
             return await TryExecuteAsync<ActionResult>(async () =>
             {
                 return Ok(await Service.GetAllAssignmentsAsync(form));
+            });
+        }
+
+        [HttpPost("mine")]
+        [ProducesResponseType(typeof(PaginationResult<Assignment>), 200)]
+        public async Task<ActionResult> GetMine([FromBody] PaginationForm form)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.GetMineAssignmentsAsync(form));
+            });
+        }
+
+        [HttpPost("search")]
+        [ProducesResponseType(typeof(AssignmentsSearchResult), 200)]
+        public ActionResult GetSearch([FromBody] AssignmentsSearchForm form)
+        {
+            return TryExecute<ActionResult>(() =>
+            {
+                return Ok(Service.SearchAssignments(form));
             });
         }
 

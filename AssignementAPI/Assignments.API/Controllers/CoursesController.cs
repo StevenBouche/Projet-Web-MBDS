@@ -4,6 +4,7 @@ using Assignments.Business.Dto.Authentification;
 using Assignments.Business.Dto.Authorization;
 using Assignments.Business.Dto.Courses;
 using Assignments.Business.Dto.Search;
+using Assignments.Business.Dto.Search.Courses;
 using Assignments.Business.Services.Courses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +61,16 @@ namespace Assignments.API.Controllers
             return await TryExecuteAsync<ActionResult>(async () =>
             {
                 return Ok(await Service.GetMineCoursesAsync(form));
+            });
+        }
+
+        [HttpPost("search")]
+        [ProducesResponseType(typeof(CoursesSearchResult), 200)]
+        public ActionResult GetSearch([FromBody] CoursesSearchForm form)
+        {
+            return TryExecute<ActionResult>(() =>
+            {
+                return Ok(Service.SearchCourses(form));
             });
         }
 

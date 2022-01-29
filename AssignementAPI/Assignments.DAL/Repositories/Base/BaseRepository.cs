@@ -128,5 +128,10 @@ namespace Assignments.DAL.Repositories.Base
         {
             return DbSet.AnyAsync(predicate);
         }
+
+        public IEnumerable<T> FilterByCriteria(Func<T, bool> predicate)
+        {
+            return DbSet.AsNoTracking().AsEnumerable().Where(predicate);
+        }
     }
 }

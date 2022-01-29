@@ -18,8 +18,8 @@ export class CoursesService extends ApiService {
   private store: {
     paginationForm: PaginationForm
   } = {
-    paginationForm: { pagesize: 20, page: 1,}
-  };
+      paginationForm: { pagesize: 20, page: 1, }
+    };
 
   private _pagination$ = new BehaviorSubject<PaginationResult<Course>>(
     {
@@ -31,46 +31,48 @@ export class CoursesService extends ApiService {
     }
   );
 
-    getName(): string {
-      return "Courses";
-    }
+  public pagination = this._pagination$.asObservable();
 
-    constructor(http: HttpClient, toastr: ToastrService){
-        super(http, toastr);
-    }
+  getName(): string {
+    return "Courses";
+  }
 
-    public async createAsync(form: CourseFormCreate): Promise<Course> {
-      return this.executePostAsync<CourseFormCreate, Course>(`${this.baseUrl}/courses`, form);
-    }
+  constructor(http: HttpClient, toastr: ToastrService) {
+    super(http, toastr);
+  }
 
-    public async updateAsync(form: CourseFormUpdate): Promise<Course> {
-      return this.executePutAsync<CourseFormCreate, Course>(`${this.baseUrl}/courses`, form);
-    }
+  public async createAsync(form: CourseFormCreate): Promise<Course> {
+    return this.executePostAsync<CourseFormCreate, Course>(`${this.baseUrl}/courses`, form);
+  }
 
-    public async getByIdAsync(id: number): Promise<Course> {
-      return this.executeGetAsync<Course>(`${this.baseUrl}/courses/${id}`);
-    }
+  public async updateAsync(form: CourseFormUpdate): Promise<Course> {
+    return this.executePutAsync<CourseFormCreate, Course>(`${this.baseUrl}/courses`, form);
+  }
 
-    public async getAllAsync(form: PaginationForm){
-      return this.executePostAsync<PaginationForm, PaginationResult<Course>>(
-        `${this.baseUrl}/courses/mine`,
-        form
-      );
-    }
+  public async getByIdAsync(id: number): Promise<Course> {
+    return this.executeGetAsync<Course>(`${this.baseUrl}/courses/${id}`);
+  }
 
-    public async getAllIsMineAsync(form: PaginationForm){
-      return this.executePostAsync<PaginationForm, PaginationResult<Course>>(
-        `${this.baseUrl}/courses/all`,
-        form
-      );
-    }
+  public async getAllAsync(form: PaginationForm) {
+    return this.executePostAsync<PaginationForm, PaginationResult<Course>>(
+      `${this.baseUrl}/courses/mine`,
+      form
+    );
+  }
 
-    public async getAssignmentsOfCourseAsync(id: number, form: PaginationForm){
-      return this.executePostAsync<PaginationForm, PaginationResult<Assignment>>(
-        `${this.baseUrl}/courses/${id}/assignments`,
-        form
-      );
-    }
+  public async getAllIsMineAsync(form: PaginationForm) {
+    return this.executePostAsync<PaginationForm, PaginationResult<Course>>(
+      `${this.baseUrl}/courses/all`,
+      form
+    );
+  }
+
+  public async getAssignmentsOfCourseAsync(id: number, form: PaginationForm) {
+    return this.executePostAsync<PaginationForm, PaginationResult<Assignment>>(
+      `${this.baseUrl}/courses/${id}/assignments`,
+      form
+    );
+  }
 }
 
 

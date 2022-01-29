@@ -2,6 +2,7 @@
 using Assignments.Business.Dto.Authentification;
 using Assignments.Business.Dto.Authorization;
 using Assignments.Business.Dto.Search;
+using Assignments.Business.Dto.Search.Assignments;
 using Assignments.Business.Dto.WorkSubmits;
 using Assignments.Business.Exceptions.Business;
 using Assignments.Business.Extentions.ModelExtentions;
@@ -34,6 +35,12 @@ namespace Assignments.Business.Services.Assignments
 
         public async Task<PaginationResult<Assignment>> GetAllAssignmentsAsync(PaginationForm form)
         {
+            var pagination = await GetPaginationAsync(form);
+            return MapPagination(pagination, entity => entity.ToAssignment());
+        }
+
+        public async Task<PaginationResult<Assignment>> GetMineAssignmentsAsync(PaginationForm form)
+        {
             var pagination = Identity.Role switch
             {
                 AuthorizationConstants.STUDENT => await GetPaginationAsync(form, entity => entity.WorkSubmits.Any(work => work.UserId == Identity.Id)),
@@ -54,6 +61,23 @@ namespace Assignments.Business.Services.Assignments
         public async Task<PaginationResult<WorkSubmit>> GetAllWorksAssignmentAsync(int id, PaginationForm form)
         {
             return await WorkSubmitService.GetAllWorksAssignmentAsync(id, form);
+        }
+
+        public AssignmentsSearchResult SearchAssignments(AssignmentsSearchForm form)
+        {
+            var result = Search(entity => entity.Label.Contains(form.Term));
+
+            if (form.CourseId != null && form.CourseId > 0)
+            {
+                result = result.Where(entity => entity.CourseId == form.CourseId);
+            }
+
+            return new AssignmentsSearchResult()
+            {
+                Term = form.Term,
+                CourseId = form.CourseId,
+                Results = result.Select(entity => entity.ToAssignment()).ToList()
+            };
         }
 
         #endregion GET

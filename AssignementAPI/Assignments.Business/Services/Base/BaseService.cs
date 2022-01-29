@@ -71,6 +71,11 @@ namespace Assignments.Business.Services.Base
             return result;
         }
 
+        public IEnumerable<T> Search(Func<T, bool> predicate)
+        {
+            return Repository.FilterByCriteria(predicate);
+        }
+
         public PaginationResult<TResult> MapPagination<TResult>(PaginationResult<T> pagination, Func<T, TResult> selector)
         {
             return new PaginationResult<TResult>()

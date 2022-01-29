@@ -154,7 +154,7 @@ export class AuthentificationService extends ApiService {
   public async isAuthenticatedAsync(): Promise<boolean> {
 
     const auth = this.getAuth();
-    const currentTimeSecond = Date.now() / 1000;
+    const currentTime = Date.now();
 
     //if no tokens store
     if(auth === null){
@@ -162,7 +162,7 @@ export class AuthentificationService extends ApiService {
     }
 
     //if jwt token exist and expiration is valid
-    if (auth.jwtToken.expireAt > currentTimeSecond ) {
+    if (auth.jwtToken.expireAt > currentTime ) {
       if (this.store.identity === undefined || this.store.identity === null) {
         await this.getIdentityAsync();
       }

@@ -1,6 +1,7 @@
 ﻿using Assignments.Business.Dto.Assignments;
 using Assignments.Business.Dto.Courses;
 using Assignments.Business.Dto.Search;
+using Assignments.Business.Dto.Search.Courses;
 using Assignments.Business.Services.Base;
 using Assignments.DAL.Models;
 
@@ -23,5 +24,7 @@ namespace Assignments.Business.Services.Courses
         Task<PaginationResult<Assignment>> GetAllAssignmentCourseAsync(int id, PaginationForm form);
 
         Task AddPictureId(int courseId, int id);
+
+        CoursesSearchResult SearchCourses(CoursesSearchForm form);
     }
 }

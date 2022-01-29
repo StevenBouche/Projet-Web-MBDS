@@ -10,6 +10,7 @@ using Assignments.Business.Dto.Courses;
 using Assignments.Business.Dto.Search;
 using Assignments.Business.Dto.Assignments;
 using Assignments.Business.Dto.Authorization;
+using Assignments.Business.Dto.Search.Courses;
 
 namespace Assignments.Business.Services.Courses
 {
@@ -76,6 +77,15 @@ namespace Assignments.Business.Services.Courses
                 _ => await GetPaginationAsync(form)
             };
             return MapPagination(pagination, entity => entity.ToCourse());
+        }
+
+        public CoursesSearchResult SearchCourses(CoursesSearchForm form)
+        {
+            return new CoursesSearchResult()
+            {
+                Term = form.Term,
+                Results = Search(entity => entity.Name.Contains(form.Term)).Select(entity => entity.ToCourse()).ToList()
+            };
         }
 
         public async Task<Course> UpdateCourseAsync(CourseFormUpdate form)

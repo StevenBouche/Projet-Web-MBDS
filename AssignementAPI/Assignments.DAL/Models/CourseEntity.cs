@@ -4,7 +4,7 @@
     {
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public virtual UserEntity User { get; set; }
+        public virtual UserEntity? User { get; set; }
         public int UserId { get; set; }
         public virtual CourseImageEntity? Image { get; set; } = null;
         public int? ImageId { get; set; }
