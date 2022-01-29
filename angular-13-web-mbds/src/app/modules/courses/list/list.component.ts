@@ -1,35 +1,30 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { PaginationResult } from 'app/core/api/api.types';
+import { PaginationForm, PaginationResult } from 'app/core/api/api.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
 import { ComponentState } from 'app/core/shared/shared.types';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-course-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
 export class CourseListComponent implements OnInit, OnDestroy {
 
-  private _page: number = 1;
-  private _pageSize: number = 20;
-  hideRequiredControl = new FormControl(false);
+  public hideRequiredControl = new FormControl(false);
 
-  paginationResult?: PaginationResult<Course>
+  public courseSelected: Course | null = null
+  public paginationResult: PaginationResult<Course> | null = null;
 
-  get page() { return this._page; }
-  set page(value) {
-    console.log(value)
-    this._page = value;
-  }
+  get page() { return this._coursesService.page; }
+  set page(value) { this._coursesService.page = value; }
 
-  get pageSize() { return this._pageSize; }
-  set pageSize(value) {
-    console.log(value)
-    this._page = value;
-  }
+  get pageSize() { return this._coursesService.pagesize; }
+  set pageSize(value) { this._coursesService.pagesize = value; }
+
+  get total() { return this.paginationResult != null ? this.paginationResult.total : 0; }
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -43,10 +38,21 @@ export class CourseListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._coursesService.pagination
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((paginationResult: PaginationResult<Course>) => {
+      .subscribe((paginationResult: PaginationResult<Course> | null) => {
         this.paginationResult = paginationResult;
       })
 
-    this._coursesService.setStateComponent(ComponentState.List);
+      this._coursesService.courseSelected
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((course: Course | null) => {
+        this.courseSelected = course;
+      })
+
+      this._coursesService.getAllAsync();
   }
+
+  onClickItem(course: Course){
+    this._coursesService.setCourseSelected(course);
+  }
+
 }

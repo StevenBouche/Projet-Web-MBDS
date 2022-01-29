@@ -3,7 +3,7 @@ import { CoursesService } from 'app/core/courses/courses.service';
 import { ComponentState } from 'app/core/shared/shared.types';
 
 @Component({
-  selector: 'app-edit',
+  selector: 'app-course-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })

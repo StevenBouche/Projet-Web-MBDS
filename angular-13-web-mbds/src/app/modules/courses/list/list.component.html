@@ -4,12 +4,34 @@
   </div>
   <div>
     <ngb-pagination
-          [collectionSize]="20"
+          [collectionSize]="total"
           [(page)]="page"
           [(pageSize)]="pageSize"
           [maxSize]="5"
           [rotate]="true"
           [boundaryLinks]="true"
         ></ngb-pagination>
+  </div>
+  <div class="row w-full" *ngIf="paginationResult != null">
+    <div class="col-lg-3 col-md-6"
+    *ngFor="let course of paginationResult.results"
+    [ngClass]="{'border-solid border-2 border-sky-500' : courseSelected != null && courseSelected.id === course.id}"
+    (click)="onClickItem(course)"
+    >
+      <div class="card">
+        <img
+          class="card-img-top img-responsive"
+          src="assets/images/bg/bg1.jpg"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h4 class="card-title">{{course.name}}</h4>
+          <p class="card-text">
+            {{course.description}}
+          </p>
+          <a href="javascript:void(0)" class="btn btn-primary">Select</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

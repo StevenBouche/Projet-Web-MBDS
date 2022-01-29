@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { UserIdentity } from 'app/core/authentification/auth.types';
@@ -26,7 +26,13 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
   private courseSelected: Course | null = null
   private user: UserIdentity | null = null
+
   private state: ComponentState = ComponentState.None
+
+  get listMode() { return this.state === ComponentState.List }
+  get detailsMode() { return this.state === ComponentState.Details }
+  get editMode() { return this.state === ComponentState.Edit }
+  get createMode() { return this.state === ComponentState.Create }
 
   public stateActions: CoursesStateActions = {
     back: { view: false, disabled: true },
@@ -43,7 +49,8 @@ export class CoursesComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _coursesService: CoursesService,
-    private _authentificationService: AuthentificationService
+    private _authentificationService: AuthentificationService,
+    private _cdRef: ChangeDetectorRef
   ) { }
 
   ngOnDestroy(): void {
@@ -78,20 +85,23 @@ export class CoursesComponent implements OnInit, OnDestroy {
   public create(): void {
     console.log(this._activatedRoute)
     this._coursesService.setStateComponent(ComponentState.Create);
-    this._router.navigate(['create'], { relativeTo: this._activatedRoute });
   }
 
   public edit(): void {
     console.log(this._activatedRoute)
-    this._router.navigate([`details/${this.courseSelected?.id}`], { relativeTo: this._activatedRoute });
+    this._coursesService.setStateComponent(ComponentState.Edit);
   }
 
   public details(): void {
-    console.log(this._activatedRoute)
-    this._router.navigate([`edit/${this.courseSelected?.id}`], { relativeTo: this._activatedRoute });
+    this._coursesService.setStateComponent(ComponentState.Details);
+  }
+
+  public back(): void {
+    this._coursesService.setStateComponent(ComponentState.List);
   }
 
   private refreshStateActions() {
+
     this.stateActions.back.view = this.state != ComponentState.None && this.state != ComponentState.List;
     this.stateActions.back.disabled = !this.stateActions.back.view;
 
@@ -109,5 +119,7 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     this.stateActions.refresh.view = this.state === ComponentState.List;
     this.stateActions.refresh.disabled = false;
+
+    this._cdRef.detectChanges();
   }
 }

@@ -15,32 +15,35 @@ import { ComponentState } from '../shared/shared.types';
 })
 export class CoursesService extends ApiService {
 
-
   private store: {
-    paginationForm: PaginationForm,
     stateComponent: ComponentState,
-    courseSelected: Course | null
+    courseSelected: Course | null,
+    pagination: PaginationForm
   } = {
-      paginationForm: { pagesize: 20, page: 1, },
-      stateComponent: ComponentState.None,
-      courseSelected: null
+      stateComponent: ComponentState.List,
+      courseSelected: null,
+      pagination: { page: 1, pagesize: 20 }
     };
 
   private _courseSelected = new BehaviorSubject<Course | null>(this.store.courseSelected);
   private _stateComponent = new BehaviorSubject<ComponentState>(this.store.stateComponent);
-  private _pagination$ = new BehaviorSubject<PaginationResult<Course>>(
-    {
-      pageSize: this.store.paginationForm.pagesize,
-      page: this.store.paginationForm.page,
-      totalPage: 0,
-      total: 0,
-      results: []
-    }
-  );
+  private _pagination$ = new BehaviorSubject<PaginationResult<Course> | null>(null);
 
   public courseSelected = this._courseSelected.asObservable();
   public stateComponent = this._stateComponent.asObservable();
   public pagination = this._pagination$.asObservable();
+
+  get page() { return this.store.pagination.page; }
+  set page(value) {
+    this.store.pagination.page = value;
+    this.getAllAsync();
+  }
+
+  get pagesize() { return this.store.pagination.pagesize; }
+  set pagesize(value) {
+    this.store.pagination.pagesize = value;
+    this.getAllAsync();
+  }
 
   getName(): string {
     return "Courses";
@@ -55,6 +58,11 @@ export class CoursesService extends ApiService {
     this._stateComponent.next(state);
   }
 
+  public setCourseSelected(course: Course) {
+    this.store.courseSelected = this.store.courseSelected != null && this.store.courseSelected.id === course.id ? null : course;
+    this._courseSelected.next(this.store.courseSelected);
+  }
+
   public async createAsync(form: CourseFormCreate): Promise<Course> {
     return this.executePostAsync<CourseFormCreate, Course>(`${this.baseUrl}/courses`, form);
   }
@@ -67,11 +75,9 @@ export class CoursesService extends ApiService {
     return this.executeGetAsync<Course>(`${this.baseUrl}/courses/${id}`);
   }
 
-  public async getAllAsync(form: PaginationForm) {
-    return this.executePostAsync<PaginationForm, PaginationResult<Course>>(
-      `${this.baseUrl}/courses/mine`,
-      form
-    );
+  public async getAllAsync() {
+    let result = await this.executePostAsync<PaginationForm, PaginationResult<Course>>(`${this.baseUrl}/courses/mine`, this.store.pagination);
+    this._pagination$.next(result);
   }
 
   public async getAllIsMineAsync(form: PaginationForm) {

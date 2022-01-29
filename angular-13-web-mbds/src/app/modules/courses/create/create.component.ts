@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CoursesService } from 'app/core/courses/courses.service';
-import { ComponentState } from 'app/core/shared/shared.types';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-create',
+  selector: 'app-course-create',
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.scss']
 })
@@ -25,11 +24,11 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+
   }
 
   ngOnInit(): void {
-    //this._coursesService.setStateComponent(ComponentState.Create);
+    
   }
 
   async create(): Promise<void> {
