@@ -116,12 +116,12 @@ namespace Assignments.DAL.Repositories.Base
 
         public IEnumerable<T> GetPagination(int pageNumber, int pageSize)
         {
-            return DbSet.AsNoTracking().Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
+            return DbSet.Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
         }
 
         public IEnumerable<T> GetPagination(int pageNumber, int pageSize, Expression<Func<T, bool>> predicate)
         {
-            return DbSet.AsNoTracking().Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
+            return DbSet.Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
         }
 
         public Task<bool> AnyByCriteria(Expression<Func<T, bool>> predicate)
@@ -131,7 +131,7 @@ namespace Assignments.DAL.Repositories.Base
 
         public IEnumerable<T> FilterByCriteria(Func<T, bool> predicate)
         {
-            return DbSet.AsNoTracking().AsEnumerable().Where(predicate);
+            return DbSet.AsEnumerable().Where(predicate);
         }
     }
 }

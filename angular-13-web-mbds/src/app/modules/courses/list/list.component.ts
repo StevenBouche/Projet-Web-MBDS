@@ -4,6 +4,7 @@ import { PaginationForm, PaginationResult } from 'app/core/api/api.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
 import { ComponentState } from 'app/core/shared/shared.types';
+import { environment } from 'environments/environment';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -51,8 +52,15 @@ export class CourseListComponent implements OnInit, OnDestroy {
       this._coursesService.getAllAsync();
   }
 
-  onClickItem(course: Course){
+  public onClickItem(course: Course): void{
     this._coursesService.setCourseSelected(course);
   }
 
+  public sourceImage(idpicture: number){
+    return this._coursesService.sourceImage(idpicture);
+  }
+
+  public sourceImageUser(idpicture: number){
+    return this._coursesService.sourceImageUser(idpicture);
+  }
 }

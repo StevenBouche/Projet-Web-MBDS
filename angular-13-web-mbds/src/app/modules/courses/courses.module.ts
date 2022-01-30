@@ -15,6 +15,8 @@ import { CourseCreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { MatInputModule } from '@angular/material/input';
 import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module'
     MatIconModule,
     MatButtonModule,
     MatInputModule,
-    NavcomponentModule
+    NavcomponentModule,
+    MatProgressSpinnerModule,
+    MatCardModule
   ]
 })
 export class CoursesModule { }

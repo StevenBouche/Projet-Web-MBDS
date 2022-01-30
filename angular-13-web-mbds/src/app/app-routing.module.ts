@@ -8,9 +8,7 @@ import { EmptyLayoutComponent } from './layouts/empty/empty.component';
 
 export const Approutes: Routes = [
 
-  // Redirect empty path to '/dashboards/project'
-  { path: '', redirectTo: '/courses', pathMatch: 'full' },
-  { path: 'signed-in-redirect', pathMatch : 'full', redirectTo: '/courses' },
+
   // Auth routes for guests
   {
     path: '',
@@ -41,6 +39,10 @@ export const Approutes: Routes = [
     canActivateChild: [AuthGuard],
     component: FullComponent,
     children: [
+      {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+      },
         {
           path: 'courses',
           loadChildren: () => import('app/modules/courses/courses.module').then(m => m.CoursesModule)
@@ -49,10 +51,7 @@ export const Approutes: Routes = [
           path: 'assignments',
           loadChildren: () => import('app/modules/assignments/assignments.module').then(m => m.AssignmentsModule)
         },
-        {
-          path: 'dashboard',
-          loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
-        },
+
         {
           path: 'about',
           loadChildren: () => import('./about/about.module').then(m => m.AboutModule)

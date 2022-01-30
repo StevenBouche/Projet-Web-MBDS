@@ -20,5 +20,3 @@ export interface AssignmentFormUpdate {
   delivryDate: Date;
   courseId: number;
 }
-
-

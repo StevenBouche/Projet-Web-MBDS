@@ -16,12 +16,11 @@ namespace Assignments.DAL.Repositories.Courses
         public IEnumerable<CourseEntity> GetStudentCoursesAsync(int userId)
         {
             return Context.WorkSubmits
-                .AsNoTracking()
                 .Where(work => work.UserId == userId)
                 .Select(work => work.Assignment != null ? work.Assignment.CourseId : 0)
                 .Where(id => id > 0)
                 .Distinct()
-                .Join(Context.Courses.AsNoTracking(), courseID => courseID, course => course.Id, (courseId, course) => course)
+                .Join(Context.Courses, courseID => courseID, course => course.Id, (courseId, course) => course)
                 .AsEnumerable();
         }
     }

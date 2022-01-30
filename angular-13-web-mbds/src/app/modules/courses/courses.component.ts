@@ -76,16 +76,18 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
   private refreshStateActions() {
 
+    const authorizeUserProfessor = this.user != null && this.user.role === 'PROFESSOR';
+
     this.stateActions.back.view = this.state != ComponentState.None && this.state != ComponentState.List;
     this.stateActions.back.disabled = !this.stateActions.back.view;
 
-    this.stateActions.create.view = this.state === ComponentState.List;
+    this.stateActions.create.view = this.state === ComponentState.List && authorizeUserProfessor;
     this.stateActions.create.disabled = false;
 
     this.stateActions.details.view = this.state === ComponentState.List;
     this.stateActions.details.disabled = this.courseSelected === null;
 
-    this.stateActions.update.view = this.state === ComponentState.List || this.state === ComponentState.Details;
+    this.stateActions.update.view = (this.state === ComponentState.List || this.state === ComponentState.Details) && authorizeUserProfessor;
     this.stateActions.update.disabled = this.courseSelected === null;
 
     this.stateActions.delete.view = false;

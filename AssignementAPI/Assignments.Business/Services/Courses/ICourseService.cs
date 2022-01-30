@@ -26,5 +26,6 @@ namespace Assignments.Business.Services.Courses
         Task AddPictureId(int courseId, int id);
 
         CoursesSearchResult SearchCourses(CoursesSearchForm form);
+        IList<Assignment> GetAllAssignmentCourse(int id);
     }
 }

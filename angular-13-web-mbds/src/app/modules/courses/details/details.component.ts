@@ -1,18 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Assignment } from 'app/core/assignments/assignments.type';
+
 import { CoursesService } from 'app/core/courses/courses.service';
-import { ComponentState } from 'app/core/shared/shared.types';
+import { Course } from 'app/core/courses/courses.type';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-course-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
-export class CourseDetailsComponent implements OnInit {
+export class CourseDetailsComponent implements OnInit, OnDestroy {
+
+  public courseSelected: Course | null = null;
+  public assignmentsCourse: Array<Assignment> = []
+  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private _coursesService: CoursesService) { }
 
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
+  }
+
   ngOnInit(): void {
-    
+    this._coursesService.courseSelected
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((course: Course | null) => {
+      this.courseSelected = course;
+    })
+
+    this._coursesService.assignmentsCourse
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe((a: Array<Assignment>) => {
+      this.assignmentsCourse = a;
+    })
+  }
+
+  public sourceImage(idpicture: number){
+    return this._coursesService.sourceImage(idpicture);
+  }
+
+  public sourceImageUser(idpicture: number){
+    return this._coursesService.sourceImageUser(idpicture);
   }
 
 }

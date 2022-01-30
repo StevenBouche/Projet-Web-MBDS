@@ -44,6 +44,16 @@ namespace Assignments.API.Controllers
             });
         }
 
+        [HttpGet("{id}/assignments")]
+        [ProducesResponseType(typeof(IList<Assignment>), 200)]
+        public ActionResult GetAllAssignments(int id)
+        {
+            return TryExecute<ActionResult>(() =>
+            {
+                return Ok(Service.GetAllAssignmentCourse(id));
+            });
+        }
+
         [HttpPost("all")]
         [ProducesResponseType(typeof(PaginationResult<Course>), 200)]
         public async Task<ActionResult> GetAll([FromBody] PaginationForm form)

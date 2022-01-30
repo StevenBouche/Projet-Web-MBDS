@@ -1,1 +1,82 @@
-<p>details works!</p>
+<div class="flex flex-col items-center justify-center" *ngIf="courseSelected">
+  <div class="flex flex-row w-full">
+    <h4 class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800">
+      Details
+    </h4>
+    <button
+      class="ml-4"
+      mat-flat-button
+      [color]="'primary'"
+      (click)="refresh()"
+    >
+      <mat-icon>visibility</mat-icon>
+      <span class="ml-2 mr-1">Refresh</span>
+    </button>
+  </div>
+
+  <div class="flex flex-col sm:flex-row p-8 w-full">
+    <!-- Name, SKU & etc. -->
+    <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+      <!-- Name -->
+
+      <img
+        class="object-scale-down h-48 img-responsive"
+        [src]="sourceImageUser(courseSelected.user.pictureId)"
+        alt="Card image cap"
+      />
+
+      <div>
+        <mat-label>Owner : </mat-label>
+        {{ courseSelected.user.name }}
+      </div>
+    </div>
+
+    <!-- Weight & Tags -->
+    <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+      <div>
+        <mat-label>Title : </mat-label>
+        <div >
+          {{ courseSelected.name }}
+        </div>
+      </div>
+      <div>
+        <mat-label>Description : </mat-label>
+        <div class="h-24 overflow-y-auto break-words">
+          {{ courseSelected.description }}
+        </div>
+      </div>
+      <div>
+        <mat-label>Total assignments : </mat-label>
+        0
+      </div>
+      <div>
+        <mat-label>Total students : </mat-label>
+        0
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="flex flex-col items-center justify-center w-full table-responsive"
+  >
+    <h4 class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800">
+      Assignments
+    </h4>
+    <table class="table table-hover align-middle text-nowrap table-bordered">
+      <thead>
+        <tr>
+          <th class="text-dark font-medium fs-4">Label</th>
+          <th class="text-dark font-medium fs-4">State</th>
+          <th class="text-dark font-medium fs-4">Delivry date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ass of assignmentsCourse">
+          <td>{{ ass.label }}</td>
+          <td>{{ ass.state }}</td>
+          <td>{{ ass.delivryDate }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

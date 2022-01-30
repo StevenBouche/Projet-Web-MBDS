@@ -1,3 +1,5 @@
+import User from "../users/users.types";
+
 export interface CourseFormCreate {
   name: string;
   description: string;
@@ -14,7 +16,7 @@ export interface Course {
   name: string;
   description: string;
   pictureId: number;
-  userId: number;
+  user: User;
 }
 
 export interface CourseSearchForm {

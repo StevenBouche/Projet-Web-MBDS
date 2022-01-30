@@ -5,7 +5,7 @@ import { AssignmentListComponent, } from './list/list.component';
 import { AssignmentDetailsComponent } from './details/details.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { assignmentsRoutes } from './assignments.routing';
+import { AssignmentsRoutes } from './assignments.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -29,7 +29,7 @@ import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module'
     EditComponent
   ],
   imports: [
-RouterModule.forChild(assignmentsRoutes),
+RouterModule.forChild(AssignmentsRoutes),
     SharedModule,
     RouterModule,
     NgbModule,

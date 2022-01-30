@@ -55,6 +55,11 @@ namespace Assignments.Business.Services.Courses
             return await AssignmentService.GetAllAssignmentsOfCourseAsync(id, form);
         }
 
+        public IList<Assignment> GetAllAssignmentCourse(int id)
+        {
+            return AssignmentService.GetAllAssignmentsOfCourse(id);
+        }
+
         public async Task<PaginationResult<Course>> GetAllCoursesAsync(PaginationForm form)
         {
             var pagination = await GetPaginationAsync(form);

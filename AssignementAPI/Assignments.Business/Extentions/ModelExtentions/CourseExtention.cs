@@ -13,7 +13,7 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 Name = entity.Name,
                 Description = entity.Description,
                 PictureId = entity.ImageId,
-                UserId = entity.UserId
+                User = entity.User?.ToUser(),
             };
         }
     }

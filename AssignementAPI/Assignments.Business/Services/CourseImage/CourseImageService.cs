@@ -39,7 +39,7 @@ namespace Assignments.Business.Services.CourseImage
 
             var course = await CourseService.GetCourseByIdAsync(id);
 
-            if (course.UserId != Identity.Id)
+            if (course.User?.Id != Identity.Id)
                 throw new CourseImageBusinessException(CourseImageBusinessExceptionTypes.COURSE_UNAUTHORIZE, "Not authorize to upload image for this course");
 
             var image = await Repository.GetFirstByCriteria(entity => entity.CourseId == id);

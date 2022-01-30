@@ -58,6 +58,11 @@ namespace Assignments.Business.Services.Assignments
             return MapPagination(pagination, entity => entity.ToAssignment());
         }
 
+        public IList<Assignment> GetAllAssignmentsOfCourse(int id)
+        {
+            return Repository.FilterByCriteria(entity => entity.CourseId == id).Select(entity => entity.ToAssignment()).ToList();
+        }
+
         public async Task<PaginationResult<WorkSubmit>> GetAllWorksAssignmentAsync(int id, PaginationForm form)
         {
             return await WorkSubmitService.GetAllWorksAssignmentAsync(id, form);
