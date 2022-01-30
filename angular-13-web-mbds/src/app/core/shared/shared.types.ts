@@ -1,9 +1,9 @@
 export enum ComponentState {
-  None,
-  List,
-  Create,
-  Edit,
-  Details
+  None = 1,
+  List = 2,
+  Create = 3,
+  Edit = 4,
+  Details = 5
 }
 
 export interface StateAction {

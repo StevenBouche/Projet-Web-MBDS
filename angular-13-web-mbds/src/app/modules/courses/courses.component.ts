@@ -14,7 +14,6 @@ export interface CoursesStateActions {
   details: StateAction;
   update: StateAction;
   delete: StateAction;
-  refresh: StateAction;
 }
 
 @Component({
@@ -26,7 +25,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
   private courseSelected: Course | null = null
   private user: UserIdentity | null = null
-
   private state: ComponentState = ComponentState.None
 
   get listMode() { return this.state === ComponentState.List }
@@ -39,18 +37,14 @@ export class CoursesComponent implements OnInit, OnDestroy {
     create: { view: false, disabled: true },
     details: { view: false, disabled: true },
     update: { view: false, disabled: true },
-    delete: { view: false, disabled: true },
-    refresh: { view: false, disabled: true }
+    delete: { view: false, disabled: true }
   }
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
-    private _router: Router,
-    private _activatedRoute: ActivatedRoute,
     private _coursesService: CoursesService,
     private _authentificationService: AuthentificationService,
-    private _cdRef: ChangeDetectorRef
   ) { }
 
   ngOnDestroy(): void {
@@ -82,22 +76,9 @@ export class CoursesComponent implements OnInit, OnDestroy {
       })
   }
 
-  public create(): void {
-    console.log(this._activatedRoute)
-    this._coursesService.setStateComponent(ComponentState.Create);
-  }
-
-  public edit(): void {
-    console.log(this._activatedRoute)
-    this._coursesService.setStateComponent(ComponentState.Edit);
-  }
-
-  public details(): void {
-    this._coursesService.setStateComponent(ComponentState.Details);
-  }
-
-  public back(): void {
-    this._coursesService.setStateComponent(ComponentState.List);
+  public onChangeState(state: ComponentState){
+    this.state = state;
+    this.refreshStateActions();
   }
 
   private refreshStateActions() {
@@ -111,15 +92,10 @@ export class CoursesComponent implements OnInit, OnDestroy {
     this.stateActions.details.view = this.state === ComponentState.List;
     this.stateActions.details.disabled = this.courseSelected === null;
 
-    this.stateActions.update.view = this.state === ComponentState.List;
+    this.stateActions.update.view = this.state === ComponentState.List || this.state === ComponentState.Details;
     this.stateActions.update.disabled = this.courseSelected === null;
 
     this.stateActions.delete.view = false;
     this.stateActions.delete.disabled = this.courseSelected === null;
-
-    this.stateActions.refresh.view = this.state === ComponentState.List;
-    this.stateActions.refresh.disabled = false;
-
-    this._cdRef.detectChanges();
   }
 }

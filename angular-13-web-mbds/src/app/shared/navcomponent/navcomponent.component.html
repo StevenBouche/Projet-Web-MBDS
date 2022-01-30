@@ -1,0 +1,56 @@
+<div class="flex items-center flex-auto space-x-4" *ngIf="stateActions != null">
+  <button
+    class="ml-4"
+    mat-flat-button
+    [color]="'primary'"
+    (click)="back()"
+    *ngIf="stateActions.back.view"
+    [disabled]="stateActions.back.disabled"
+  >
+    <mat-icon>keyboard_backspace</mat-icon>
+    <span class="ml-2 mr-1">Back</span>
+  </button>
+  <button
+    class="ml-4"
+    mat-flat-button
+    [color]="'primary'"
+    (click)="create()"
+    *ngIf="stateActions.create.view"
+    [disabled]="stateActions.create.disabled"
+  >
+    <mat-icon>create</mat-icon>
+    <span class="ml-2 mr-1">Create</span>
+  </button>
+  <button
+    class="ml-4"
+    mat-flat-button
+    [color]="'primary'"
+    (click)="details()"
+    *ngIf="stateActions.details.view"
+    [disabled]="stateActions.details.disabled"
+  >
+    <mat-icon>visibility</mat-icon>
+    <span class="ml-2 mr-1">Details</span>
+  </button>
+  <button
+    class="ml-4"
+    mat-flat-button
+    [color]="'primary'"
+    (click)="edit()"
+    *ngIf="stateActions.update.view"
+    [disabled]="stateActions.update.disabled"
+  >
+    <mat-icon>edit</mat-icon>
+    <span class="ml-2 mr-1">Update</span>
+  </button>
+  <button
+    class="ml-4"
+    mat-flat-button
+    [color]="'primary'"
+    *ngIf="stateActions.delete.view"
+    [disabled]="stateActions.delete.disabled"
+  >
+    <mat-icon>delete</mat-icon>
+    <span class="ml-2 mr-1">Delete</span>
+  </button>
+</div>

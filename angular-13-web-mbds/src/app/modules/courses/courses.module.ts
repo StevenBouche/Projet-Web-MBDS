@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CourseCreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { MatInputModule } from '@angular/material/input';
+import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MatInputModule } from '@angular/material/input';
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    NavcomponentModule
   ]
 })
 export class CoursesModule { }

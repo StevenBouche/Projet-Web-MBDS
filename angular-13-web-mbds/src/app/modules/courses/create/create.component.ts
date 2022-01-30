@@ -28,7 +28,7 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    
+
   }
 
   async create(): Promise<void> {

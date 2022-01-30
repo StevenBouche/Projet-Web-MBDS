@@ -12,7 +12,7 @@ export class CourseDetailsComponent implements OnInit {
   constructor(private _coursesService: CoursesService) { }
 
   ngOnInit(): void {
-    this._coursesService.setStateComponent(ComponentState.Details);
+    
   }
 
 }

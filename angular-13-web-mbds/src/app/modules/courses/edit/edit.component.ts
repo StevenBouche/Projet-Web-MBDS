@@ -12,7 +12,7 @@ export class EditComponent implements OnInit {
   constructor(private _coursesService: CoursesService) { }
 
   ngOnInit(): void {
-    this._coursesService.setStateComponent(ComponentState.Edit);
+    
   }
 
 }
