@@ -5,7 +5,7 @@ import { AssignmentListComponent, } from './list/list.component';
 import { AssignmentDetailsComponent } from './details/details.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { AssignmentsRoutes } from './assignments.routing';
+import { assignmentsRoutes } from './assignments.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +29,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     EditComponent
   ],
   imports: [
-RouterModule.forChild(AssignmentsRoutes),
+RouterModule.forChild(assignmentsRoutes),
     SharedModule,
     RouterModule,
     NgbModule,
@@ -38,7 +40,8 @@ RouterModule.forChild(AssignmentsRoutes),
     MatInputModule,
     MatAutocompleteModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NavcomponentModule
   ]
 })
 export class AssignmentsModule { }

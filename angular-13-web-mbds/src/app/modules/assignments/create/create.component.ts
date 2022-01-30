@@ -13,7 +13,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 
 @Component({
-  selector: "app-create",
+  selector: "app-assignment-create",
   templateUrl: "./create.component.html",
   styleUrls: ["./create.component.scss"],
 })
@@ -47,9 +47,8 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
 
     this.form = this._formBuilder.group({
       label: ['', [Validators.required]],
-      description: ['', [Validators.required]],
       courseId: ['', [Validators.required]],
-      deliveryDate: ['', [Validators.required]],
+      delivryDate: ['', [Validators.required]],
     });
   }
 
