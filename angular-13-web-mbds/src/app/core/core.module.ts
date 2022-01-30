@@ -1,11 +1,14 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CoursesModule } from 'app/modules/courses/courses.module';
+import { AssignmentsModule } from 'app/modules/assignments/assignments.module';
+
 import { AuthModule } from './authentification/auth.module';
 
 @NgModule({
     imports: [
         AuthModule,
-        CoursesModule
+        CoursesModule,
+        AssignmentsModule
     ]
 })
 export class CoreModule

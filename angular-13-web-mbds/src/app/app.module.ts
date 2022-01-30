@@ -43,6 +43,8 @@ import { EmptyLayoutModule } from './layouts/empty/empty.module';
 import { CoreModule } from './core/core.module';
 import { FullModule } from './layouts/full/full.module';
 
+//Select
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 1,

@@ -16,3 +16,13 @@ export interface Course {
   pictureId: number;
   userId: number;
 }
+
+export interface CourseSearchForm {
+  term: string
+}
+
+export interface CourseSearchFormResults {
+  term: string;
+  results: Course[];
+}
+

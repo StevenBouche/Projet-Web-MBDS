@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'app/core/api/api.service';
-import { Course, CourseFormCreate, CourseFormUpdate } from './courses.type';
+import { Course, CourseFormCreate, CourseFormUpdate, CourseSearchForm, CourseSearchFormResults } from './courses.type';
 import { PaginationForm, PaginationResult } from '../api/api.types';
 import { Assignment } from '../assignments/assignments.type';
 import { BehaviorSubject } from 'rxjs';
@@ -68,6 +68,13 @@ export class CoursesService extends ApiService {
   public async getAllAsync() {
     let result = await this.executePostAsync<PaginationForm, PaginationResult<Course>>(`${this.baseUrl}/courses/mine`, this.store.pagination);
     this._pagination$.next(result);
+  }
+
+  public async getAllSearchAsync(term: string): Promise<CourseSearchFormResults> {
+    return this.executePostAsync<CourseSearchForm, CourseSearchFormResults>(
+      `${this.baseUrl}/courses/search`,
+      {term}
+    );
   }
 
   public async getAllIsMineAsync(form: PaginationForm) {

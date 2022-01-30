@@ -1,0 +1,97 @@
+<div class="flex border-b">
+  <!-- Selected product form -->
+  <form class="flex flex-col w-full" [formGroup]="form">
+    <div class="flex flex-col sm:flex-row p-8">
+      <!-- Name, SKU & etc. -->
+      <div class="flex flex-col w-full sm:pl-8">
+        <h1>Création d&apos;un assignment</h1>
+
+        <!-- Name -->
+        <div>
+          <mat-form-field class="fuse-mat-no-subscript w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              [formControlName]="'label'"
+              [placeholder]="'Label'"
+              [spellcheck]="false"
+            />
+          </mat-form-field>
+        </div>
+        <!-- CourseId -->
+
+        <mat-form-field class="fuse-mat-no-subscript w-full">
+          <mat-label>Course</mat-label>
+          <input
+            type="text"
+            name="SelectCourse"
+            matInput
+            required
+            placeholder="Enter course's name"
+            [formControl]="searchInputControl"
+            [matAutocomplete]="auto"
+            [spellcheck]="false"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="getOptionText"
+            (optionSelected)="updateMySelection($event.option.value)"
+          >
+            <mat-option *ngFor="let option of courses" [value]="option">
+              {{ option.name }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="form.get('courseId')?.hasError('required')">
+            Please select an existing course
+          </mat-error>
+          <mat-error *ngIf="searchInputControl.hasError('required')">
+            This is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <div
+          class="flex flex-col gt-xs:flex-row gt-xs:items-baseline"
+          *ngIf="selectedCourse"
+        >
+          <span class="text-grey-500">( {{ selectedCourse.name }} : {{ selectedCourse.id }})</span>
+        </div>
+
+        <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
+          <mat-form-field class="fuse-mat-textarea flex-auto">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              [formControlName]="'description'"
+              [rows]="12"
+            ></textarea>
+          </mat-form-field>
+        </div>
+        <mat-form-field appearance="outline">
+          <mat-label>Delivery date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="deliveryDate"/>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="form.get('deliveryDate')?.hasError('required')">
+            Valid date required.
+         </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between w-full border-t px-8 py-4">
+      <div class="flex items-center">
+        <button
+          mat-flat-button
+          [color]="'primary'"
+          [disabled]="form.invalid"
+          (click)="create()"
+        >
+          Save
+        </button>
+      </div>
+      <mat-progress-spinner mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner>
+    </div>
+  </form>
+</div>
