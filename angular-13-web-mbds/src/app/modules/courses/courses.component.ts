@@ -61,13 +61,6 @@ export class CoursesComponent implements OnInit, OnDestroy {
         this.refreshStateActions();
       })
 
-    this._coursesService.stateComponent
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((state: ComponentState) => {
-        this.state = state;
-        this.refreshStateActions();
-      })
-
     this._coursesService.courseSelected
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((course: Course | null) => {

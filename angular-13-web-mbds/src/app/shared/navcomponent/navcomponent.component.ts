@@ -18,31 +18,34 @@ export class NavcomponentComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-
-
+    this.onChangeState.emit(this.state);
   }
 
   public create(): void {
     this.state = ComponentState.Create;
     console.log(this.onChangeState)
-    this.onChangeState.emit(this.state);
+    this.notifyChangeState();
   }
 
   public edit(): void {
     this.redirect = this.state;
     this.state = ComponentState.Edit;
-    this.onChangeState?.emit(this.state);
+    this.notifyChangeState();
   }
 
   public details(): void {
     this.redirect = ComponentState.List;
     this.state = ComponentState.Details;
-    this.onChangeState?.emit(this.state);
+    this.notifyChangeState();
   }
 
   public back(): void {
     this.state = this.redirect != null ? this.redirect : ComponentState.List;
     this.redirect = null;
+    this.notifyChangeState();
+  }
+
+  private notifyChangeState(){
     this.onChangeState?.emit(this.state);
   }
 }
