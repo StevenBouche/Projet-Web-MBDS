@@ -15,6 +15,8 @@ namespace Assignments.Business.Services.Users
 
         Task<UserEntity> GetUserByIdAsync(int id);
 
+        UserEntity? GetUserById(int id);
+
         UserEntity UpdateUser(UserEntity element);
 
         UserEntity? GetUserWithUserName(string name);

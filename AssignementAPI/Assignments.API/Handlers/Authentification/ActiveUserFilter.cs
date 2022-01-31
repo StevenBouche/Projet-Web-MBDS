@@ -1,4 +1,5 @@
 ﻿using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Services.Users;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Assignments.API.Handlers.Authentification
@@ -8,14 +9,21 @@ namespace Assignments.API.Handlers.Authentification
         public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var identity = context.HttpContext.RequestServices.GetRequiredService<UserIdentity>();
+            var service = context.HttpContext.RequestServices.GetRequiredService<UserService>();
 
             var i = new UserIdentity(context.HttpContext.User);
 
-            identity.Id = i.Id;
-            identity.Role = i.Role;
-            identity.PictureId = i.PictureId;
-            identity.Name = i.Name;
 
+            var user = service.GetUserById(i.Id);
+
+            if(user != null)
+            {
+                identity.Id = i.Id;
+                identity.Role = user.Role.ToString();
+                identity.PictureId = user.Image?.Id;
+                identity.Name = user.Name;
+            }
+ 
             return next();
         }
     }

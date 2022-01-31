@@ -16,6 +16,8 @@ namespace Assignments.DAL.Repositories.Base
 
         Task<T?> GetByIdAsync(int id);
 
+        T? GetById(int id);
+
         Task<T?> GetFirstByCriteria(Expression<Func<T, bool>> predicate);
 
         Task<bool> AnyByCriteria(Expression<Func<T, bool>> predicate);

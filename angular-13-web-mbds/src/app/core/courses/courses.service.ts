@@ -7,7 +7,7 @@ import { ApiService } from 'app/core/api/api.service';
 import { Course, CourseFormCreate, CourseFormUpdate, CourseSearchForm, CourseSearchFormResults } from './courses.type';
 import { PaginationForm, PaginationResult } from '../api/api.types';
 import { Assignment } from '../assignments/assignments.type';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
 import { ProgressAction } from '../core.types';
 
 @Injectable({
@@ -122,10 +122,16 @@ export class CoursesService extends ApiService {
     this.upload(id, file).subscribe(observer);
   }
 
-  // public getImageFileCourse(id: number): Observable<File> {
-  //   this.http.get(`${this.baseUrl}/courseimages/course/${id}`, { responseType: 'blob' })
-  //   .pipe(blob => new File(blob));
-  // }
+
+  public getImageFileCourse(id: number): Observable<File | null> {
+    return this.http.get(`${this.baseUrl}/courseimages/course/${id}`, { responseType: 'blob' })
+      .pipe<File | null>(
+        map((blob: Blob) => new File([blob], 'current', { type: blob.type })),
+       /* catchError(() =>{
+          return of(null);
+        }),*/
+      );
+  }
 
   private upload(id: number, file: File): Observable<HttpEvent<any>> {
 

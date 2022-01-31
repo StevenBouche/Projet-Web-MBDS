@@ -133,5 +133,10 @@ namespace Assignments.DAL.Repositories.Base
         {
             return DbSet.AsEnumerable().Where(predicate);
         }
+
+        public T? GetById(int id)
+        {
+            return DbSet.Where(model => model.Id == id).FirstOrDefault();
+        }
     }
 }

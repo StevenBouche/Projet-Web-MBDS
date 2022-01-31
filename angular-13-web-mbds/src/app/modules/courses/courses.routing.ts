@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { CoursesComponent } from './courses.component';
 import { CourseCreateComponent } from './create/create.component';
 import { CourseDetailsComponent } from './details/details.component';
 import { EditComponent } from './edit/edit.component';
 import { CourseListComponent } from './list/list.component';
-import { CourseResolver } from './resolvers/course.resolver';
+import { CourseDetailsResolver } from './resolvers/coursedetails.resolver';
+import { CourseEditResolver } from './resolvers/courseedit.resolver';
 
 const coursesRoutes: Route[] = [
   { path: 'list', component: CourseListComponent },
-  { path: 'details/:id', resolve : { initialData: CourseResolver }, component: CourseDetailsComponent },
-  { path: 'edit/:id', resolve : { initialData: CourseResolver }, component: EditComponent },
+  { path: 'details/:id', resolve : { initialData: CourseDetailsResolver }, component: CourseDetailsComponent },
+  { path: 'edit/:id', resolve : { initialData: CourseEditResolver }, component: EditComponent },
   { path: 'create', component: CourseCreateComponent }
 ];
 

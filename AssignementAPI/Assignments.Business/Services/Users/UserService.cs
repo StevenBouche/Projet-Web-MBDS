@@ -79,6 +79,11 @@ namespace Assignments.Business.Services.Users
             throw new NotImplementedException();
         }
 
+        public UserEntity? GetUserById(int id)
+        {
+            return Repository.GetById(id);
+        }
+
         public async Task<UserEntity> GetUserByIdAsync(int id)
         {
             return await VerifyAndGetEntity(id);
