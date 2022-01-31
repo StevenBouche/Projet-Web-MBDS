@@ -1,6 +1,7 @@
 ﻿using Assignments.Business.Dto.Authentification.Tokens;
 using Assignments.Business.Dto.Authorization;
 using Assignments.Business.Dto.Users;
+using Assignments.Business.Exceptions.Business;
 using Assignments.Business.Services.Base;
 using Assignments.DAL.Enumerations;
 using Assignments.DAL.Models;
@@ -60,7 +61,7 @@ namespace Assignments.Business.Services.Users
                 };
             }
 
-            return null;
+            throw new UserBusinessException(UserBusinessExceptionTypes.USER_ALREADY_EXIST);
         }
 
         public async Task<bool> DeleteUserByIdAsync(int id)

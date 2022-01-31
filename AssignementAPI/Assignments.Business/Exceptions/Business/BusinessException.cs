@@ -12,6 +12,8 @@ namespace Assignments.Business.Exceptions.Business
         WORK_SUBMIT,
         [Description("Assignment business")]
         ASSIGNMENT,
+        [Description("User business")]
+        USER,
     }
 
     public abstract class BusinessException : Exception
