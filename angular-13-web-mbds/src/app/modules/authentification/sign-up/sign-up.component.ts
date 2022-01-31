@@ -94,7 +94,7 @@ export class AuthSignUpComponent implements OnInit {
       await this._authentificationService.loginAsync({
         name: user.name,
         password: user.password,
-      });
+      }, false);
       this._usersService.uploadPicture(
         this.image!.file,
         (progress: ProgressUpload) => {
