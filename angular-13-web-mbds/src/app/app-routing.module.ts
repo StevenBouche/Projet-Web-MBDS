@@ -49,6 +49,8 @@ export const Approutes: Routes = [
     canActivateChild: [AuthGuard],
     component: FullComponent,
     children: [
+      { path: 'courses', pathMatch: 'full', redirectTo: 'courses/list'},
+      { path: 'assignments', pathMatch: 'full', redirectTo: 'assignments/list'},
       {
         path: 'courses',
         component: CoursesComponent,
@@ -89,9 +91,5 @@ export const Approutes: Routes = [
         ]
       }
     ]
-  },
-  {
-    path: '**',
-    redirectTo: '/starter'
   }
 ];

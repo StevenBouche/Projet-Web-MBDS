@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PaginationForm, PaginationResult } from 'app/core/api/api.types';
+import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
+import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
-import { ComponentState } from 'app/core/shared/shared.types';
-import { environment } from 'environments/environment';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -29,7 +29,12 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _coursesService: CoursesService) { }
+  constructor(
+    private _coursesService: CoursesService,
+    private _stateService: ComponentStateService
+    ) {
+      
+    }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
@@ -37,6 +42,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
     this._coursesService.pagination
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((paginationResult: PaginationResult<Course> | null) => {
@@ -49,6 +55,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
         this.courseSelected = course;
       })
 
+      this._stateService.setState(ComponentState.List);
       this._coursesService.getAllAsync();
   }
 

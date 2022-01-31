@@ -1,9 +1,9 @@
-<div class="flex items-center flex-auto space-x-4" *ngIf="stateActions != null">
+<div class="flex items-center flex-auto space-x-4" *ngIf="stateActions">
   <button
     class="ml-4"
     mat-flat-button
     [color]="'primary'"
-    (click)="back()"
+    (click)="onBack.emit($event)"
     *ngIf="stateActions.back.view"
     [disabled]="stateActions.back.disabled"
   >
@@ -14,7 +14,7 @@
     class="ml-4"
     mat-flat-button
     [color]="'primary'"
-    (click)="create()"
+    (click)="onCreate.emit($event)"
     *ngIf="stateActions.create.view"
     [disabled]="stateActions.create.disabled"
   >
@@ -25,7 +25,7 @@
     class="ml-4"
     mat-flat-button
     [color]="'primary'"
-    (click)="details()"
+    (click)="onDetails.emit($event)"
     *ngIf="stateActions.details.view"
     [disabled]="stateActions.details.disabled"
   >
@@ -36,7 +36,7 @@
     class="ml-4"
     mat-flat-button
     [color]="'primary'"
-    (click)="edit()"
+    (click)="onEdit.emit($event)"
     *ngIf="stateActions.update.view"
     [disabled]="stateActions.update.disabled"
   >

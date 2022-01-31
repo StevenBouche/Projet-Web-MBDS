@@ -25,13 +25,13 @@ export class CoursesService extends ApiService {
       assignmentsCourse: []
     };
 
-  private _assignmentsCourse = new BehaviorSubject<Array<Assignment>>(this.store.assignmentsCourse);
-  private _courseSelected = new BehaviorSubject<Course | null>(this.store.courseSelected);
-  private _pagination$ = new BehaviorSubject<PaginationResult<Course> | null>(null);
+  private readonly _assignmentsCourse = new BehaviorSubject<Array<Assignment>>(this.store.assignmentsCourse);
+  private readonly _courseSelected = new BehaviorSubject<Course | null>(this.store.courseSelected);
+  private readonly _pagination$ = new BehaviorSubject<PaginationResult<Course> | null>(null);
 
-  public assignmentsCourse = this._assignmentsCourse.asObservable();
-  public courseSelected = this._courseSelected.asObservable();
-  public pagination = this._pagination$.asObservable();
+  public readonly assignmentsCourse = this._assignmentsCourse.asObservable();
+  public readonly courseSelected = this._courseSelected.asObservable();
+  public readonly pagination = this._pagination$.asObservable();
 
   get page() { return this.store.pagination.page; }
   set page(value) {

@@ -2,7 +2,7 @@ import { RouteInfo } from "./sidebar.types";
 
 export const ROUTES: RouteInfo[] = [
   {
-    path: '/courses',
+    path: '/courses/list',
     title: 'Courses',
     icon: 'bi bi-person-workspace',
     class: '',

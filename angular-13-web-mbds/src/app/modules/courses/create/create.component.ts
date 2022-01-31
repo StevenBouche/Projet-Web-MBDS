@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ComponentsModule } from 'app/component/component.module';
+import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
+import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { Picture, ProgressUpload } from 'app/core/core.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { getBase64 } from 'app/core/pictures/pictures.utils';
@@ -24,6 +26,7 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
   constructor(
     private _formBuilder: FormBuilder,
     private _coursesService: CoursesService,
+    private _stateService: ComponentStateService,
     private toast: ToastrService
   ) {
     this.form = this._formBuilder.group({
@@ -37,7 +40,7 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    this._stateService.setState(ComponentState.Create);
   }
 
   async selectFiles(event: any): Promise<void> {

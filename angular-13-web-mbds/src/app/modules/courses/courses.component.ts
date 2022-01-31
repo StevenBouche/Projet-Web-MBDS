@@ -3,10 +3,12 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { UserIdentity } from 'app/core/authentification/auth.types';
 import { AuthentificationService } from 'app/core/authentification/authentification.service';
+import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
+import { ComponentState, ComponentStateActions, StateAction } from 'app/core/componentstate/componentstate.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
-import { ComponentState, StateAction } from 'app/core/shared/shared.types';
-import { Subject, takeUntil } from 'rxjs';
+import { retryWhen, Subject, takeUntil } from 'rxjs';
+import BaseComponent from '../base/basecomponent';
 
 export interface CoursesStateActions {
   back: StateAction;
@@ -19,33 +21,24 @@ export interface CoursesStateActions {
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss']
+  styleUrls: ['./courses.component.scss'],
+  providers: [ComponentStateService]
 })
-export class CoursesComponent implements OnInit, OnDestroy {
+export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy {
 
   private courseSelected: Course | null = null
   private user: UserIdentity | null = null
-  private state: ComponentState = ComponentState.None
-
-  get listMode() { return this.state === ComponentState.List }
-  get detailsMode() { return this.state === ComponentState.Details }
-  get editMode() { return this.state === ComponentState.Edit }
-  get createMode() { return this.state === ComponentState.Create }
-
-  public stateActions: CoursesStateActions = {
-    back: { view: false, disabled: true },
-    create: { view: false, disabled: true },
-    details: { view: false, disabled: true },
-    update: { view: false, disabled: true },
-    delete: { view: false, disabled: true }
-  }
-
-  private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(
     private _coursesService: CoursesService,
     private _authentificationService: AuthentificationService,
-  ) { }
+    private _change: ChangeDetectorRef,
+    _stateService: ComponentStateService,
+    _router: Router,
+    _activatedRoute: ActivatedRoute
+  ) {
+    super(_stateService, _router, _activatedRoute);
+  }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
@@ -56,25 +49,41 @@ export class CoursesComponent implements OnInit, OnDestroy {
 
     this._authentificationService.identity
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((user: UserIdentity | null) => {
-        this.user = user;
-        this.refreshStateActions();
-      })
+      .subscribe(user => this.handleUserIdentity(user))
 
     this._coursesService.courseSelected
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((course: Course | null) => {
-        this.courseSelected = course;
-        this.refreshStateActions();
-      })
+      .subscribe(course => this.handleCourseSelected(course))
+
+    this.OnInit();
   }
 
-  public onChangeState(state: ComponentState){
-    this.state = state;
+  private handleCourseSelected(course: Course | null) {
+    console.log(course)
+    this.courseSelected = course;
     this.refreshStateActions();
   }
 
-  private refreshStateActions() {
+  private handleUserIdentity(user: UserIdentity | null) {
+    console.log(user)
+    this.user = user;
+    this.refreshStateActions();
+  }
+
+  protected getNavigationUrl(state: ComponentState) {
+    let url: string | null = null;
+    switch (state) {
+      case ComponentState.List: url = 'list'; break;
+      case ComponentState.Create: url = 'create'; break;
+      case ComponentState.Details: url = `details/${this.courseSelected?.id}`; break;
+      case ComponentState.Edit: url = `edit/${this.courseSelected?.id}`; break;
+    }
+    return url;
+  }
+
+  protected refreshStateActions() {
+
+    if (!this.stateActions || !this.state) return;
 
     const authorizeUserProfessor = this.user != null && this.user.role === 'PROFESSOR';
 

@@ -11,6 +11,8 @@ import {
   distinctUntilChanged,
 } from "rxjs";
 import { ToastrService } from "ngx-toastr";
+import { ComponentStateService } from "app/core/componentstate/componentstate.service";
+import { ComponentState } from "app/core/componentstate/componentstate.types";
 
 @Component({
   selector: "app-assignment-create",
@@ -41,7 +43,7 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
     private courseService: CoursesService,
     private assignmentService: AssignmentsService,
     private toast: ToastrService,
-
+    private _stateService: ComponentStateService,
     private _changeDetectorRef: ChangeDetectorRef
   ) {
 
@@ -71,6 +73,8 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
           this._changeDetectorRef.markForCheck();
         }
       });
+
+      this._stateService.setState(ComponentState.Create);
   }
 
   async create(): Promise<void> {

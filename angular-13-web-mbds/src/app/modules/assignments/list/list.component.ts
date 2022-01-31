@@ -3,7 +3,8 @@ import { FormControl } from '@angular/forms';
 import { PaginationForm, PaginationResult } from 'app/core/api/api.types';
 import { AssignmentsService } from 'app/core/assignments/assignments.service';
 import { Assignment } from 'app/core/assignments/assignments.type';
-import { ComponentState } from 'app/core/shared/shared.types';
+import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
+import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -18,8 +19,6 @@ export class AssignmentListComponent implements OnInit, OnDestroy {
   public assignmentSelected: Assignment | null = null
   public paginationResult: PaginationResult<Assignment> | null = null;
 
-
-
   get page() { return this._assignmentsService.page; }
   set page(value) { this._assignmentsService.page = value; }
 
@@ -30,7 +29,7 @@ export class AssignmentListComponent implements OnInit, OnDestroy {
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _assignmentsService: AssignmentsService) { }
+  constructor(private _assignmentsService: AssignmentsService, private _stateService: ComponentStateService) { }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
@@ -53,6 +52,7 @@ export class AssignmentListComponent implements OnInit, OnDestroy {
         this.assignmentSelected = assignment;
       })
 
+      this._stateService.setState(ComponentState.List);
       this._assignmentsService.getAllAsync();
   }
 

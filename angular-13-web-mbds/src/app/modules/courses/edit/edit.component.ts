@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
+import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { CoursesService } from 'app/core/courses/courses.service';
-import { ComponentState } from 'app/core/shared/shared.types';
+
 
 @Component({
   selector: 'app-course-edit',
@@ -9,10 +11,10 @@ import { ComponentState } from 'app/core/shared/shared.types';
 })
 export class EditComponent implements OnInit {
 
-  constructor(private _coursesService: CoursesService) { }
+  constructor(private _coursesService: CoursesService, private _stateService: ComponentStateService) { }
 
   ngOnInit(): void {
-    
+    this._stateService.setState(ComponentState.Edit);
   }
 
 }

@@ -3,12 +3,14 @@
     Assignments
   </h4>
 
-  <app-navcomponent [stateActions]="stateActions" (onChangeState)="onChangeState($event)"></app-navcomponent>
+  <app-navcomponent
+  (onCreate)="createNavigation()"
+  (onEdit)="editNavigation()"
+  (onDetails)="detailsNavigation()"
+  (onBack)="backNavigation()"
+  [stateActions]="stateActions"></app-navcomponent>
 
   <div class="border-solid border-2 border-sky-500 mt-4">
-    <app-assignment-list *ngIf="listMode"></app-assignment-list>
-    <app-assignment-create *ngIf="createMode"></app-assignment-create>
-    <app-assignment-edit *ngIf="editMode"></app-assignment-edit>
-    <app-assignment-details *ngIf="detailsMode"></app-assignment-details>
+    <router-outlet></router-outlet>
   </div>
 </div>
