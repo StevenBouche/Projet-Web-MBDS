@@ -26,13 +26,21 @@
       <form class="mt-8" [formGroup]="signUpForm">
         <!-- Email field -->
         <mat-form-field class="w-full">
-          <mat-label>Email address</mat-label>
-          <input id="email" matInput [formControlName]="'email'" />
-          <mat-error *ngIf="signUpForm.get('email')?.hasError('required')">
-            Email address is required
+          <mat-label>Username</mat-label>
+          <input id="email" matInput [formControlName]="'username'" />
+          <mat-error *ngIf="signUpForm.get('username')?.hasError('required')">
+            Username is required
           </mat-error>
-          <mat-error *ngIf="signUpForm.get('email')?.hasError('email')">
-            Please enter a valid email address
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Select role</mat-label>
+          <mat-select [formControlName]="'role'">
+            <mat-option *ngFor="let role of roles" [value]="role">
+              {{role}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="signUpForm.get('role')?.hasError('required')">
+            Role is required
           </mat-error>
         </mat-form-field>
 
@@ -59,6 +67,57 @@
           <mat-error> Password is required </mat-error>
         </mat-form-field>
 
+
+        <ng-container *ngIf="image != null">
+          <div class="flex flex-col m-2 p-4 shadow rounded-2xl bg-card">
+            <div class="flex items-center justify-center">
+              <img
+                class="object-scale-down h-48 w-96"
+                mat-card-image
+                [src]="image.buffer"
+              />
+            </div>
+
+            <div
+              *ngIf="progress != null && progress.value > 0"
+              class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
+            >
+              <mat-progress-bar
+                [mode]="determinate"
+                [value]="progress.value"
+              ></mat-progress-bar>
+            </div>
+            <div
+              class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
+            >
+              <div class="truncate" [matTooltip]="image.file.name">
+                {{ image.file.name }}
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <div class="flex flex-col items-center mt-4 mb-4 sm:mt-0 md:mt-4">
+          <button
+            type="button"
+            class="ml-4"
+            mat-flat-button
+            [color]="'primary'"
+            (click)="fileInput.click()"
+          >
+            <mat-icon>upload</mat-icon>
+            <span class="ml-2 mr-1">Upload Picture</span>
+            <input
+              #fileInput
+              type="file"
+              accept="image/png, image/jpeg"
+              (change)="selectFiles($event)"
+              style="display: none"
+            />
+          </button>
+          <mat-error *ngIf="image === null">Image is required </mat-error>
+        </div>
+
         <!-- Submit button -->
         <button
           *ngIf="!signUpForm.disabled"
@@ -68,7 +127,7 @@
           [disabled]="signUpForm.disabled"
           (click)="signIn()"
         >
-          <span>Create free account</span>
+          <span>Create account</span>
         </button>
         <div class="flex flex-col flex-auto items-center sm:justify-center">
           <mat-progress-spinner
