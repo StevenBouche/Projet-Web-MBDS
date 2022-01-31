@@ -1,4 +1,4 @@
-import User from "../users/users.types";
+import { User } from "../users/users.types";
 
 export interface CourseFormCreate {
   name: string;

@@ -9,6 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SharedModule } from 'app/shared/shared.module';
 import { AuthSignUpComponent } from './sign-up.component';
 import { authSignupRoutes } from './sign-up.routing';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { authSignupRoutes } from './sign-up.routing';
         MatIconModule,
         MatInputModule,
         MatProgressSpinnerModule,
+        MatSelectModule,
         SharedModule
     ]
 })

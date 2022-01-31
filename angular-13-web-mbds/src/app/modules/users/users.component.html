@@ -1,0 +1,14 @@
+<div class="flex flex-col">
+  <h4 class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800">
+    Assignments
+  </h4>
+
+  <app-navcomponent [stateActions]="stateActions" (onChangeState)="onChangeState($event)"></app-navcomponent>
+
+  <div class="border-solid border-2 border-sky-500 mt-4">
+    <app-assignment-list *ngIf="listMode"></app-assignment-list>
+    <app-assignment-create *ngIf="createMode"></app-assignment-create>
+    <app-assignment-edit *ngIf="editMode"></app-assignment-edit>
+    <app-assignment-details *ngIf="detailsMode"></app-assignment-details>
+  </div>
+</div>
