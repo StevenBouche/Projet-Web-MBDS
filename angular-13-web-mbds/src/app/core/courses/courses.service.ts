@@ -71,6 +71,10 @@ export class CoursesService extends ApiService {
     return this.executePutAsync<CourseFormCreate, Course>(`${this.baseUrl}/courses`, form);
   }
 
+  public getById(id: number): Observable<Course> {
+    return this.http.get<Course>(`${this.baseUrl}/courses/${id}`);
+  }
+
   public async getByIdAsync(id: number): Promise<Course> {
     return this.executeGetAsync<Course>(`${this.baseUrl}/courses/${id}`);
   }

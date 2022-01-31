@@ -18,6 +18,7 @@ import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { CoursesRoutingModule } from './courses.routing';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { CoursesRoutingModule } from './courses.routing';
     NavcomponentModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    CoursesRoutingModule
+    CoursesRoutingModule,
+    MatProgressBarModule
   ]
 })
 export class CoursesModule { }

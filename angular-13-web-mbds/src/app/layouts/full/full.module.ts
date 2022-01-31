@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { SidebarComponent } from 'app/shared/sidebar/sidebar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarModule } from 'app/shared/sidebar/sidebar.module';
-
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [
@@ -17,7 +17,8 @@ import { SidebarModule } from 'app/shared/sidebar/sidebar.module';
         RouterModule,
         NgbModule,
         NavigationModule,
-        SidebarModule
+        SidebarModule,
+        MatProgressBarModule
     ],
     exports     : [
       FullComponent

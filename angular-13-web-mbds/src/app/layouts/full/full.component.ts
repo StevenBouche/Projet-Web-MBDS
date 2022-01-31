@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from "@angular/core";
-import { Router } from "@angular/router";
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from "@angular/router";
 
 //declare var $: any;
 
@@ -17,17 +17,36 @@ export class FullComponent implements OnInit {
   public showMobileMenu = false;
   public expandLogo = false;
   public sidebartype = "full";
+  public loading = false;
 
   Logo() {
     this.expandLogo = !this.expandLogo;
   }
 
   ngOnInit() {
-    if (this.router.url === "/") {
-      this.router.navigate(["/dashboard"]);
-    }
     this.defaultSidebar = this.sidebartype;
     this.handleSidebar();
+    this.router.events.subscribe((event: any) => {
+      switch (true) {
+        case event instanceof NavigationStart: {
+          this.loading = true;
+          console.log('loading true')
+          break;
+        }
+
+        case event instanceof NavigationEnd:
+        case event instanceof NavigationCancel:
+        case event instanceof NavigationError: {
+          this.loading = false;
+          console.log('loading false')
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    });
+
   }
 
   @HostListener("window:resize", ["$event"])
