@@ -5,6 +5,7 @@ import { Picture, ProgressUpload } from "app/core/core.types";
 import { getBase64 } from "app/core/pictures/pictures.utils";
 import { UsersService } from "app/core/users/users.service";
 import { ToastrService } from "ngx-toastr";
+import { AuthentificationService } from "app/core/authentification/authentification.service";
 
 @Component({
   selector: "auth-sign-up",
@@ -20,18 +21,21 @@ export class AuthSignUpComponent implements OnInit {
   public image: Picture | null = null;
   public progress: ProgressUpload | null = null;
   get canCreate() {
-    return this.signUpForm.invalid || this.image === null || this.signUpForm.disabled;
+    return (
+      this.signUpForm.invalid || this.image === null || this.signUpForm.disabled
+    );
   }
 
   constructor(
     private _formBuilder: FormBuilder,
     private toast: ToastrService,
     private _usersService: UsersService,
-    private _router: Router
+    private _router: Router,
+    private _authentificationService: AuthentificationService
   ) {
     // Create the form
     this.signUpForm = this._formBuilder.group({
-      username: ["", Validators.required],
+      name: ["", Validators.required],
       password: ["", Validators.required],
       role: ["", Validators.required],
     });
@@ -78,7 +82,7 @@ export class AuthSignUpComponent implements OnInit {
     this.showAlert = false;
   }
 
-  async create(): Promise<void> {
+  async signup(): Promise<void> {
     if (this.canCreate) return;
 
     this.signUpForm.disable();
@@ -87,12 +91,24 @@ export class AuthSignUpComponent implements OnInit {
       const user = this.signUpForm.getRawValue();
       const userCreated = await this._usersService.createAsync(user);
       this.toast.success("User is created");
+      await this._authentificationService.loginAsync({
+        name: user.name,
+        password: user.password,
+      });
       this._usersService.uploadPicture(
-        userCreated.id,
         this.image!.file,
         (progress: ProgressUpload) => {
           this.progress = progress;
-          if (progress.value === 100) this.toast.success("Image is uploaded");
+          if (progress.value === 100) {
+            this.toast.success("Image is uploaded");
+            (async () => {
+              // Do something before delay
+              this.toast.success("Redirect to home page");
+              await new Promise(f => setTimeout(f, 1000));
+              // Do something after
+              this._router.navigate(["/"]);
+            })();
+          }
           this.signUpForm.enable();
         }
       );

@@ -1,12 +1,11 @@
 <div class="flex flex-col flex-auto items-center sm:justify-center min-w-0">
   <div
-    class="w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl sm:shadow sm:bg-card"
+    class="w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl shadow rounded-2xl bg-card"
   >
     <div class="w-full min-w-80 sm:w-80 mx-auto sm:mx-0">
-
       <!-- Logo -->
       <div class="flex flex-col flex-auto items-center sm:justify-center">
-          <img src="assets/images/logos/logo-icon.png" />
+        <img src="assets/images/logos/logo-icon.png" />
       </div>
 
       <!-- Title -->
@@ -24,19 +23,21 @@
 
       <!-- Sign in form -->
       <form class="mt-8" [formGroup]="signUpForm">
-        <!-- Email field -->
+        <!-- Username field -->
         <mat-form-field class="w-full">
           <mat-label>Username</mat-label>
-          <input id="email" matInput [formControlName]="'username'" />
-          <mat-error *ngIf="signUpForm.get('username')?.hasError('required')">
+          <input id="email" matInput [formControlName]="'name'" />
+          <mat-error *ngIf="signUpForm.get('name')?.hasError('required')">
             Username is required
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+
+        <!-- Role field -->
+        <mat-form-field class="w-full">
           <mat-label>Select role</mat-label>
           <mat-select [formControlName]="'role'">
             <mat-option *ngFor="let role of roles" [value]="role">
-              {{role}}
+              {{ role }}
             </mat-option>
           </mat-select>
           <mat-error *ngIf="signUpForm.get('role')?.hasError('required')">
@@ -67,12 +68,11 @@
           <mat-error> Password is required </mat-error>
         </mat-form-field>
 
-
         <ng-container *ngIf="image != null">
           <div class="flex flex-col m-2 p-4 shadow rounded-2xl bg-card">
             <div class="flex items-center justify-center">
               <img
-                class="object-scale-down h-48 w-96"
+                class="object-scale-down h-50 w-50"
                 mat-card-image
                 [src]="image.buffer"
               />
@@ -125,7 +125,7 @@
           mat-flat-button
           [color]="'primary'"
           [disabled]="signUpForm.disabled"
-          (click)="signIn()"
+          (click)="signup()"
         >
           <span>Create account</span>
         </button>

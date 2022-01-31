@@ -107,7 +107,7 @@ export class UsersService extends ApiService {
     );
   }
 
-  public uploadPicture(id: number, file: File, callback: ProgressAction): void {
+  public uploadPicture(file: File, callback: ProgressAction): void {
 
     callback({ value: 0, filename: file.name });
 
@@ -121,16 +121,16 @@ export class UsersService extends ApiService {
       }
     }
 
-    this.upload(id, file).subscribe(observer);
+    this.upload(file).subscribe(observer);
   }
 
-  private upload(id: number, file: File): Observable<HttpEvent<any>> {
+  private upload(file: File): Observable<HttpEvent<any>> {
 
     const formData: FormData = new FormData();
 
     formData.append('file', file);
 
-    const req = new HttpRequest('POST', `${this.baseUrl}/courseimages/upload/${id}`, formData, {
+    const req = new HttpRequest('POST', `${this.baseUrl}/userprofilimages/upload`, formData, {
         reportProgress: true,
         responseType: 'json'
     });
