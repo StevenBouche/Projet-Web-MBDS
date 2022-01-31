@@ -122,10 +122,10 @@ export class CoursesService extends ApiService {
     this.upload(id, file).subscribe(observer);
   }
 
-  public getImageFileCourse(id: number): Observable<File> {
-    this.http.get(`${this.baseUrl}/courseimages/course/${id}`, { responseType: 'blob' })
-    .pipe(blob => new File(blob));
-  }
+  // public getImageFileCourse(id: number): Observable<File> {
+  //   this.http.get(`${this.baseUrl}/courseimages/course/${id}`, { responseType: 'blob' })
+  //   .pipe(blob => new File(blob));
+  // }
 
   private upload(id: number, file: File): Observable<HttpEvent<any>> {
 
