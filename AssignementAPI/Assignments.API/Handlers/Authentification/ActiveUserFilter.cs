@@ -9,7 +9,7 @@ namespace Assignments.API.Handlers.Authentification
         public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var identity = context.HttpContext.RequestServices.GetRequiredService<UserIdentity>();
-            var service = context.HttpContext.RequestServices.GetRequiredService<UserService>();
+            var service = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
 
             var i = new UserIdentity(context.HttpContext.User);
 

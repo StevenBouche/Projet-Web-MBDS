@@ -26,7 +26,6 @@ import { UsersRoutingModule } from "./users-routing.module";
   ],
   imports: [
     UsersRoutingModule,
-    CommonModule,
     SharedModule,
     RouterModule,
     NgbModule,

@@ -7,7 +7,7 @@ import { ApiService } from 'app/core/api/api.service';
 import { Course, CourseFormCreate, CourseFormUpdate, CourseSearchForm, CourseSearchFormResults } from './courses.type';
 import { PaginationForm, PaginationResult } from '../api/api.types';
 import { Assignment } from '../assignments/assignments.type';
-import { BehaviorSubject, catchError, map, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
 import { ProgressAction } from '../core.types';
 
 @Injectable({
@@ -98,6 +98,12 @@ export class CoursesService extends ApiService {
     );
   }
 
+  public getAssignmentsOfCourse(id: number) : Observable<Array<Assignment>> {
+    return this.http.get<Array<Assignment>>(
+      `${this.baseUrl}/courses/${id}/assignments`
+    );
+  }
+
   public async getAssignmentsOfCourseAsync(id: number, form: PaginationForm) {
     return this.executePostAsync<PaginationForm, PaginationResult<Assignment>>(
       `${this.baseUrl}/courses/${id}/assignments`,
@@ -125,11 +131,9 @@ export class CoursesService extends ApiService {
 
   public getImageFileCourse(id: number): Observable<File | null> {
     return this.http.get(`${this.baseUrl}/courseimages/course/${id}`, { responseType: 'blob' })
-      .pipe<File | null>(
+      .pipe(
         map((blob: Blob) => new File([blob], 'current', { type: blob.type })),
-       /* catchError(() =>{
-          return of(null);
-        }),*/
+        catchError<File | null, Observable<File | null>>(_ => of(null))
       );
   }
 

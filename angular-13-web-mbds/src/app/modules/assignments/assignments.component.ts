@@ -30,17 +30,6 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
     this.OnInit();
   }
 
-  public create(): void {
-    console.log(this._activatedRoute)
-    this._router.navigate(['create'], { relativeTo: this._activatedRoute });
-  }
-
-  public onChangeState(state: ComponentState) {
-    console.log('onChangeState', state)
-    this.state = state;
-    this.refreshStateActions();
-  }
-
   protected getNavigationUrl(state: ComponentState): string | null {
     let url: string | null = null;
     switch (state) {

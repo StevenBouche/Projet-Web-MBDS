@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { ComponentState } from 'app/core/shared/shared.types';
 import { CoursesStateActions } from '../courses/courses.component';
-import { User } from 'app/core/users/users.types';
+import { ComponentState } from 'app/core/componentstate/componentstate.types';
+import User from 'app/core/users/users.types';
 
 @Component({
   selector: 'app-users',
@@ -39,10 +39,10 @@ export class UsersComponent implements OnInit {
 
   public create(): void {
     console.log(this._activatedRoute)
-    this._router.navigate(['create'], {relativeTo: this._activatedRoute});
+    this._router.navigate(['create'], { relativeTo: this._activatedRoute });
   }
 
-  public onChangeState(state: ComponentState){
+  public onChangeState(state: ComponentState) {
     console.log('onChangeState', state)
     this.state = state;
     this.refreshStateActions();

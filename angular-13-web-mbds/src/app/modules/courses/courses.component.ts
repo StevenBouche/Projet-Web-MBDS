@@ -32,7 +32,6 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
   constructor(
     private _coursesService: CoursesService,
     private _authentificationService: AuthentificationService,
-    private _change: ChangeDetectorRef,
     _stateService: ComponentStateService,
     _router: Router,
     _activatedRoute: ActivatedRoute
