@@ -33,7 +33,7 @@ namespace Assignments.Business.Services.Users
         {
             var withSameMail = await Repository.AnyByCriteria(acc => acc.Name.Equals(element.Name));
 
-            if (withSameMail)
+            if (!withSameMail)
             {
                 var entity = new UserEntity()
                 {
