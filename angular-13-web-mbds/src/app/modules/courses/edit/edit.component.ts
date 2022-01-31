@@ -5,6 +5,7 @@ import { ComponentStateService } from 'app/core/componentstate/componentstate.se
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { Picture, ProgressUpload } from 'app/core/core.types';
 import { CoursesService } from 'app/core/courses/courses.service';
+import { Course } from 'app/core/courses/courses.type';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -15,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EditComponent implements OnInit {
 
-  public form: FormGroup;
+  public form!: FormGroup;
   public image: Picture | null = null;
   public progress: ProgressUpload | null = null;
 
@@ -28,14 +29,19 @@ export class EditComponent implements OnInit {
     private _route: ActivatedRoute,
     private toast: ToastrService
     ) {
-    this.form = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]]
-    });
+
   }
 
   ngOnInit(): void {
-    console.log(this._route.snapshot.data.initialData)
+
+    const data: Course = this._route.snapshot.data.initialData
+
+    this.form = this._formBuilder.group({
+      id: [data.id, [Validators.required]],
+      name: [data.name, [Validators.required]],
+      description: [data.description, [Validators.required]]
+    });
+
     this._stateService.setState(ComponentState.Edit);
   }
 

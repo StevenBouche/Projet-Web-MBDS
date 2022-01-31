@@ -22,7 +22,7 @@ namespace Assignments.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = AuthorizationConstants.ADMIN)]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(User), 200)]
         public async Task<ActionResult> Create([FromBody] UserForm element)
         {
