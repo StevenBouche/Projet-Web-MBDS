@@ -5,11 +5,21 @@ import { FullComponent } from './layouts/full/full.component';
 import { NoAuthGuard } from './core/guards/noAuth.guard';
 import { AuthGuard } from './core/guards/auth.guard';
 import { EmptyLayoutComponent } from './layouts/empty/empty.component';
+import { CoursesComponent } from './modules/courses/courses.component';
+import { AssignmentsComponent } from './modules/assignments/assignments.component';
 
 export const Approutes: Routes = [
 
+  // Redirect empty path to '/dashboards/project'
+  {path: '', pathMatch : 'full', redirectTo: 'courses'},
 
-  // Auth routes for guests
+  // Redirect signed in user to the '/dashboards/project'
+  //
+  // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
+  // path. Below is another redirection for that path to redirect the user to the desired
+  // location. This is a small convenience to keep all main routes together here on this file.
+  {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'courses'},
+
   {
     path: '',
     canActivate: [NoAuthGuard],
@@ -26,12 +36,12 @@ export const Approutes: Routes = [
     canActivateChild: [AuthGuard],
     component: EmptyLayoutComponent,
     data: {
-        layout: 'empty'
+      layout: 'empty'
     },
     children: [
-        {path: 'sign-out', loadChildren: () => import('app/modules/authentification/sign-out/sign-out.module').then(m => m.AuthSignOutModule)},
+      { path: 'sign-out', loadChildren: () => import('app/modules/authentification/sign-out/sign-out.module').then(m => m.AuthSignOutModule) },
     ]
-},
+  },
   // Auth routes for logged user
   {
     path: '',
@@ -40,38 +50,44 @@ export const Approutes: Routes = [
     component: FullComponent,
     children: [
       {
-        path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+        path: 'courses',
+        component: CoursesComponent,
+        loadChildren: () => import('app/modules/courses/courses.module').then(m => m.CoursesModule)
       },
-        {
-          path: 'courses',
-          loadChildren: () => import('app/modules/courses/courses.module').then(m => m.CoursesModule)
-        },
-        {
-          path: 'assignments',
-          loadChildren: () => import('app/modules/assignments/assignments.module').then(m => m.AssignmentsModule)
-        },
-
-        {
-          path: 'about',
-          loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
-        },
-        {
-          path: 'component',
-          loadChildren: () => import('./component/component.module').then(m => m.ComponentsModule)
-        },
-        {
-          path: "home", loadChildren: () => import('./assignments/assignments.module').then(m => m.AssignmentsModule)
-        },
-        {
-          path: "add", loadChildren: () => import('./assignments/add-assignment/add-assignment.component').then(m => m.AddAssignmentComponent)
-        },
-        {
-          path: "assignment/:id", loadChildren: () => import('./assignments/assignment-detail/assignment-detail.component').then(m => m.AssignmentDetailComponent)
-        },
-        {
-          path: "assignment/:id/edit", loadChildren: () => import('./assignments/edit-assignment/edit-assignment.component').then(m => m.EditAssignmentComponent)
-        },
+      {
+        path: 'assignments',
+        component:AssignmentsComponent,
+        loadChildren: () => import('app/modules/assignments/assignments.module').then(m => m.AssignmentsModule)
+      },
+      {
+        path: 'other',
+        children: [
+          {
+            path: 'dashboard',
+            loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+          },
+          {
+            path: 'about',
+            loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
+          },
+          {
+            path: 'component',
+            loadChildren: () => import('./component/component.module').then(m => m.ComponentsModule)
+          },
+          {
+            path: "home", loadChildren: () => import('./assignments/assignments.module').then(m => m.AssignmentsModule)
+          },
+          {
+            path: "add", loadChildren: () => import('./assignments/add-assignment/add-assignment.component').then(m => m.AddAssignmentComponent)
+          },
+          {
+            path: "assignment/:id", loadChildren: () => import('./assignments/assignment-detail/assignment-detail.component').then(m => m.AssignmentDetailComponent)
+          },
+          {
+            path: "assignment/:id/edit", loadChildren: () => import('./assignments/edit-assignment/edit-assignment.component').then(m => m.EditAssignmentComponent)
+          },
+        ]
+      }
     ]
   },
   {

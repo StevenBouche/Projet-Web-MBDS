@@ -7,7 +7,7 @@ import {
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, ExtraOptions, PreloadAllModules } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -52,6 +52,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   minScrollbarLength: 20
 };
 
+const routerConfig: ExtraOptions = {
+  scrollPositionRestoration: 'enabled',
+  preloadingStrategy       : PreloadAllModules
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,6 +68,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EditAssignmentComponent
   ],
   imports: [
+    RouterModule.forRoot(Approutes, routerConfig),
     BrowserAnimationsModule,
     BrowserModule,
     CommonModule,
@@ -79,7 +85,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     // Core module of your application
     CoreModule,
-    RouterModule.forRoot(Approutes, { useHash: false, relativeLinkResolution: 'legacy' }),
+
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-full-width',

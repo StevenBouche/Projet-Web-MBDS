@@ -5,7 +5,7 @@ import { CourseListComponent, } from './list/list.component';
 import { CourseDetailsComponent } from './details/details.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
-import { coursesRoutes } from './courses.routing';
+//import { coursesRoutes } from './courses.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { CoursesRoutingModule } from './courses.routing';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { MatCardModule } from '@angular/material/card';
     EditComponent
   ],
   imports: [
-    RouterModule.forChild(coursesRoutes),
+ //   RouterModule.forChild(coursesRoutes),
     SharedModule,
     RouterModule,
     NgbModule,
@@ -38,7 +39,8 @@ import { MatCardModule } from '@angular/material/card';
     MatInputModule,
     NavcomponentModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    CoursesRoutingModule
   ]
 })
 export class CoursesModule { }
