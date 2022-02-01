@@ -25,6 +25,9 @@ namespace Assignments.Business.Dto.Assignments
         [JsonPropertyName("delivryDate")]
         public DateTime DelivryDate { get; set; }
 
+        [JsonPropertyName("userId")]
+        public int UserId { get; set; }
+
         [JsonPropertyName("courseId")]
         public int CourseId { get; set; }
 

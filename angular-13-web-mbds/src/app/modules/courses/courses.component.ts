@@ -27,7 +27,7 @@ export interface CoursesStateActions {
 export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy {
 
   private courseSelected: Course | null = null
-  private user: UserIdentity | null = null
+
 
   private _title = 'Course'
 
@@ -37,13 +37,13 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
 
   constructor(
     private _coursesService: CoursesService,
-    private _authentificationService: AuthentificationService,
+    _authentificationService: AuthentificationService,
     _stateService: ComponentStateService,
     _router: Router,
     _activatedRoute: ActivatedRoute,
     _ref: ChangeDetectorRef
   ) {
-    super(_stateService, _router, _activatedRoute, _ref)
+    super(_authentificationService, _stateService, _router, _activatedRoute, _ref)
   }
 
   ngOnDestroy(): void {
@@ -55,10 +55,6 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
 
     super.ngOnInit();
 
-    this._authentificationService.identity
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe(user => this.handleUserIdentity(user))
-
     this._coursesService.courseSelected
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(course => this.handleCourseSelected(course))
@@ -68,12 +64,6 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
   private handleCourseSelected(course: Course | null) {
     console.log(course)
     this.courseSelected = course;
-    this.refreshStateActions();
-  }
-
-  private handleUserIdentity(user: UserIdentity | null) {
-    console.log(user)
-    this.user = user;
     this.refreshStateActions();
   }
 

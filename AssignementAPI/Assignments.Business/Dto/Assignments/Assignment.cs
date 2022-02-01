@@ -1,4 +1,5 @@
-﻿using Assignments.DAL.Enumerations;
+﻿using Assignments.Business.Dto.Courses;
+using Assignments.DAL.Enumerations;
 using Assignments.DAL.Models;
 using System.Text.Json.Serialization;
 
@@ -21,8 +22,8 @@ namespace Assignments.Business.Dto.Assignments
         [JsonPropertyName("delivryDate")]
         public DateTime DelivryDate { get; set; }
 
-        [JsonPropertyName("courseId")]
-        public int? CourseId { get; set; }
+        [JsonPropertyName("course")]
+        public Course Course { get; set; }
 
         public Assignment()
         {

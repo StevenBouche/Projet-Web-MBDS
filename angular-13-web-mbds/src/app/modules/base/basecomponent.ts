@@ -1,5 +1,7 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { UserIdentity } from "app/core/authentification/auth.types";
+import { AuthentificationService } from "app/core/authentification/authentification.service";
 import { ComponentStateService } from "app/core/componentstate/componentstate.service";
 import { ComponentState, ComponentStateActions } from "app/core/componentstate/componentstate.types";
 import { Subject, takeUntil } from "rxjs";
@@ -19,12 +21,15 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
   public stateActions: ComponentStateActions | null = null
   public title : string | null = null;
 
+  protected user: UserIdentity | null = null
+
   get state() { return this._state; }
   set state(value) {
     this._stateService.setState(value)
   }
 
   constructor(
+    protected _authentificationService: AuthentificationService,
     protected _stateService: ComponentStateService,
     protected _router: Router,
     protected _activatedRoute: ActivatedRoute,
@@ -38,6 +43,11 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
   }
 
   ngOnInit(): void {
+
+    this._authentificationService.identity
+    .pipe(takeUntil(this._unsubscribeAll))
+    .subscribe(user => this.handleUserIdentity(user))
+
     this._stateService.state
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(state => this.onStateChange(state))
@@ -82,6 +92,12 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
     this.stateActions = handleStateAction;
   }
 
+  private handleUserIdentity(user: UserIdentity | null) {
+    console.log(user)
+    this.user = user;
+    this.refreshStateActions();
+  }
+
   private onStateChange(state: ComponentState | null) {
 
     switch (state) {
@@ -99,7 +115,7 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
 
     this.refreshStateActions();
     this.title = this.handleTitle();
-    
+
   }
 
   private handleTitle() : string {

@@ -9,30 +9,30 @@
             [src]="sourceImageCourse(assignment.coursePictureId)"
             alt="Card image cap"
           />
-          <div  class="flex flex-row w-full">
+          <div class="flex flex-row w-full">
             <mat-label>Title : </mat-label>
             <div>
-              {{ assignment.courseName }}
+              {{ assignment.course.name }}
             </div>
           </div>
 
           <div class="flex flex-row w-full">
             <mat-label>Description : </mat-label>
             <div class="overflow-y-auto break-words">
-              {{ assignment.courseDescription }}
+              {{ assignment.course.description }}
             </div>
           </div>
         </mat-card-content>
         <mat-card-actions>
           <button
-              class="ml-4"
-              mat-flat-button
-              [color]="'primary'"
-              (click)="detailsCourse(assignment.courseId)"
-            >
-              <mat-icon>visibility</mat-icon>
-              <span class="ml-2 mr-1">Details</span>
-            </button>
+            class="ml-4"
+            mat-flat-button
+            [color]="'primary'"
+            (click)="detailsCourse(assignment.courseId)"
+          >
+            <mat-icon>visibility</mat-icon>
+            <span class="ml-2 mr-1">Details</span>
+          </button>
         </mat-card-actions>
       </mat-card>
     </div>
@@ -47,14 +47,26 @@
             </div>
           </div>
           <div class="flex flex-row w-full">
-            <mat-label>State : </mat-label>
+            <mat-label>State :</mat-label>
             <div>
               {{ assignment.stateLabel }}
             </div>
           </div>
           <div class="flex flex-row w-full">
+            <mat-label>Is Open : </mat-label>
+            <div>
+              <mat-slide-toggle
+                [color]="'primary'"
+                [checked]="assignment.state === 0"
+                [disabled]="user.id != assignment.userId || loadingState"
+                (change)="changeState($event)"
+              >
+              </mat-slide-toggle>
+            </div>
+          </div>
+          <div class="flex flex-row w-full">
             <mat-label>Delivery date : </mat-label>
-            <div >
+            <div>
               {{ assignment.delivryDate }}
             </div>
           </div>
@@ -64,9 +76,7 @@
     <div class="col-md-12">
       <mat-card class="details-card">
         <mat-card-title>Works</mat-card-title>
-        <mat-card-content>
-          
-        </mat-card-content>
+        <mat-card-content> </mat-card-content>
       </mat-card>
     </div>
   </div>

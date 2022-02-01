@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthentificationService } from 'app/core/authentification/authentification.service';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import BaseComponent, { NavigationAction } from '../base/basecomponent';
@@ -19,12 +20,13 @@ export class WorkComponent extends BaseComponent implements OnInit {
   }
 
   constructor(
+    _authentificationService: AuthentificationService,
     _stateService: ComponentStateService,
     _router: Router,
     _activatedRoute: ActivatedRoute,
     _ref: ChangeDetectorRef
     ) {
-      super(_stateService, _router, _activatedRoute, _ref)
+      super(_authentificationService, _stateService, _router, _activatedRoute, _ref)
     }
 
   ngOnInit(): void {

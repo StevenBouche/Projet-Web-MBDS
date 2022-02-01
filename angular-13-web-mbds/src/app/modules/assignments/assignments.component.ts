@@ -8,6 +8,7 @@ import BaseComponent, { NavigationAction } from '../base/basecomponent';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { filter, takeUntil } from 'rxjs';
 import { AssignmentsService } from 'app/core/assignments/assignments.service';
+import { AuthentificationService } from 'app/core/authentification/authentification.service';
 
 @Component({
   selector: 'app-assignments',
@@ -28,12 +29,13 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
 
   constructor(
     private _assignmentsService: AssignmentsService,
+    _authentificationService: AuthentificationService,
     _stateService: ComponentStateService,
     _router: Router,
     _activatedRoute: ActivatedRoute,
     _ref: ChangeDetectorRef
   ) {
-    super(_stateService, _router, _activatedRoute, _ref)
+    super(_authentificationService,_stateService, _router, _activatedRoute, _ref)
   }
 
   ngOnDestroy(): void {
@@ -83,6 +85,11 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
 
     if (!this.stateActions) return;
 
+    const isOwner = this._assignmentsService.isOwnerOf(this.user, this.assignmentSelected);
+    const assignmentIsClose = this.assignmentSelected != null && this.assignmentSelected.state === 1;
+
+    console.log(this.user, this.assignmentSelected)
+    console.log(isOwner)
     this.stateActions.back.view = this.state != ComponentState.None && this.state != ComponentState.List;
     this.stateActions.back.disabled = !this.stateActions.back.view;
 
@@ -90,10 +97,10 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
     this.stateActions.create.disabled = false;
 
     this.stateActions.details.view = this.state === ComponentState.List;
-    this.stateActions.details.disabled = this.assignmentSelected === null;
+    this.stateActions.details.disabled = this.assignmentSelected === null ;
 
     this.stateActions.update.view = this.state === ComponentState.List || this.state === ComponentState.Details;
-    this.stateActions.update.disabled = this.assignmentSelected === null;
+    this.stateActions.update.disabled = !isOwner || assignmentIsClose;
 
     this.stateActions.delete.view = false;
     this.stateActions.delete.disabled = this.assignmentSelected === null;

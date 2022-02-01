@@ -19,13 +19,6 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-//assigments
-import { AssignmentsComponent } from './assignments/assignments.component';
-import { RenduDirective } from './shared/rendu.directive';
-import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
-import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
-import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
-
 //material
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -61,11 +54,6 @@ const routerConfig: ExtraOptions = {
   declarations: [
     AppComponent,
     SpinnerComponent,
-    AssignmentsComponent,
-    RenduDirective,
-    AssignmentDetailComponent,
-    AddAssignmentComponent,
-    EditAssignmentComponent
   ],
   imports: [
     RouterModule.forRoot(Approutes, routerConfig),

@@ -1,10 +1,12 @@
+import { Course } from "../courses/courses.type";
+
 export interface Assignment {
   id: number;
   label: string;
   state: number;
   stateLabel: string
   delivryDate: Date;
-  courseId: number;
+  course: Course;
 }
 
 export interface AssignmentFormCreate {
@@ -20,16 +22,4 @@ export interface AssignmentFormUpdate {
   state: number;
   delivryDate: Date;
   courseId: number;
-}
-
-export interface AssignmentDetails {
-  id: number;
-  label: string;
-  state: number;
-  stateLabel: string;
-  delivryDate: Date;
-  courseId: number;
-  courseName: string;
-  courseDescription: string;
-  coursePictureId: number;
 }

@@ -19,6 +19,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module';
 import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ RouterModule.forChild(AssignmentsRoutes),
     MatDatepickerModule,
     MatProgressSpinnerModule,
     NavcomponentModule,
-    MatCardModule
+    MatCardModule,
+    MatSlideToggleModule
   ]
 })
 export class AssignmentsModule { }

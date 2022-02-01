@@ -33,10 +33,10 @@ namespace Assignments.Business.Services.Assignments
             return entity.ToAssignment();
         }
 
-        public async Task<AssignmentDetails> GetAssignmentDetailsByIdAsync(int? id)
+        public async Task<Assignment> GetAssignmentDetailsByIdAsync(int? id)
         {
             var entity = await VerifyAndGetEntity(id);
-            return entity.ToAssignmentDetails();
+            return entity.ToAssignment();
         }
 
         public async Task<PaginationResult<Assignment>> GetAllAssignmentsAsync(PaginationForm form)

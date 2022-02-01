@@ -2,12 +2,13 @@ import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { AssignmentsService } from "app/core/assignments/assignments.service";
 import { AuthentificationService } from "app/core/authentification/authentification.service";
+
 import { first, forkJoin, map, Observable, take } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssignmentDetailsResolver implements Resolve<any>
+export class AssignmentEditResolver implements Resolve<any>
 {
   /**
    * Constructor
@@ -33,7 +34,7 @@ export class AssignmentDetailsResolver implements Resolve<any>
       this._authservice.identity.pipe(take(1))
     ]).pipe(
       map(resp => {
-        return { assignment: resp[0], user: resp[1] }
+        return { assignment: resp[0]}
       }
     ));
   }

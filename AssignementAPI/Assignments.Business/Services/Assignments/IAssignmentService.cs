@@ -11,7 +11,7 @@ namespace Assignments.Business.Services.Assignments
     {
         Task<Assignment> GetAssignmentByIdAsync(int? id);
 
-        Task<AssignmentDetails> GetAssignmentDetailsByIdAsync(int? id);
+        Task<Assignment> GetAssignmentDetailsByIdAsync(int? id);
 
         Task<Assignment> UpdateAssignmentAsync(AssignmentForm form);
 

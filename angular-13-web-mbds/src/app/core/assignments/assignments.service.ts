@@ -7,11 +7,11 @@ import { ApiService } from "app/core/api/api.service";
 import { PaginationForm, PaginationResult } from "../api/api.types";
 import {
   Assignment,
-  AssignmentDetails,
   AssignmentFormCreate,
   AssignmentFormUpdate,
 } from "./assignments.type";
 import { BehaviorSubject, Observable } from "rxjs";
+import { User } from "../users/users.types";
 
 @Injectable({
   providedIn: "root",
@@ -61,16 +61,8 @@ export class AssignmentsService extends ApiService {
     this._assignmentSelected.next(this.store.assignmentSelected);
   }
 
-  public setAssignmentDetailsSelected(assignment: AssignmentDetails | null) {
-    const res = assignment ? {
-      id: assignment.id,
-      label: assignment.label,
-      state: assignment.state,
-      stateLabel: assignment.stateLabel,
-      delivryDate: assignment.delivryDate,
-      courseId: assignment.courseId
-    } : null;
-    this._assignmentSelected.next(res);
+  public setAssignmentDetailsSelected(assignment: Assignment | null) {
+    this._assignmentSelected.next(assignment);
   }
 
   public async createAsync(form: AssignmentFormCreate): Promise<Assignment> {
@@ -93,8 +85,8 @@ export class AssignmentsService extends ApiService {
     );
   }
 
-  public getAssignmentDetails(id: number): Observable<AssignmentDetails>{
-    return this.http.get<AssignmentDetails>(
+  public getAssignmentDetails(id: number): Observable<Assignment>{
+    return this.http.get<Assignment>(
       `${this.baseUrl}/assignments/${id}/details`
     );
   }
@@ -123,4 +115,15 @@ export class AssignmentsService extends ApiService {
       form
     );
   }
+
+  public async changeStateAssignment(id: number, state: boolean){
+    const method = state ? 'open' : 'close';
+    return this.executePutAsync<any, Assignment>(
+      `${this.baseUrl}/assignments/${method}/${id}`,
+      { id: id }
+    );
+  }
+
+  public isOwnerOf(user: User | null, ass: Assignment | null) : boolean{
+    return user != null && ass != null && user.id === ass.course.user.id }
 }

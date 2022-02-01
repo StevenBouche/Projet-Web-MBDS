@@ -36,7 +36,7 @@ namespace Assignments.API.Controllers
 
         [HttpGet("{id}/details")]
         [ProducesResponseType(typeof(AssignmentDetails), 200)]
-        public async Task<ActionResult<AssignmentDetails>> GetDetails(int id)
+        public async Task<ActionResult<Assignment>> GetDetails(int id)
         {
             return await TryExecuteAsync<ActionResult>(async () =>
             {
