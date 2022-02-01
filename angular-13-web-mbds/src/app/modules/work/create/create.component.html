@@ -18,6 +18,30 @@
             />
           </mat-form-field>
         </div>
+
+        <!-- CourseId -->
+
+        <mat-form-field class="fuse-mat-no-subscript w-full">
+          <mat-label>Filter assignments by course</mat-label>
+          <input
+            type="text"
+            name="SelectCourse"
+            matInput
+            placeholder="Enter course's name"
+            [formControl]="searchCourseControl"
+            [matAutocomplete]="autoCourse"
+            [spellcheck]="false"
+          />
+          <mat-autocomplete
+            #autoCourse="matAutocomplete"
+            [displayWith]="getOptionCourseText"
+            (optionSelected)="updateMyCourse($event.option.value)"
+          >
+            <mat-option *ngFor="let option of courses" [value]="option">
+              {{ option.name }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
         <!-- AssignmentId -->
 
         <mat-form-field class="fuse-mat-no-subscript w-full">
@@ -28,14 +52,14 @@
             matInput
             required
             placeholder="Enter assignment's name"
-            [formControl]="searchInputControl"
-            [matAutocomplete]="auto"
+            [formControl]="searchAssignmentControl"
+            [matAutocomplete]="autoAssignment"
             [spellcheck]="false"
           />
           <mat-autocomplete
-            #auto="matAutocomplete"
-            [displayWith]="getOptionText"
-            (optionSelected)="updateMySelection($event.option.value)"
+            #autoAssignment="matAutocomplete"
+            [displayWith]="getOptionAssignmentText"
+            (optionSelected)="updateMyAssignment($event.option.value)"
           >
             <mat-option *ngFor="let option of assignments" [value]="option">
               {{ option.label }}
@@ -44,7 +68,7 @@
           <mat-error *ngIf="form.get('assignmentId')?.hasError('required')">
             Please select an existing assignment
           </mat-error>
-          <mat-error *ngIf="searchInputControl.hasError('required')">
+          <mat-error *ngIf="searchAssignmentControl.hasError('required')">
             This is <strong>required</strong>
           </mat-error>
         </mat-form-field>
@@ -52,10 +76,11 @@
           class="flex flex-col gt-xs:flex-row gt-xs:items-baseline"
           *ngIf="selectedAssignment"
         >
-          <span class="text-grey-500"
-            >( {{ selectedAssignment.name }} :
-            {{ selectedAssignment.id }})</span
-          >
+          <span class="text-grey-500">
+            Assignment {{ selectedAssignment.label }} :
+            {{ selectedAssignment.id }}</span>
+            <span *ngIf="selectedCourse"> link to {{ selectedCourse.name }} :
+              {{ selectedCourse.id }} course</span>
         </div>
         <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
           <mat-form-field class="fuse-mat-textarea flex-auto">
