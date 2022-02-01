@@ -58,7 +58,7 @@
               <mat-slide-toggle
                 [color]="'primary'"
                 [checked]="assignment.state === 0"
-                [disabled]="user.id != assignment.userId || loadingState"
+                [disabled]="user.id != assignment.course.user.id || loadingState"
                 (change)="changeState($event)"
               >
               </mat-slide-toggle>

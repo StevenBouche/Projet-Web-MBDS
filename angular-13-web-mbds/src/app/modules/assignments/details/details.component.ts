@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AssignmentsService } from 'app/core/assignments/assignments.service';
 import { Assignment } from 'app/core/assignments/assignments.type';
 import { UserIdentity } from 'app/core/authentification/auth.types';
+import { AuthorizeService } from 'app/core/authorize/authorize.service';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { environment } from 'environments/environment';
@@ -19,10 +20,15 @@ export class AssignmentDetailsComponent implements OnInit {
   public user: UserIdentity | null = null;
   public loadingState = false;
 
+  get canEditAssignmentState() {
+    return this._authorizeService.canEditAssignmentState(this.assignment) || this.loadingState;
+  }
+
   constructor(
     private _stateService: ComponentStateService,
     private _route: ActivatedRoute,
-    private _service: AssignmentsService
+    private _service: AssignmentsService,
+    private _authorizeService: AuthorizeService
     ) {
     }
 

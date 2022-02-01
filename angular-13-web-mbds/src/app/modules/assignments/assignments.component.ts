@@ -9,6 +9,7 @@ import { ComponentStateService } from 'app/core/componentstate/componentstate.se
 import { filter, takeUntil } from 'rxjs';
 import { AssignmentsService } from 'app/core/assignments/assignments.service';
 import { AuthentificationService } from 'app/core/authentification/authentification.service';
+import { IdentityService } from 'app/core/identity/identity.service';
 
 @Component({
   selector: 'app-assignments',
@@ -29,13 +30,13 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
 
   constructor(
     private _assignmentsService: AssignmentsService,
-    _authentificationService: AuthentificationService,
+    _identityService: IdentityService,
     _stateService: ComponentStateService,
     _router: Router,
     _activatedRoute: ActivatedRoute,
     _ref: ChangeDetectorRef
   ) {
-    super(_authentificationService,_stateService, _router, _activatedRoute, _ref)
+    super(_identityService,_stateService, _router, _activatedRoute, _ref)
   }
 
   ngOnDestroy(): void {
@@ -86,6 +87,8 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
 
     const isOwner = this._assignmentsService.isOwnerOf(this.user, this.assignmentSelected);
     const assignmentIsClose = this.assignmentSelected != null && this.assignmentSelected.state === 1;
+
+    console.log(isOwner, assignmentIsClose)
 
     this.stateActions.back.view = this.state != ComponentState.None && this.state != ComponentState.List;
     this.stateActions.back.disabled = !this.stateActions.back.view;

@@ -44,7 +44,6 @@ export class FullComponent implements OnInit {
         }
       }
     });
-
   }
 
   @HostListener("window:resize", ["$event"])

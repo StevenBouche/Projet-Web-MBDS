@@ -4,6 +4,7 @@ import { UserIdentity } from "app/core/authentification/auth.types";
 import { AuthentificationService } from "app/core/authentification/authentification.service";
 import { ComponentStateService } from "app/core/componentstate/componentstate.service";
 import { ComponentState, ComponentStateActions } from "app/core/componentstate/componentstate.types";
+import { IdentityService } from "app/core/identity/identity.service";
 import { Subject, takeUntil } from "rxjs";
 
 export interface NavigationAction{
@@ -29,7 +30,7 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
   }
 
   constructor(
-    protected _authentificationService: AuthentificationService,
+    protected _identityService: IdentityService,
     protected _stateService: ComponentStateService,
     protected _router: Router,
     protected _activatedRoute: ActivatedRoute,
@@ -44,7 +45,7 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
 
   ngOnInit(): void {
 
-    this._authentificationService.identity
+    this._identityService.identity
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe(user => this.handleUserIdentity(user))
 

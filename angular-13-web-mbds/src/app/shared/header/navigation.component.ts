@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserIdentity } from 'app/core/authentification/auth.types';
-import { AuthentificationService } from 'app/core/authentification/authentification.service';
+import { IdentityService } from 'app/core/identity/identity.service';
 import { UsersService } from 'app/core/users/users.service';
 import { Subscription } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
 
   constructor(
     private _router: Router,
-    private _authService: AuthentificationService,
+    private _identityService: IdentityService,
     private _userService: UsersService,
   ) {
   }
@@ -32,7 +32,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscription$ = this._authService.identity.subscribe(user => this.user = user);
+    this.subscription$ = this._identityService.identity.subscribe(user => this.user = user);
   }
 
   public signOut(): void

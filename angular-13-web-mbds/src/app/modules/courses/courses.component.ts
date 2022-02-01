@@ -7,6 +7,7 @@ import { ComponentStateService } from 'app/core/componentstate/componentstate.se
 import { ComponentState, ComponentStateActions, StateAction } from 'app/core/componentstate/componentstate.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
+import { IdentityService } from 'app/core/identity/identity.service';
 import { retryWhen, Subject, takeUntil } from 'rxjs';
 import BaseComponent, { NavigationAction } from '../base/basecomponent';
 
@@ -37,13 +38,13 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
 
   constructor(
     private _coursesService: CoursesService,
-    _authentificationService: AuthentificationService,
+    _identityService: IdentityService,
     _stateService: ComponentStateService,
     _router: Router,
     _activatedRoute: ActivatedRoute,
     _ref: ChangeDetectorRef
   ) {
-    super(_authentificationService, _stateService, _router, _activatedRoute, _ref)
+    super(_identityService, _stateService, _router, _activatedRoute, _ref)
   }
 
   ngOnDestroy(): void {

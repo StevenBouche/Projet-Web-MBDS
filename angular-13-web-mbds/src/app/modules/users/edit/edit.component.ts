@@ -10,6 +10,7 @@ import { ToastrService } from "ngx-toastr";
 import { UserIdentity } from "app/core/authentification/auth.types";
 import { Subscription } from "rxjs";
 import { AuthentificationService } from "app/core/authentification/authentification.service";
+import { IdentityService } from "app/core/identity/identity.service";
 
 @Component({
   selector: "app-user-edit",
@@ -33,9 +34,8 @@ export class EditComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _usersService: UsersService,
+    private _identityService: IdentityService,
     private _authService: AuthentificationService,
-    private _stateService: ComponentStateService,
-    private _route: ActivatedRoute,
     private toast: ToastrService
   ) {
     this.form = this._formBuilder.group({
@@ -47,7 +47,7 @@ export class EditComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.subscription$ = this._authService.identity.subscribe(
+    this.subscription$ = this._identityService.identity.subscribe(
       (user) => (this.user = user)
     );
     this.form.patchValue({

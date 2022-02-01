@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthentificationService } from 'app/core/authentification/authentification.service';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
+import { IdentityService } from 'app/core/identity/identity.service';
 import BaseComponent, { NavigationAction } from '../base/basecomponent';
 
 @Component({
@@ -20,13 +21,13 @@ export class WorkComponent extends BaseComponent implements OnInit {
   }
 
   constructor(
-    _authentificationService: AuthentificationService,
+    _identityService: IdentityService,
     _stateService: ComponentStateService,
     _router: Router,
     _activatedRoute: ActivatedRoute,
     _ref: ChangeDetectorRef
     ) {
-      super(_authentificationService, _stateService, _router, _activatedRoute, _ref)
+      super(_identityService, _stateService, _router, _activatedRoute, _ref)
     }
 
   ngOnInit(): void {

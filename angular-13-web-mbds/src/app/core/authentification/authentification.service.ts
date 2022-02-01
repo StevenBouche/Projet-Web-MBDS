@@ -9,31 +9,30 @@ import { Router } from "@angular/router";
 import { tap } from "rxjs/operators";
 import { ApiService } from "../api/api.service";
 import { LoginForm, LoginResult, UserIdentity } from "./auth.types";
+import { IdentityService } from "../identity/identity.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthentificationService extends ApiService {
+
   private store: {
     isAuth: boolean;
-    identity: UserIdentity | null;
   } = {
     isAuth: false,
-    identity: null,
   };
 
   private _isAuth = new BehaviorSubject<boolean>(this.store.isAuth);
-  private _identity = new BehaviorSubject<UserIdentity | null>(
-    this.store.identity
-  );
-
   readonly isAuth = this._isAuth.asObservable();
-  readonly identity = this._identity.asObservable();
 
   private readonly keyStorage = "token";
   private readonly serviceName = "Authentification";
 
-  constructor(http: HttpClient, toast: ToastrService, private router: Router) {
+  constructor(
+    private _identityService: IdentityService,
+    http: HttpClient,
+    toast: ToastrService,
+    ) {
     super(http, toast);
   }
 
@@ -80,8 +79,7 @@ export class AuthentificationService extends ApiService {
 
   public logout(): void {
     this.removeLocalStorage(this.keyStorage);
-    this.store.identity = null;
-    this._identity.next(null);
+    this._identityService.setIdentity(null);
   }
 
   public getAuth(): LoginResult | null {
@@ -123,8 +121,7 @@ export class AuthentificationService extends ApiService {
   }
 
   private setIdentity(result: UserIdentity | null): void {
-    this.store.identity = Object.assign({}, result);
-    this._identity.next(this.store.identity);
+    this._identityService.setIdentity(Object.assign({}, result));
     this.setIsAuth(result !== undefined && result !== null);
   }
 
@@ -171,7 +168,8 @@ export class AuthentificationService extends ApiService {
 
     //if jwt token exist and expiration is valid
     if (auth.jwtToken.expireAt > currentTime) {
-      if (this.store.identity === undefined || this.store.identity === null) {
+      const identity = this._identityService.getIdentity();
+      if (identity === undefined || identity === null) {
         await this.getIdentityAsync();
       }
       return true;
