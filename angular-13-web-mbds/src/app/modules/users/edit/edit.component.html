@@ -18,6 +18,19 @@
           </mat-form-field>
         </div>
 
+        <div>
+          <mat-form-field class="fuse-mat-no-subscript w-full disabled">
+            <mat-label>Role</mat-label>
+            <input
+              matInput
+              name="role"
+              [formControlName]="'role'"
+              [placeholder]="'Role'"
+              [spellcheck]="false"
+            />
+          </mat-form-field>
+        </div>
+
         <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
           <mat-form-field class="fuse-mat-textarea flex-auto">
             <mat-label>Password</mat-label>
@@ -61,6 +74,16 @@
           </div>
         </ng-container>
 
+        <ng-container *ngIf="image == null">
+          <div class="mx-auto max-w-sm rounded overflow-hidden shadow-lg">
+            <img
+              class="w-full"
+              [src]="sourceImageUser(user.id, user.pictureId)"
+              alt="userImage"
+            />
+          </div>
+        </ng-container>
+
         <div class="flex flex-col items-center mt-4 mb-4 sm:mt-0 md:mt-4">
           <button
             type="button"
@@ -79,7 +102,6 @@
               style="display: none"
             />
           </button>
-          <mat-error *ngIf="image === null">Image is required </mat-error>
         </div>
       </div>
     </div>
