@@ -25,7 +25,7 @@ export class EditComponent implements OnInit {
   private subscription$?: Subscription | null;
 
   get canUpdate() {
-    return this.form.invalid || this.image === null || this.form.disabled;
+    return this.form.invalid || this.form.disabled;
   }
 
   hide = true;
@@ -40,9 +40,10 @@ export class EditComponent implements OnInit {
   ) {
     this.form = this._formBuilder.group({
       name: [""],
+      role: [""],
       password: ["", [Validators.required]],
     });
-    this.form.controls['name'].disable()
+    this.form.controls["name"].disable(), this.form.controls["role"].disable();
   }
 
   async ngOnInit(): Promise<void> {
@@ -53,6 +54,7 @@ export class EditComponent implements OnInit {
 
     this.form.patchValue({
       name: this.user?.name,
+      role: this.user?.role,
     });
   }
 
@@ -63,20 +65,32 @@ export class EditComponent implements OnInit {
 
     try {
       const user = this.form.getRawValue();
+      user.id = this.user?.id;
       const userUpdated = await this._usersService.updateAsync(user);
       this.toast.success("User is updated");
-      if (this.image) {
+      if (this.image?.buffer) {
         this._usersService.uploadPicture(
           this.image!.file,
-          (progress: ProgressUpload) => {
+          async (progress: ProgressUpload) => {
             this.progress = progress;
             if (progress.value === 100) this.toast.success("Image is uploaded");
+            await this._authService.getIdentityAsync();
             this.form.enable();
+            this.form.controls["name"].disable(),
+            this.form.controls["role"].disable();
           }
         );
+      } else {
+        await this._authService.getIdentityAsync();
+        this.form.enable();
+        this.form.controls["name"].disable(),
+        this.form.controls["role"].disable();
       }
     } catch (error) {
       this.form.enable();
+      this.form.controls["name"].disable(),
+      this.form.controls["role"].disable();
+
     }
     /*this.advertPicture,
     (progress: ProgressUpload) => this.updateProgressUpload(progress)*/
@@ -93,5 +107,9 @@ export class EditComponent implements OnInit {
         this.progress = { value: 0, filename: file.name };
       }
     }
+  }
+
+  public sourceImageUser(userId: number, pictureId: number | null) {
+    return this._usersService.sourceImageUser(userId, pictureId);
   }
 }

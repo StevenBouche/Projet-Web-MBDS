@@ -9,6 +9,7 @@ export interface User
 export interface UserFormUpdate {
   id: number;
   name: string;
+  password?: string;
   pictureId: number;
 }
 
