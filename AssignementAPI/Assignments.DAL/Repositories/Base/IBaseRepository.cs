@@ -39,5 +39,7 @@ namespace Assignments.DAL.Repositories.Base
         Task<bool> UpdateAsync(T entity);
 
         IEnumerable<T> FilterByCriteria(Func<T, bool> predicate);
+
+        void LooadChildren<K>(T entity, Expression<Func<T, K?>> propertyExpression) where K : class;
     }
 }

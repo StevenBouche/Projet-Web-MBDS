@@ -23,7 +23,7 @@ namespace Assignments.Business.Dto.Assignments
         public DateTime DelivryDate { get; set; }
 
         [JsonPropertyName("course")]
-        public Course Course { get; set; }
+        public Course? Course { get; set; }
 
         public Assignment()
         {

@@ -71,6 +71,10 @@ namespace Assignments.Business.Services.WorkSubmits
                 AssignmentId = form.AssignmentId,
                 State = WorkSubmitState.CREATED
             });
+
+            Repository.LooadChildren(entity, e => e.Assignment);
+            Repository.LooadChildren(entity, e => e.User);
+
             return entity.ToWorkSubmit();
         }
 

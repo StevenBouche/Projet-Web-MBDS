@@ -104,6 +104,9 @@ namespace Assignments.Business.Services.Assignments
                 State = DAL.Enumerations.AssignmentState.OPEN,
                 CourseId = form.CourseId
             });
+
+            Repository.LooadChildren(entity, e => e.Course);
+
             return entity.ToAssignment();
         }
 

@@ -42,6 +42,9 @@ namespace Assignments.Business.Services.Courses
                 Description = form.Description,
                 UserId = Identity.Id
             });
+
+            Repository.LooadChildren(entity, e => e.User);
+
             return entity.ToCourse();
         }
 

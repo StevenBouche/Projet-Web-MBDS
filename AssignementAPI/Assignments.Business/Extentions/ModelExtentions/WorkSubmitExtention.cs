@@ -15,8 +15,8 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 Comment = entity.Comment,
                 Description = entity.Description,
                 State = entity.State,
-                AssignmentId = entity.AssignmentId,
-                UserId = entity.UserId
+                Assignment = entity.Assignment?.ToAssignment(),
+                User = entity.User?.ToUser()
             };
         }
     }

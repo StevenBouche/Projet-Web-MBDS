@@ -13,7 +13,7 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 State = entity.State,
                 DelivryDate = entity.DelivryDate,
                 Label = entity.Label,
-                Course = entity.Course.ToCourse(),
+                Course = entity.Course?.ToCourse(),
             };
         }
     }

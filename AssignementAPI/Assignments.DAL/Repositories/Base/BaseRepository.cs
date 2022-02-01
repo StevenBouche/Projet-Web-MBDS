@@ -49,6 +49,11 @@ namespace Assignments.DAL.Repositories.Base
             return entity;
         }
 
+        public void LooadChildren<K>(T entity, Expression<Func<T, K?>> propertyExpression) where K : class
+        {
+            Context.Entry(entity).Reference(propertyExpression).Load();
+        }
+
         public async Task<IEnumerable<T>> AddRange(IEnumerable<T> entities)
         {
             await DbSet.AddRangeAsync(entities);
