@@ -7,6 +7,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { EmptyLayoutComponent } from './layouts/empty/empty.component';
 import { CoursesComponent } from './modules/courses/courses.component';
 import { AssignmentsComponent } from './modules/assignments/assignments.component';
+import { UsersComponent } from './modules/users/users.component';
 
 export const Approutes: Routes = [
 
@@ -50,11 +51,17 @@ export const Approutes: Routes = [
     component: FullComponent,
     children: [
       { path: 'courses', pathMatch: 'full', redirectTo: 'courses/list'},
+      { path: 'user', pathMatch: 'full', redirectTo: 'users/edit'},
       { path: 'assignments', pathMatch: 'full', redirectTo: 'assignments/list'},
       {
         path: 'courses',
         component: CoursesComponent,
         loadChildren: () => import('app/modules/courses/courses.module').then(m => m.CoursesModule)
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        loadChildren: () => import('app/modules/users/users.module').then(m => m.UsersModule)
       },
       {
         path: 'assignments',
@@ -64,10 +71,6 @@ export const Approutes: Routes = [
       {
         path: 'other',
         children: [
-          {
-            path: 'dashboard',
-            loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
-          },
           {
             path: 'about',
             loadChildren: () => import('./about/about.module').then(m => m.AboutModule)

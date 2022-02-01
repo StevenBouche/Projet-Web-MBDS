@@ -145,4 +145,5 @@ export class UsersService extends ApiService {
     }
     return userId ? `${this.baseUrl}/userprofilimages/user/${userId}` : 'assets/images/users/user1.jpg';
   }
+
 }
