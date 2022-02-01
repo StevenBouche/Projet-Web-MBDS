@@ -1,6 +1,6 @@
-<div class="flex w-full justify-center">
+<div class="flex w-full justify-center" *ngIf="work">
   <div class="row w-full justify-center">
-    <div class="shadow card col-md-4 p-0 m-0" *ngFor="let item of submitted">
+    <div class="shadow card col-md-4 p-0 m-0">
       <div class="card-header">
         <h4 class="card-title m-0">Work</h4>
       </div>
@@ -14,7 +14,7 @@
               <input
                 type="text"
                 class="form-control"
-                value="{{ item.label }}"
+                value="{{ work.label }}"
               />
             </div>
           </li>
@@ -26,7 +26,7 @@
               <input
                 type="text"
                 class="form-control"
-                value="{{ item.description }}"
+                value="{{ work.description }}"
               />
             </div>
           </li>
@@ -39,7 +39,7 @@
                 disabled
                 type="text"
                 class="form-control"
-                value="{{ item.user.name }}"
+                value="{{ work.user.name }}"
               />
             </div>
           </li>
@@ -52,7 +52,7 @@
                 disabled
                 type="text"
                 class="form-control"
-                value="{{ item.user.comment }}"
+                value="{{ work.user.comment }}"
               />
             </div>
           </li>

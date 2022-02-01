@@ -7,6 +7,7 @@ import {
 import { WorksService } from "app/core/works/works.service";
 import { Assignment } from "app/core/assignments/assignments.type";
 import { Work } from "app/core/works/works.type";
+import { AssignmentsService } from "app/core/assignments/assignments.service";
 
 @Component({
   selector: "app-assignment-work-student",
@@ -16,10 +17,7 @@ import { Work } from "app/core/works/works.type";
 export class WorkStudentComponent implements OnInit {
 
   @Input() assignment: Assignment | null = null;
-  created: Work[] = [];
-  submitted: Work[] = [];
-  evaluated: Work[] = [];
-
+  work: Work | null = null;
 
 
 
@@ -44,15 +42,16 @@ export class WorkStudentComponent implements OnInit {
   constructor(
 
     private _worksService: WorksService,
+    private _assignmentService: AssignmentsService,
+
 
   ) {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log(this.created);
-    let response = await this._worksService.getAllSearchAsync({assignmentId: this.assignment!.id, pagesize: 10, page:1, state: 0});
-    this.submitted = response.results;
-    console.log(this.created);
+    let response = await this._assignmentService.getWorkById(this.assignment!.id);
+    this.work = response;
+    console.log(this.work);
 
     // this.created = response;
     // this.searchInputControl.valueChanges

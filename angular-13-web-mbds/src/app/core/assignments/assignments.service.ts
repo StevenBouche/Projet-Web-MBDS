@@ -14,6 +14,7 @@ import {
 } from "./assignments.type";
 import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "../users/users.types";
+import { Work } from "../works/works.type";
 
 @Injectable({
   providedIn: "root",
@@ -117,6 +118,12 @@ export class AssignmentsService extends ApiService {
     return this.executePostAsync<PaginationForm, PaginationResult<Assignment>>(
       `${this.baseUrl}/assignments/mine`,
       form
+    );
+  }
+
+  public async getWorkById(id: number): Promise<Work> {
+    return this.executeGetAsync<Work>(
+      `${this.baseUrl}/assignments/${id}/work/mine`
     );
   }
 
