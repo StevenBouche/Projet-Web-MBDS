@@ -33,3 +33,13 @@ export interface AssignmentDetails {
   courseDescription: string;
   coursePictureId: number;
 }
+
+
+export interface AssignmentSearchForm {
+  term: string
+}
+
+export interface AssignmentSearchFormResults {
+  term: string;
+  results: Assignment[];
+}
