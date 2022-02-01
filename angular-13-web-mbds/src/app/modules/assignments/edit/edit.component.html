@@ -1,1 +1,51 @@
-<p>edit works!</p>
+<div class="flex border-b">
+  <!-- Selected product form -->
+  <form class="flex flex-col w-full" [formGroup]="form">
+    <div class="flex flex-col sm:flex-row p-8">
+      <!-- Name, SKU & etc. -->
+      <div class="flex flex-col w-full sm:pl-8">
+        <!-- Name -->
+        <div>
+          <mat-form-field class="fuse-mat-no-subscript w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              [formControlName]="'label'"
+              [placeholder]="'Label'"
+              [spellcheck]="false"
+            />
+          </mat-form-field>
+        </div>
+        <!-- CourseId -->
+
+        <!-- Delivery Date -->
+        <mat-form-field appearance="outline">
+          <mat-label>Delivery date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="delivryDate"/>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="form.get('delivryDate')?.hasError('required')">
+            Valid date required.
+         </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between w-full border-t px-8 py-4">
+      <div class="flex items-center">
+        <button
+          mat-flat-button
+          [color]="'primary'"
+          [disabled]="form.invalid"
+          (click)="update()"
+        >
+          Save
+        </button>
+      </div>
+      <mat-progress-spinner mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner>
+    </div>
+  </form>
+</div>

@@ -1,13 +1,12 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
 import { AssignmentsService } from "app/core/assignments/assignments.service";
-import { Course } from "app/core/courses/courses.type";
 import { forkJoin, map, Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AssignmentDetailsResolver implements Resolve<Course>
+export class AssignmentDetailsResolver implements Resolve<any>
 {
   /**
    * Constructor

@@ -61,6 +61,18 @@ export class AssignmentsService extends ApiService {
     this._assignmentSelected.next(this.store.assignmentSelected);
   }
 
+  public setAssignmentDetailsSelected(assignment: AssignmentDetails | null) {
+    const res = assignment ? {
+      id: assignment.id,
+      label: assignment.label,
+      state: assignment.state,
+      stateLabel: assignment.stateLabel,
+      delivryDate: assignment.delivryDate,
+      courseId: assignment.courseId
+    } : null;
+    this._assignmentSelected.next(res);
+  }
+
   public async createAsync(form: AssignmentFormCreate): Promise<Assignment> {
     return this.executePostAsync<AssignmentFormCreate, Assignment>(
       `${this.baseUrl}/assignments`,

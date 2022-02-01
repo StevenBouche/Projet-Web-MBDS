@@ -3,15 +3,70 @@
     <div class="col-md-6">
       <mat-card class="details-card">
         <mat-card-title>Course</mat-card-title>
-        <mat-card-subtitle>{{assignment.courseName}}</mat-card-subtitle>
         <mat-card-content>
-          <p>This card indeterminates progress bar.</p>
-          <p>{{longText}}</p>
+          <img
+            class="object-scale-down h-48 img-responsive"
+            [src]="sourceImageCourse(assignment.coursePictureId)"
+            alt="Card image cap"
+          />
+          <div  class="flex flex-row w-full">
+            <mat-label>Title : </mat-label>
+            <div>
+              {{ assignment.courseName }}
+            </div>
+          </div>
+
+          <div class="flex flex-row w-full">
+            <mat-label>Description : </mat-label>
+            <div class="overflow-y-auto break-words">
+              {{ assignment.courseDescription }}
+            </div>
+          </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>LIKE</button>
-          <button mat-button>SHARE</button>
+          <button
+              class="ml-4"
+              mat-flat-button
+              [color]="'primary'"
+              (click)="detailsCourse(assignment.courseId)"
+            >
+              <mat-icon>visibility</mat-icon>
+              <span class="ml-2 mr-1">Details</span>
+            </button>
         </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="col-md-6">
+      <mat-card class="details-card">
+        <mat-card-title>Assignment</mat-card-title>
+        <mat-card-content>
+          <div class="flex flex-row w-full">
+            <mat-label>Label :</mat-label>
+            <div>
+              {{ assignment.label }}
+            </div>
+          </div>
+          <div class="flex flex-row w-full">
+            <mat-label>State : </mat-label>
+            <div>
+              {{ assignment.stateLabel }}
+            </div>
+          </div>
+          <div class="flex flex-row w-full">
+            <mat-label>Delivery date : </mat-label>
+            <div >
+              {{ assignment.delivryDate }}
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-md-12">
+      <mat-card class="details-card">
+        <mat-card-title>Works</mat-card-title>
+        <mat-card-content>
+          
+        </mat-card-content>
       </mat-card>
     </div>
   </div>
