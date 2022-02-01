@@ -87,13 +87,13 @@ export class AssignmentsService extends ApiService {
     let result = await this.executePostAsync<
       PaginationForm,
       PaginationResult<Assignment>
-    >(`${this.baseUrl}/assignments/mine`, this.store.pagination);
+    >(`${this.baseUrl}/assignments/all`, this.store.pagination);
     this._pagination$.next(result);
   }
 
   public async getAllIsMineAsync(form: PaginationForm) {
     return this.executePostAsync<PaginationForm, PaginationResult<Assignment>>(
-      `${this.baseUrl}/assignments/all`,
+      `${this.baseUrl}/assignments/mine`,
       form
     );
   }

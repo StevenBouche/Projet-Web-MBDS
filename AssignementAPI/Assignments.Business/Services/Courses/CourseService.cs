@@ -117,5 +117,16 @@ namespace Assignments.Business.Services.Courses
             if (entity.UserId != Identity.Id)
                 throw new CourseBusinessException(CourseBusinessExceptionTypes.COURSE_UNAUTHORIZE);
         }
+
+        public async Task<CourseStats> GetStatsAsync(int id)
+        {
+            var entity = await VerifyAndGetEntity(id);
+
+            return new CourseStats()
+            {
+                TotalAssignments = entity.Assignments.Count,
+                TotalWorks = entity.Assignments.Select(assignment => assignment.WorkSubmits.Count).Sum()
+            };
+        }
     }
 }

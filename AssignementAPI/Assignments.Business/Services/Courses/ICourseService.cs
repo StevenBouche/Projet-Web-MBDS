@@ -27,5 +27,6 @@ namespace Assignments.Business.Services.Courses
 
         CoursesSearchResult SearchCourses(CoursesSearchForm form);
         IList<Assignment> GetAllAssignmentCourse(int id);
+        Task<CourseStats> GetStatsAsync(int id);
     }
 }

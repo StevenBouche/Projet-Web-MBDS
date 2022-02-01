@@ -14,6 +14,11 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 Description = entity.Description,
                 PictureId = entity.ImageId,
                 User = entity.User?.ToUser(),
+                Stats = new CourseStats()
+                {
+                    TotalAssignments = entity.Assignments.Count,
+                    TotalWorks = entity.Assignments.Select(assignment => assignment.WorkSubmits.Count).Sum()
+                }
             };
         }
     }

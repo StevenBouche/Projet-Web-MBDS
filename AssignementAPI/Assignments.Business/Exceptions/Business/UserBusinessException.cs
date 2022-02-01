@@ -7,7 +7,9 @@ namespace Assignments.Business.Exceptions.Business
     public enum UserBusinessExceptionTypes
     {
         [Description("User already exist")]
-        USER_ALREADY_EXIST
+        USER_ALREADY_EXIST,
+        [Description("Not authorize action")]
+        USER_UNAUTHORIZE
     }
 
     public class UserBusinessException : BusinessException

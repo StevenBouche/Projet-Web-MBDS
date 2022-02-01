@@ -1,7 +1,9 @@
-﻿using Assignments.Business.Dto.Authentification.Tokens;
+﻿using Assignments.Business.Dto.Authentification;
+using Assignments.Business.Dto.Authentification.Tokens;
 using Assignments.Business.Dto.Authorization;
 using Assignments.Business.Dto.Users;
 using Assignments.Business.Exceptions.Business;
+using Assignments.Business.Extentions.ModelExtentions;
 using Assignments.Business.Services.Base;
 using Assignments.DAL.Enumerations;
 using Assignments.DAL.Models;
@@ -12,8 +14,12 @@ namespace Assignments.Business.Services.Users
 {
     public class UserService : BaseService<UserEntity, IUserRepository>, IUserService
     {
-        public UserService(IUserRepository repository, ILogger<UserService> logger) : base(repository, logger)
+
+        private readonly UserIdentity Identity;
+
+        public UserService(IUserRepository repository, UserIdentity identity, ILogger<UserService> logger) : base(repository, logger)
         {
+            Identity = identity;
         }
 
         public async Task AddPictureId(int id, int id1)
@@ -104,9 +110,30 @@ namespace Assignments.Business.Services.Users
             throw new NotImplementedException();
         }
 
-        public void UpdateUserFromView(User element)
+        public async Task<User?> UpdateUserFromView(UserForm element)
         {
-            throw new NotImplementedException();
+            var entity = await GetEntityAndVerifyOwner(element.Id);
+
+            entity.Password = element.Password;
+
+            await Repository.UpdateAsync(entity);
+
+            return entity.ToUser();
         }
+
+        private async Task<UserEntity> GetEntityAndVerifyOwner(int? id)
+        {
+            var entity = await VerifyAndGetEntity(id);
+            VerifyOwner(entity);
+            return entity;
+        }
+
+        private void VerifyOwner(UserEntity entity)
+        {
+            if (entity.Id != Identity.Id)
+                throw new CourseBusinessException(CourseBusinessExceptionTypes.COURSE_UNAUTHORIZE);
+        }
+
+
     }
 }

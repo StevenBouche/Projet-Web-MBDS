@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { ComponentState, ComponentStateActions, StateAction } from 'app/core/componentstate/componentstate.types';
-import { CoursesStateActions } from '../courses/courses.component';
+import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { User } from 'app/core/users/users.types';
 
 @Component({

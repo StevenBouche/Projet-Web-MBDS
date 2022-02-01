@@ -26,7 +26,6 @@ export class CourseEditResolver implements Resolve<Course>
    */
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any>
   {
-    console.log('resolve')
     let id = route.params['id'];
     return forkJoin([
       this.service.getById(id),

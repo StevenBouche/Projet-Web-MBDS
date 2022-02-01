@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Assignment } from 'app/core/assignments/assignments.type';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
@@ -18,7 +19,7 @@ export class CourseDetailsComponent implements OnInit, OnDestroy {
   public assignmentsCourse: Array<Assignment> = []
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _coursesService: CoursesService, private _stateService: ComponentStateService) { }
+  constructor(private _coursesService: CoursesService, private _stateService: ComponentStateService, private _route: ActivatedRoute,) { }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
@@ -26,7 +27,11 @@ export class CourseDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._coursesService.courseSelected
+
+    this.courseSelected = this._route.snapshot.data.initialData.course;
+    this.assignmentsCourse = this._route.snapshot.data.initialData.assignments;
+
+    /*this._coursesService.courseSelected
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe((course: Course | null) => {
       this.courseSelected = course;
@@ -36,7 +41,7 @@ export class CourseDetailsComponent implements OnInit, OnDestroy {
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe((a: Array<Assignment>) => {
       this.assignmentsCourse = a;
-    })
+    })*/
 
     this._stateService.setState(ComponentState.Details);
   }

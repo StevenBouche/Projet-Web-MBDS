@@ -15,6 +15,9 @@ namespace Assignments.Business.Dto.Assignments
         [JsonPropertyName("state")]
         public AssignmentState State { get; set; }
 
+        [JsonPropertyName("stateLabel")]
+        public string StateLabel { get => this.State.ToString(); }
+
         [JsonPropertyName("delivryDate")]
         public DateTime DelivryDate { get; set; }
 

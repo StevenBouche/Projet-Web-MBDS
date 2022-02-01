@@ -39,41 +39,15 @@ namespace Assignments.API.Controllers
             return Ok(Identity);
         }
 
-        /*  [HttpDelete("{id}")]
-          public ActionResult Delete(string id)
-          {
-              this.Manager.DeleteAccount(id);
-              return Ok();
-          }*/
-
-        /*   [HttpGet("identity")]
-           public ActionResult<AccountView> MyIdentity()
-           {
-               return Ok(this.Manager.GetAccountById(this.Identity.ID).ToAccountView());
-           }
-
-           [HttpGet("{id}")]
-           public ActionResult<AccountView> Get(string id)
-           {
-               if (this.Identity.Role.Equals("ADMIN"))
-                   return Ok(this.Manager.GetAccountById(id).ToAccountView());
-               else return Unauthorized();
-           }
-
-           [HttpGet]
-           public ActionResult<List<AccountView>> Get()
-           {
-               if (this.Identity.Role.Equals("ADMIN"))
-                   return Ok(this.Manager.GetAllAccount().Select(account => account.ToAccountView()).ToList());
-               else return Unauthorized();
-           }
-
-           [HttpPut]
-           public AccountView Put([FromBody] AccountView element)
-           {
-               element.ID = this.Identity.ID;
-               this.Manager.UpdateAccountFromView(element);
-               return element;
-           }*/
+        [HttpPut]
+        [ProducesResponseType(typeof(User), 200)]
+        public async Task<ActionResult> Update([FromBody] UserForm form)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.UpdateCourseAsync(form));
+            }
+            );
+        }
     }
 }

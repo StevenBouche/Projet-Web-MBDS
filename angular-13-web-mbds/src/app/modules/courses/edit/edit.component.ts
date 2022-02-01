@@ -41,10 +41,12 @@ export class EditComponent implements OnInit {
   async ngOnInit(): Promise<void> {
 
     const data: Course = this._route.snapshot.data.initialData.course;
-    const file: File = this._route.snapshot.data.initialData.file;
+    const file: File | null = this._route.snapshot.data.initialData.file;
 
-    const buffer = await getBase64(file);
-    this.image = { file: file, buffer: buffer };
+    if(file){
+      const buffer = await getBase64(file);
+      this.image = { file: file, buffer: buffer };
+    }
 
     console.log(this.image)
 
@@ -53,6 +55,8 @@ export class EditComponent implements OnInit {
       name: data.name,
       description: data.description
     });
+
+    this._stateService.setState(ComponentState.Edit);
   }
 
   async update(): Promise<void> {
@@ -63,8 +67,8 @@ export class EditComponent implements OnInit {
 
     try {
       const course = this.form.getRawValue();
-      const courseCreated = await this._coursesService.createAsync(course);
-      this.toast.success('Course is created');
+      const courseCreated = await this._coursesService.updateAsync(course);
+      this.toast.success('Course is updated');
       this._coursesService.uploadPicture(courseCreated.id, this.image!.file, (progress: ProgressUpload) => {
         this.progress = progress;
         if (progress.value === 100)
@@ -77,6 +81,19 @@ export class EditComponent implements OnInit {
     }
     /*this.advertPicture,
     (progress: ProgressUpload) => this.updateProgressUpload(progress)*/
+  }
+
+  async selectFiles(event: any): Promise<void> {
+    const selected: FileList = event.target.files;
+    let file: File = selected[0];
+    if (file.size > 0) {
+      const mimeType = file.type;
+      if (mimeType.match(/image\/(jpe?g|png|gif|bmp)/) !== null) {
+        const buffer = await getBase64(file);
+        this.image = { file: file, buffer: buffer };
+        this.progress = { value: 0, filename: file.name };
+      }
+    }
   }
 
 }

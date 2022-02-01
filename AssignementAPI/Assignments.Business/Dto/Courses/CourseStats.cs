@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace Assignments.Business.Dto.Courses
 {
     public class CourseStats
     {
-        public int TotalStudents { get; set; }
+        [JsonPropertyName("totalworks")]
+        public int TotalWorks { get; set; }
+        [JsonPropertyName("totalassignments")]
         public int TotalAssignments { get; set; }
     }
 }

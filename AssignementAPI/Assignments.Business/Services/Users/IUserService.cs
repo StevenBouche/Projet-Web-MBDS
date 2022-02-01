@@ -21,7 +21,7 @@ namespace Assignments.Business.Services.Users
 
         UserEntity? GetUserWithUserName(string name);
 
-        void UpdateUserFromView(User element);
+        Task<User?> UpdateUserFromView(UserForm element);
 
         IEnumerable<User> GetAllUserView();
 

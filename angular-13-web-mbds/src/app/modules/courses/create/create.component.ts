@@ -76,7 +76,5 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
     catch (error) {
       this.form.enable();
     }
-    /*this.advertPicture,
-    (progress: ProgressUpload) => this.updateProgressUpload(progress)*/
   }
 }
