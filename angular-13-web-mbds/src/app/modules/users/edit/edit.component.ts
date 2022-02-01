@@ -75,6 +75,7 @@ export class EditComponent implements OnInit {
             this.progress = progress;
             if (progress.value === 100) this.toast.success("Image is uploaded");
             await this._authService.getIdentityAsync();
+            window.location.reload();
             this.form.enable();
             this.form.controls["name"].disable(),
             this.form.controls["role"].disable();

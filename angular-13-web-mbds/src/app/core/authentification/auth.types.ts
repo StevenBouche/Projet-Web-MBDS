@@ -23,6 +23,7 @@ export interface UserIdentity {
   name: string;
   role: string;
   pictureId: number;
+  updatedAt: Date;
 }
 
 

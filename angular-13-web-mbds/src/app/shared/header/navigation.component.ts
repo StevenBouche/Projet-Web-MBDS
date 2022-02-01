@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, OnInit, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserIdentity } from 'app/core/authentification/auth.types';
 import { AuthentificationService } from 'app/core/authentification/authentification.service';
@@ -21,7 +21,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(
     private _router: Router,
     private _authService: AuthentificationService,
-    private _userService: UsersService
+    private _userService: UsersService,
   ) {
   }
 
