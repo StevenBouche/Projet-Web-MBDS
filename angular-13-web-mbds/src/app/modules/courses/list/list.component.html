@@ -1,10 +1,10 @@
 <div class="flex flex-col items-center justify-center">
-
-  <h4 class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800 w-full">
+  <h4
+    class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800 w-full"
+  >
     List
   </h4>
   <div>
-
     <mat-checkbox [formControl]="hideRequiredControl"
       >Hide required marker</mat-checkbox
     >
@@ -21,7 +21,7 @@
   </div>
   <div class="row w-full" *ngIf="paginationResult != null">
     <div
-      class="col-sm-6 col-xl-4"
+      class="col-sm-4"
       *ngFor="let course of paginationResult.results"
       [ngClass]="{
         'border-solid border-2 border-sky-500':
@@ -29,15 +29,27 @@
       }"
       (click)="onClickItem(course)"
     >
-      <div class="card h-256">
+      <div class="card shadow h-256">
         <img
-          class="object-scale-down h-48 img-responsive"
+          class="card-img-top"
           [src]="imageHelper.sourceImageCourse(course.pictureId)"
           alt="Card image cap"
         />
         <div class="card-body flex flex-col">
           <h4 class="card-title">{{ course.name }}</h4>
-          <mat-divider></mat-divider>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <b>Assignments : </b> {{ course.stats.totalassignments }}
+            </li>
+            <li class="list-group-item">
+              <b>Works : </b> {{ course.stats.totalworks }}
+            </li>
+          </ul>
+          <div class="mt-2 card-text h-24 overflow-x-auto">
+            <b>Description : </b> {{ course.description }}
+          </div>
+        </div>
+        <div class="card-footer flex flex-col">
           <div class="flew flex-row mb-2">
             <img
               [src]="imageHelper.sourceImageUser(course.user.pictureId)"
@@ -45,19 +57,8 @@
               class="rounded-circle"
               width="31"
             />
-            <span class="ms-2">{{ course.user.name }}</span>
+            <b class="ms-2">{{ course.user.name }}</b>
           </div>
-          <mat-divider></mat-divider>
-          <div>
-            <b>Assignments : </b> {{ course.stats.totalassignments }}
-          </div>
-          <div>
-            <b>Works : </b> {{ course.stats.totalworks }}
-          </div>
-          <mat-divider></mat-divider>
-          <p class="card-text h-24 overflow-x-auto">
-            <b>Description : </b> {{ course.description }}
-          </p>
         </div>
       </div>
     </div>
