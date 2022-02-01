@@ -4,7 +4,7 @@
     List
   </h4>
   <div>
-    
+
     <mat-checkbox [formControl]="hideRequiredControl"
       >Hide required marker</mat-checkbox
     >
@@ -21,7 +21,7 @@
   </div>
   <div class="row w-full" *ngIf="paginationResult != null">
     <div
-      class="col-sm-6 col-lg-4 col-xl-2"
+      class="col-sm-6 col-xl-4"
       *ngFor="let course of paginationResult.results"
       [ngClass]="{
         'border-solid border-2 border-sky-500':
@@ -29,7 +29,7 @@
       }"
       (click)="onClickItem(course)"
     >
-      <div class="card h-128">
+      <div class="card h-256">
         <img
           class="object-scale-down h-48 img-responsive"
           [src]="sourceImage(course.pictureId)"
@@ -37,6 +37,7 @@
         />
         <div class="card-body flex flex-col">
           <h4 class="card-title">{{ course.name }}</h4>
+          <mat-divider></mat-divider>
           <div class="flew flex-row mb-2">
             <img
               [src]="sourceImageUser(course.user.pictureId)"
@@ -46,8 +47,16 @@
             />
             <span class="ms-2">{{ course.user.name }}</span>
           </div>
+          <mat-divider></mat-divider>
+          <div>
+            <b>Assignments : </b> {{ course.stats.totalassignments }}
+          </div>
+          <div>
+            <b>Works : </b> {{ course.stats.totalworks }}
+          </div>
+          <mat-divider></mat-divider>
           <p class="card-text h-24 overflow-x-auto">
-            Description {{ course.description }}
+            <b>Description : </b> {{ course.description }}
           </p>
         </div>
       </div>

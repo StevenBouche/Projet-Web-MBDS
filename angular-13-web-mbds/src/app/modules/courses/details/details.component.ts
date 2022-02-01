@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Assignment } from 'app/core/assignments/assignments.type';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
@@ -19,7 +19,12 @@ export class CourseDetailsComponent implements OnInit, OnDestroy {
   public assignmentsCourse: Array<Assignment> = []
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  constructor(private _coursesService: CoursesService, private _stateService: ComponentStateService, private _route: ActivatedRoute,) { }
+  constructor(
+    private _coursesService: CoursesService,
+    private _stateService: ComponentStateService,
+    private _route: ActivatedRoute,
+    private _router: Router
+    ) { }
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
@@ -54,4 +59,10 @@ export class CourseDetailsComponent implements OnInit, OnDestroy {
     return this._coursesService.sourceImageUser(idpicture);
   }
 
+  public detailsAssignments(id: number){
+    this._router.navigate(
+      [`/assignments/details/${id}`],
+      { queryParams: { 'redirect': `/courses/details/${this.courseSelected?.id}` } }
+    );
+  }
 }

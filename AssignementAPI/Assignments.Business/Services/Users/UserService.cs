@@ -14,7 +14,6 @@ namespace Assignments.Business.Services.Users
 {
     public class UserService : BaseService<UserEntity, IUserRepository>, IUserService
     {
-
         private readonly UserIdentity Identity;
 
         public UserService(IUserRepository repository, UserIdentity identity, ILogger<UserService> logger) : base(repository, logger)
@@ -131,9 +130,7 @@ namespace Assignments.Business.Services.Users
         private void VerifyOwner(UserEntity entity)
         {
             if (entity.Id != Identity.Id)
-                throw new CourseBusinessException(CourseBusinessExceptionTypes.COURSE_UNAUTHORIZE);
+                throw new UserBusinessException(UserBusinessExceptionTypes.USER_UNAUTHORIZE);
         }
-
-
     }
 }

@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { CoursesStateActions } from '../courses/courses.component';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
-import User from 'app/core/users/users.types';
+import { User } from 'app/core/users/users.types';
+
 
 @Component({
   selector: 'app-users',

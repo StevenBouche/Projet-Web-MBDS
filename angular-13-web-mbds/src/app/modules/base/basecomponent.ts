@@ -3,6 +3,11 @@ import { ComponentStateService } from "app/core/componentstate/componentstate.se
 import { ComponentState, ComponentStateActions } from "app/core/componentstate/componentstate.types";
 import { Subject, takeUntil } from "rxjs";
 
+export interface NavigationAction{
+  url: string | null;
+  relativeToComponent: boolean;
+}
+
 export default abstract class BaseComponent {
 
   protected _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -24,7 +29,7 @@ export default abstract class BaseComponent {
 
   }
 
-  protected abstract getNavigationUrl(state: ComponentState): string | null;
+  protected abstract getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction;
   protected abstract refreshStateActions(): void;
 
   protected OnInit() {
@@ -47,17 +52,19 @@ export default abstract class BaseComponent {
 
   public backNavigation(): void {
     if (this._lastState)
-      this.navigate(this._lastState);
+      this.navigate(this._lastState, true);
   }
 
   public detailsNavigation(): void {
     this.navigate(ComponentState.Details);
   }
 
-  private navigate(state: ComponentState) {
-    let url: string | null = this.getNavigationUrl(state);
-    if (url)
-      this._router.navigate([url], { relativeTo: this._activatedRoute });
+  private navigate(state: ComponentState, isback: boolean = false) {
+    let action: NavigationAction = this.getNavigationUrl(state, isback);
+    if (action.url){
+      const obj = action.relativeToComponent ? { relativeTo: this._activatedRoute } : {};
+      this._router.navigate([action.url], obj);
+    }
   }
 
   private handleStateAction(handleStateAction: ComponentStateActions) {

@@ -45,7 +45,7 @@ namespace Assignments.API.Controllers
         {
             return await TryExecuteAsync<ActionResult>(async () =>
             {
-                return Ok(await Service.UpdateCourseAsync(form));
+                return Ok(await UserService.UpdateUserFromView(form));
             }
             );
         }

@@ -4,9 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { CoursesStateActions } from '../courses/courses.component';
 import { Assignment } from 'app/core/assignments/assignments.type';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
-import BaseComponent from '../base/basecomponent';
+import BaseComponent, { NavigationAction } from '../base/basecomponent';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
-import { takeUntil } from 'rxjs';
+import { filter, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-assignments',
@@ -16,6 +16,7 @@ import { takeUntil } from 'rxjs';
 })
 export class AssignmentsComponent extends BaseComponent implements OnInit {
 
+  private redirect : string | null = null;
   private assignmentSelected: Assignment | null = null
 
   constructor(
@@ -28,17 +29,28 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.OnInit();
+
+    this._activatedRoute.queryParamMap
+      .subscribe((params) => {
+        this.redirect = params.get('redirect');
+      });
   }
 
-  protected getNavigationUrl(state: ComponentState): string | null {
+  protected getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction {
     let url: string | null = null;
+
+    if(isback && this.redirect){
+      return { url: this.redirect, relativeToComponent: false };
+    }
+
     switch (state) {
       case ComponentState.List: url = 'list'; break;
       case ComponentState.Create: url = 'create'; break;
       case ComponentState.Details: url = `details/${this.assignmentSelected?.id}`; break;
       case ComponentState.Edit: url = `edit/${this.assignmentSelected?.id}`; break;
     }
-    return url;
+
+    return { url: url, relativeToComponent: true };
   }
 
   protected refreshStateActions() {
