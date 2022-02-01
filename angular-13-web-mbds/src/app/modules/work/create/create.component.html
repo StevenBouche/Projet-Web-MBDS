@@ -1,1 +1,90 @@
-<p>create works!</p>
+<div class="flex border-b">
+  <!-- Selected product form -->
+  <form class="flex flex-col w-full" [formGroup]="form">
+    <div class="flex flex-col sm:flex-row p-8">
+      <!-- Name, SKU & etc. -->
+      <div class="flex flex-col w-full sm:pl-8">
+        <h1>Création d&apos;un work</h1>
+
+        <!-- Name -->
+        <div>
+          <mat-form-field class="fuse-mat-no-subscript w-full">
+            <mat-label>Label</mat-label>
+            <input
+              matInput
+              [formControlName]="'label'"
+              [placeholder]="'Label'"
+              [spellcheck]="false"
+            />
+          </mat-form-field>
+        </div>
+        <!-- AssignmentId -->
+
+        <mat-form-field class="fuse-mat-no-subscript w-full">
+          <mat-label>Assignment</mat-label>
+          <input
+            type="text"
+            name="SelectAssignment"
+            matInput
+            required
+            placeholder="Enter assignment's name"
+            [formControl]="searchInputControl"
+            [matAutocomplete]="auto"
+            [spellcheck]="false"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="getOptionText"
+            (optionSelected)="updateMySelection($event.option.value)"
+          >
+            <mat-option *ngFor="let option of assignments" [value]="option">
+              {{ option.label }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="form.get('assignmentId')?.hasError('required')">
+            Please select an existing assignment
+          </mat-error>
+          <mat-error *ngIf="searchInputControl.hasError('required')">
+            This is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <div
+          class="flex flex-col gt-xs:flex-row gt-xs:items-baseline"
+          *ngIf="selectedAssignment"
+        >
+          <span class="text-grey-500"
+            >( {{ selectedAssignment.name }} :
+            {{ selectedAssignment.id }})</span
+          >
+        </div>
+        <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
+          <mat-form-field class="fuse-mat-textarea flex-auto">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              [formControlName]="'description'"
+              [rows]="12"
+            ></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between w-full border-t px-8 py-4">
+      <div class="flex items-center">
+        <button
+          mat-flat-button
+          [color]="'primary'"
+          [disabled]="form.invalid"
+          (click)="create()"
+        >
+          Save
+        </button>
+      </div>
+      <mat-progress-spinner
+        mode="indeterminate"
+        *ngIf="isLoading"
+      ></mat-progress-spinner>
+    </div>
+  </form>
+</div>

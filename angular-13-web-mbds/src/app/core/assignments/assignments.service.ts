@@ -9,6 +9,8 @@ import {
   Assignment,
   AssignmentFormCreate,
   AssignmentFormUpdate,
+  AssignmentSearchFormResults,
+  AssignmentSearchForm,
 } from "./assignments.type";
 import { BehaviorSubject, Observable } from "rxjs";
 import { User } from "../users/users.types";
@@ -97,6 +99,13 @@ export class AssignmentsService extends ApiService {
       PaginationResult<Assignment>
     >(`${this.baseUrl}/assignments/all`, this.store.pagination);
     this._pagination$.next(result);
+  }
+
+  public async getAllSearchAsync(term: string): Promise<AssignmentSearchFormResults> {
+    return this.executePostAsync<AssignmentSearchForm, AssignmentSearchFormResults>(
+      `${this.baseUrl}/assignment/search`,
+      {term}
+    );
   }
 
   public async getAllIsMineAsync(form: PaginationForm) {

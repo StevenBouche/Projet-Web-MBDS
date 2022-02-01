@@ -23,3 +23,13 @@ export interface AssignmentFormUpdate {
   delivryDate: Date;
   courseId: number;
 }
+
+export interface AssignmentSearchForm {
+  term: string
+}
+
+export interface AssignmentSearchFormResults {
+  term: string;
+  results: Assignment[];
+}
+
