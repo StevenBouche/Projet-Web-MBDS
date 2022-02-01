@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserIdentity } from 'app/core/authentification/auth.types';
+import { ImageHelper } from 'app/core/helpers/image.helper';
 import { IdentityService } from 'app/core/identity/identity.service';
 import { UsersService } from 'app/core/users/users.service';
 import { Subscription } from 'rxjs';
@@ -21,7 +22,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   constructor(
     private _router: Router,
     private _identityService: IdentityService,
-    private _userService: UsersService,
+    public imageHelper: ImageHelper
   ) {
   }
 
@@ -39,9 +40,4 @@ export class NavigationComponent implements OnInit, OnDestroy {
   {
       this._router.navigate(['/sign-out']);
   }
-
-  public sourceImageUser(userId: number, pictureId: number | null){
-    return this._userService.sourceImageUser(userId, pictureId);
-  }
-
 }

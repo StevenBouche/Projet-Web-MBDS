@@ -137,13 +137,4 @@ export class UsersService extends ApiService {
 
     return this.http.request(req);
   }
-
-
-  public sourceImageUser(userId: number, pictureId: number | null){
-    if(!pictureId) {
-      return 'assets/images/users/user1.jpg';
-    }
-    return userId ? `${this.baseUrl}/userprofilimages/user/${userId}` : 'assets/images/users/user1.jpg';
-  }
-
 }

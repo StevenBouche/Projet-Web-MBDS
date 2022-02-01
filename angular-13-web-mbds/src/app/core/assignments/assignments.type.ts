@@ -6,6 +6,7 @@ export interface Assignment {
   state: number;
   stateLabel: string
   delivryDate: Date;
+  deliveryDateLabel: string;
   course: Course;
 }
 

@@ -126,7 +126,8 @@ namespace Assignments.DAL.Repositories.Base
 
         public IEnumerable<T> GetPagination(int pageNumber, int pageSize, Expression<Func<T, bool>> predicate)
         {
-            return DbSet.Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
+            return DbSet
+                .Where(predicate).Skip((pageNumber - 1) * pageSize).Take(pageSize).AsEnumerable();
         }
 
         public Task<bool> AnyByCriteria(Expression<Func<T, bool>> predicate)

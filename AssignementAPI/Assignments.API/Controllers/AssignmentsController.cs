@@ -34,6 +34,16 @@ namespace Assignments.API.Controllers
             });
         }
 
+        [HttpGet("{id}/work/mine")]
+        [ProducesResponseType(typeof(WorkSubmit), 200)]
+        public async Task<ActionResult<WorkSubmit>> GetAssignmentWorkMine(int id)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.GetAssignmentWorkMineAsync(id));
+            });
+        }
+
         [HttpGet("{id}/details")]
         [ProducesResponseType(typeof(AssignmentDetails), 200)]
         public async Task<ActionResult<Assignment>> GetDetails(int id)

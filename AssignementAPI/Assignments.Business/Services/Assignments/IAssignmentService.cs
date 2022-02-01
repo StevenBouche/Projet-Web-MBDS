@@ -34,5 +34,7 @@ namespace Assignments.Business.Services.Assignments
         AssignmentsSearchResult SearchAssignments(AssignmentsSearchForm form);
 
         IList<Assignment> GetAllAssignmentsOfCourse(int id);
+
+        Task<WorkSubmit?> GetAssignmentWorkMineAsync(int id);
     }
 }

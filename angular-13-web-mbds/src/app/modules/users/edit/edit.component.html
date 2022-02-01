@@ -78,7 +78,7 @@
           <div class="mx-auto max-w-sm rounded overflow-hidden shadow-lg">
             <img
               class="w-full"
-              [src]="sourceImageUser(user.id, user.pictureId)"
+              [src]="imageHelper.sourceImageUserByUserIdIfExist(user.id, user.pictureId)"
               alt="userImage"
             />
           </div>

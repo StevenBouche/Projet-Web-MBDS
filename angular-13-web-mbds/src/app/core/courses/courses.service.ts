@@ -27,11 +27,11 @@ export class CoursesService extends ApiService {
 
   private readonly _assignmentsCourse = new BehaviorSubject<Array<Assignment>>(this.store.assignmentsCourse);
   private readonly _courseSelected = new BehaviorSubject<Course | null>(this.store.courseSelected);
-  private readonly _pagination$ = new BehaviorSubject<PaginationResult<Course> | null>(null);
+  private readonly _pagination = new BehaviorSubject<PaginationResult<Course> | null>(null);
 
   public readonly assignmentsCourse = this._assignmentsCourse.asObservable();
   public readonly courseSelected = this._courseSelected.asObservable();
-  public readonly pagination = this._pagination$.asObservable();
+  public readonly pagination = this._pagination.asObservable();
 
   get page() { return this.store.pagination.page; }
   set page(value) {
@@ -53,13 +53,20 @@ export class CoursesService extends ApiService {
     super(http, toastr);
   }
 
-  public async setCourseSelected(course: Course): Promise<void> {
-    this.store.courseSelected = this.store.courseSelected != null && this.store.courseSelected.id === course.id ? null : course;
+  public async setCourseSelected(course: Course | null): Promise<void> {
+
+    if(this.store.courseSelected != null){
+      if(course != null) this.store.courseSelected = this.store.courseSelected.id === course.id ? null : course;
+      else this.store.courseSelected = null;
+    }
+    else if(course != null) this.store.courseSelected = course;
+
     if(this.store.courseSelected != null){
       let resultAssignments = await this.executeGetAsync<Array<Assignment>>(`${this.baseUrl}/courses/${this.store.courseSelected.id}/assignments`);
       this.store.assignmentsCourse = resultAssignments;
       this._assignmentsCourse.next(resultAssignments);
     }
+
     this._courseSelected.next(this.store.courseSelected);
   }
 
@@ -81,7 +88,7 @@ export class CoursesService extends ApiService {
 
   public async getAllAsync() {
     let result = await this.executePostAsync<PaginationForm, PaginationResult<Course>>(`${this.baseUrl}/courses/all`, this.store.pagination);
-    this._pagination$.next(result);
+    this.setPagination(result);
   }
 
   public async getAllSearchAsync(term: string): Promise<CourseSearchFormResults> {
@@ -141,6 +148,16 @@ export class CoursesService extends ApiService {
       );
   }
 
+  private setPagination(pagination: PaginationResult<Course>): void{
+
+    if(this.store.courseSelected !== null){
+      let element = pagination.results.find(u => this.store.courseSelected != null && u.id === this.store.courseSelected.id)
+      this.setCourseSelected(element ? element : null)
+    }
+
+    this._pagination.next(pagination);
+  }
+
   private upload(id: number, file: File): Observable<HttpEvent<any>> {
 
     const formData: FormData = new FormData();
@@ -153,14 +170,6 @@ export class CoursesService extends ApiService {
     });
 
     return this.http.request(req);
-  }
-
-  public sourceImage(idpicture: number){
-    return idpicture ? `${this.baseUrl}/courseimages/${idpicture}` : 'assets/images/bg/bg1.jpg';
-  }
-
-  public sourceImageUser(idpicture: number){
-    return idpicture ? `${this.baseUrl}/userprofilimages/${idpicture}` : 'assets/images/users/user1.jpg';
   }
 }
 

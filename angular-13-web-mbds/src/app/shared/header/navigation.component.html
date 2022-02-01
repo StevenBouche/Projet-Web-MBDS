@@ -15,7 +15,7 @@
       aria-expanded="false"
     >
       <img
-        [src]="sourceImageUser(user.id, user.pictureId)"
+        [src]="imageHelper.sourceImageUserByUserIdIfExist(user.id, user.pictureId)"
         alt="userImage"
         class="rounded-circle"
         width="31"

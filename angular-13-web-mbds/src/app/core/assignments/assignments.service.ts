@@ -57,8 +57,14 @@ export class AssignmentsService extends ApiService {
     super(http, toastr);
   }
 
-  public setAssignmentSelected(assignment: Assignment) {
-    this.store.assignmentSelected = this.store.assignmentSelected != null && this.store.assignmentSelected.id === assignment.id ? null : assignment;
+  public setAssignmentSelected(assignment: Assignment | null) {
+
+    if(this.store.assignmentSelected != null){
+      if(assignment != null) this.store.assignmentSelected = this.store.assignmentSelected.id === assignment.id ? null : assignment;
+      else this.store.assignmentSelected = null;
+    }
+    else if(assignment != null) this.store.assignmentSelected = assignment;
+
     this._assignmentSelected.next(this.store.assignmentSelected);
   }
 
@@ -97,7 +103,7 @@ export class AssignmentsService extends ApiService {
       PaginationForm,
       PaginationResult<Assignment>
     >(`${this.baseUrl}/assignments/all`, this.store.pagination);
-    this._pagination$.next(result);
+    this.setPagination(result);
   }
 
   public async getAllSearchAsync(term: string, courseId: number | null = null): Promise<AssignmentSearchFormResults> {
@@ -132,6 +138,11 @@ export class AssignmentsService extends ApiService {
     );
   }
 
-  public isOwnerOf(user: User | null, ass: Assignment | null) : boolean{
-    return user != null && ass != null && user.id === ass.course.user.id }
+  private setPagination(pagination: PaginationResult<Assignment>): void{
+    if(this.store.assignmentSelected !== null){
+      let element = pagination.results.find(u => this.store.assignmentSelected != null && u.id === this.store.assignmentSelected.id)
+      this.setAssignmentSelected(element ? element : null)
+    }
+    this._pagination$.next(pagination);
+  }
 }

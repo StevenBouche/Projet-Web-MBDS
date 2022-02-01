@@ -5,7 +5,7 @@ import { ComponentStateService } from 'app/core/componentstate/componentstate.se
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { Picture, ProgressUpload } from 'app/core/core.types';
 import { CoursesService } from 'app/core/courses/courses.service';
-import { getBase64 } from 'app/core/pictures/pictures.utils';
+import { ImageHelper } from 'app/core/helpers/image.helper';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 
@@ -27,7 +27,8 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
     private _formBuilder: FormBuilder,
     private _coursesService: CoursesService,
     private _stateService: ComponentStateService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private imageHelper: ImageHelper
   ) {
     this.form = this._formBuilder.group({
       name: ['', [Validators.required]],
@@ -49,7 +50,7 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
     if (file.size > 0) {
       const mimeType = file.type;
       if (mimeType.match(/image\/(jpe?g|png|gif|bmp)/) !== null) {
-        const buffer = await getBase64(file);
+        const buffer = await this.imageHelper.getBase64(file);
         this.image = { file: file, buffer: buffer };
         this.progress = { value: 0, filename: file.name };
       }

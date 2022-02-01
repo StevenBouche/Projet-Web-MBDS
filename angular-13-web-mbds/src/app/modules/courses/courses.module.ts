@@ -20,6 +20,8 @@ import { MatCardModule } from '@angular/material/card';
 import { CoursesRoutingModule } from './courses.routing';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import {MatTableModule} from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { MatDividerModule } from '@angular/material/divider';
     MatCardModule,
     CoursesRoutingModule,
     MatProgressBarModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatSortModule
   ]
 })
 export class CoursesModule { }

@@ -188,15 +188,5 @@ export class WorksService extends ApiService {
   //   return this.http.request(req);
   // }
 
-  // public sourceImage(idpicture: number) {
-  //   return idpicture
-  //     ? `${this.baseUrl}/courseimages/${idpicture}`
-  //     : "assets/images/bg/bg1.jpg";
-  // }
 
-  // public sourceImageUser(idpicture: number) {
-  //   return idpicture
-  //     ? `${this.baseUrl}/userprofilimages/${idpicture}`
-  //     : "assets/images/users/user1.jpg";
-  // }
 }

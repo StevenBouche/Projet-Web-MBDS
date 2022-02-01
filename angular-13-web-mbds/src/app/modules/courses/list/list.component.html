@@ -32,7 +32,7 @@
       <div class="card h-256">
         <img
           class="object-scale-down h-48 img-responsive"
-          [src]="sourceImage(course.pictureId)"
+          [src]="imageHelper.sourceImageCourse(course.pictureId)"
           alt="Card image cap"
         />
         <div class="card-body flex flex-col">
@@ -40,7 +40,7 @@
           <mat-divider></mat-divider>
           <div class="flew flex-row mb-2">
             <img
-              [src]="sourceImageUser(course.user.pictureId)"
+              [src]="imageHelper.sourceImageUser(course.user.pictureId)"
               alt="user"
               class="rounded-circle"
               width="31"
