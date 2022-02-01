@@ -21,6 +21,9 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { WorkStudentComponent } from './work-student/work-student.component';
+import { WorkProfessorComponent } from './work-professor/work-professor.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,8 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
     AssignmentDetailsComponent,
     AssignmentCreateComponent,
     EditComponent,
+    WorkStudentComponent,
+    WorkProfessorComponent,
   ],
   imports: [
     RouterModule.forChild(AssignmentsRoutes),
@@ -45,7 +50,8 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
     MatProgressSpinnerModule,
     NavcomponentModule,
     MatCardModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTabsModule
   ]
 })
 export class AssignmentsModule {}

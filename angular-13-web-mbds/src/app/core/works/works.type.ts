@@ -1,3 +1,4 @@
+import { Assignment } from "../assignments/assignments.type";
 import { User } from "../users/users.types";
 
 export interface WorkFormCreate {
@@ -33,8 +34,8 @@ export interface Work {
   description: string;
   comment: string;
   state: number,
-  assignmentId: number;
-  userId: User;
+  assignment: Assignment;
+  User: User;
 }
 
 export interface WorkSearchForm {

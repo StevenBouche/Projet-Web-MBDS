@@ -21,8 +21,11 @@ export class AssignmentDetailsComponent implements OnInit {
   public loadingState = false;
 
   get canEditAssignmentState() {
-    return this._authorizeService.canEditAssignmentState(this.assignment) || this.loadingState;
+    return this._authorizeService.isOwnerOfAssignment(this.assignment) || this.loadingState;
   }
+
+  get isProfessor() { return this._authorizeService.isProfessor(); }
+  get isStudent() { return this._authorizeService.isStudent(); }
 
   constructor(
     private _stateService: ComponentStateService,
@@ -48,7 +51,6 @@ export class AssignmentDetailsComponent implements OnInit {
   }
 
   public async changeState(event : MatSlideToggleChange) : Promise<void> {
-
     if(!this.assignment)
       return;
 
@@ -58,6 +60,5 @@ export class AssignmentDetailsComponent implements OnInit {
     this.assignment.stateLabel = result.stateLabel;
     this._service.setAssignmentDetailsSelected(this.assignment);
     this.loadingState = false;
-
   }
 }

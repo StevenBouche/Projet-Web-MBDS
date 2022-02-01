@@ -1,5 +1,5 @@
 <div class="flex flex-col items-center justify-center" *ngIf="assignment">
-  <div class="row w-full px-5">
+  <div class="row w-full px-5 mb-5">
     <div class="col-md-6">
       <mat-card class="details-card">
         <mat-card-title>Course</mat-card-title>
@@ -58,7 +58,7 @@
               <mat-slide-toggle
                 [color]="'primary'"
                 [checked]="assignment.state === 0"
-                [disabled]="user.id != assignment.course.user.id || loadingState"
+                [disabled]="canEditAssignmentState"
                 (change)="changeState($event)"
               >
               </mat-slide-toggle>
@@ -73,11 +73,10 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="col-md-12">
-      <mat-card class="details-card">
-        <mat-card-title>Works</mat-card-title>
-        <mat-card-content> </mat-card-content>
-      </mat-card>
-    </div>
   </div>
+  <div class="w-full">
+    <app-assignment-work-student *ngIf="isStudent"></app-assignment-work-student>
+    <app-assignment-work-professor *ngIf="isProfessor"></app-assignment-work-professor>
+  </div>
+
 </div>
