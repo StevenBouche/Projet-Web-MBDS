@@ -1,13 +1,178 @@
-<div class="flex w-full">
-  <div class="row w-full">
-    <div class="flex flex-col col-4 items-center justify-center">
-      <h5>Created</h5>
+<div class="flex w-full justify-center">
+  <div class="row w-full justify-center">
+    <div class="example-container p-0 shadow card">
+      <div class="card-header text-center">
+        <h2 class=>Created</h2>
+      </div>
+      <div
+        cdkDropList
+        #createdList="cdkDropList"
+        [cdkDropListData]="created"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="example-box" *ngFor="let item of created" cdkDrag>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">Label</span>
+                </div>
+                <input disabled type="text" class="form-control" value="{{item.label}}">
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">Description</span>
+                </div>
+                <input disabled type="text" class="form-control" value="{{item.description}}">
+              </div>
+            </li>
+            <li class="list-group-item">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">Student</span>
+                </div>
+                <input disabled type="text" class="form-control" value="{{item.user.name}}">
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="flex flex-col col-4 items-center justify-center">
-      <h5>Submitted</h5>
+    <div class="example-container p-0 shadow card">
+      <div class="card-header text-center">
+        <h2 class=>Submited</h2>
+      </div>
+
+      <div
+        cdkDropList
+        #sumittedList="cdkDropList"
+        [cdkDropListData]="submitted"
+        [cdkDropListConnectedTo]="[evaluatedList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+      <div class="example-box" *ngFor="let item of submitted" cdkDrag>
+        <ul class="list-group shadow">
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Label</span>
+              </div>
+              <input disabled type="text" class="form-control" value="{{item.label}}">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Description</span>
+              </div>
+              <input disabled type="text" class="form-control" value="{{item.description}}">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Student</span>
+              </div>
+              <input disabled type="text" class="form-control" value="{{item.user.name}}">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Comment</span>
+              </div>
+              <input type="text" class="form-control" value="{{item.user.comment}}">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Grade</span>
+              </div>
+              <input type="number" class="form-control" name="grade" min="0" max="20">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="my-1 mx-auto">
+                <button class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      </div>
     </div>
-    <div class="flex flex-col col-4 items-center justify-center">
-      <h5>Evaluated</h5>
+
+    <div class="example-container p-0 shadow card">
+      <div class="card-header text-center">
+        <h2 class=>Evaluated</h2>
+      </div>
+      <div
+        cdkDropList
+        #evaluatedList="cdkDropList"
+        [cdkDropListData]="evaluated"
+        [cdkDropListConnectedTo]="[sumittedList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+      <div class="example-box" *ngFor="let item of evaluated" cdkDrag>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Label</span>
+              </div>
+              <input disabled type="text" class="form-control" value="{{item.label}}">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Description</span>
+              </div>
+              <input disabled type="text" class="form-control" value="{{item.description}}">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Student</span>
+              </div>
+              <input disabled type="text" class="form-control" value="{{item.user.name}}">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Comment</span>
+              </div>
+              <input disabled type="text" class="form-control" value="{{item.user.comment}}">
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Grade</span>
+              </div>
+              <input disabled type="number" class="form-control" name="grade" min="0" max="20">
+            </div>
+          </li>
+
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="my-1 mx-auto">
+                <button class="btn btn-primary">Save</button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      </div>
     </div>
   </div>
 </div>

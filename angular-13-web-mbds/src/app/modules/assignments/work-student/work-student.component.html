@@ -1,1 +1,83 @@
-<p>work-student works!</p>
+<div class="flex w-full justify-center">
+  <div class="row w-full justify-center">
+    <div class="shadow card col-md-4 p-0 m-0" *ngFor="let item of submitted">
+      <div class="card-header">
+        <h4 class="card-title m-0">Work</h4>
+      </div>
+      <div class="card-body">
+        <ul class="list-group w-100">
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Label</span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                value="{{ item.label }}"
+              />
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Description</span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                value="{{ item.description }}"
+              />
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Student</span>
+              </div>
+              <input
+                disabled
+                type="text"
+                class="form-control"
+                value="{{ item.user.name }}"
+              />
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Comment</span>
+              </div>
+              <input
+                disabled
+                type="text"
+                class="form-control"
+                value="{{ item.user.comment }}"
+              />
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Grade</span>
+              </div>
+              <input
+                disabled
+                type="number"
+                class="form-control"
+                name="grade"
+                min="0"
+                max="20"
+              />
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="card-footer d-flex justify-content-end">
+        <div class="my-1">
+          <button class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

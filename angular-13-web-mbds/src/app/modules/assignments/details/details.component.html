@@ -75,8 +75,8 @@
     </div>
   </div>
   <div class="w-full">
-    <app-assignment-work-student *ngIf="isStudent"></app-assignment-work-student>
-    <app-assignment-work-professor *ngIf="isProfessor"></app-assignment-work-professor>
+    <app-assignment-work-student [assignment]="assignment" *ngIf="isStudent"></app-assignment-work-student>
+    <app-assignment-work-professor [assignment]="assignment" *ngIf="isProfessor"></app-assignment-work-professor>
   </div>
 
 </div>

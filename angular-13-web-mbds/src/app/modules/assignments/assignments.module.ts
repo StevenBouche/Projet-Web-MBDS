@@ -25,6 +25,9 @@ import { WorkStudentComponent } from './work-student/work-student.component';
 import { WorkProfessorComponent } from './work-professor/work-professor.component';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import {DragDropModule} from '@angular/cdk/drag-drop';
+
+
 @NgModule({
   declarations: [
     AssignmentsComponent,
@@ -37,6 +40,7 @@ import { MatTabsModule } from '@angular/material/tabs';
   ],
   imports: [
     RouterModule.forChild(AssignmentsRoutes),
+    DragDropModule,
     SharedModule,
     RouterModule,
     NgbModule,

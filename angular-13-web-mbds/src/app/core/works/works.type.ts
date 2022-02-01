@@ -38,16 +38,6 @@ export interface Work {
   assignment: Assignment;
   User: User;
 }
-
-export interface WorkSearchForm {
-  term: string
-}
-
-export interface WorkSearchFormResults {
-  term: string;
-  results: Work[];
-}
-
 export interface WorkPaginationForm {
   pagesize: number;
   page: number;
@@ -56,7 +46,7 @@ export interface WorkPaginationForm {
 }
 
 export interface WorkPaginationResult {
-  pageSize: number;
+  pagesize: number;
   page: number;
   totalPage: number;
   total: number;

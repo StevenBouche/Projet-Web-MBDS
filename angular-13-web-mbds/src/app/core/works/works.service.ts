@@ -13,6 +13,8 @@ import {
   WorkFormSubmitWork,
   WorkFormUpdateEvaluation,
   WorkFormUpdateWork,
+  WorkPaginationForm,
+  WorkPaginationResult,
 } from "./works.type";
 import { PaginationForm, PaginationResult } from "../api/api.types";
 import { Assignment } from "../assignments/assignments.type";
@@ -117,6 +119,13 @@ export class WorksService extends ApiService {
   public async updateWorkAsync(form: WorkFormUpdateWork): Promise<Work> {
     return this.executePutAsync<WorkFormUpdateWork, Work>(
       `${this.baseUrl}/worksubmits/work`,
+      form
+    );
+  }
+
+  public async getAllSearchAsync(form: WorkPaginationForm): Promise<WorkPaginationResult> {
+    return this.executePostAsync<WorkPaginationForm, WorkPaginationResult>(
+      `${this.baseUrl}/worksubmits/search`,
       form
     );
   }
