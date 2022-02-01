@@ -25,6 +25,8 @@ namespace Assignments.Business.Dto.WorkSubmits
 
         [JsonPropertyName("state")]
         public WorkSubmitState State { get; set; }
+        [JsonPropertyName("stateLabel")]
+        public string StateLabel { get => this.State.ToString(); }
 
         [JsonPropertyName("assignment")]
         public Assignment? Assignment { get; set; }
