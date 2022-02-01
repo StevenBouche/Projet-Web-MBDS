@@ -119,15 +119,15 @@ export class WorkCreateComponent implements OnInit, OnDestroy {
 
   async create(): Promise<void> {
     if(this.selectedAssignment) {
-      const assignment = this.form.getRawValue();
-      assignment.assignmentId = this.selectedAssignment.id;
+      const work = this.form.getRawValue();
+      work.assignmentId = this.selectedAssignment.id;
       this.isLoading=true;
       try {
-        const response = await this._assignmentService.createAsync(
-          assignment
+        const response = await this._workService.createAsync(
+          work
         );
         if(response) {
-          this.toast.success('Assignment created');
+          this.toast.success('Work created');
           this.isLoading=false;
         }
       } catch (error) {
