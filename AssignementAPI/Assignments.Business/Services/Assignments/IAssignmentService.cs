@@ -11,6 +11,8 @@ namespace Assignments.Business.Services.Assignments
     {
         Task<Assignment> GetAssignmentByIdAsync(int? id);
 
+        Task<AssignmentDetails> GetAssignmentDetailsByIdAsync(int? id);
+
         Task<Assignment> UpdateAssignmentAsync(AssignmentForm form);
 
         Task DeleteAssignmentAsync(int id);
@@ -30,6 +32,7 @@ namespace Assignments.Business.Services.Assignments
         Task<PaginationResult<Assignment>> GetMineAssignmentsAsync(PaginationForm form);
 
         AssignmentsSearchResult SearchAssignments(AssignmentsSearchForm form);
+
         IList<Assignment> GetAllAssignmentsOfCourse(int id);
     }
 }

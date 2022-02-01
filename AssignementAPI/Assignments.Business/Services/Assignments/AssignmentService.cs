@@ -33,6 +33,12 @@ namespace Assignments.Business.Services.Assignments
             return entity.ToAssignment();
         }
 
+        public async Task<AssignmentDetails> GetAssignmentDetailsByIdAsync(int? id)
+        {
+            var entity = await VerifyAndGetEntity(id);
+            return entity.ToAssignmentDetails();
+        }
+
         public async Task<PaginationResult<Assignment>> GetAllAssignmentsAsync(PaginationForm form)
         {
             var pagination = await GetPaginationAsync(form);

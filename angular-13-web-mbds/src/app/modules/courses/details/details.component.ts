@@ -36,18 +36,6 @@ export class CourseDetailsComponent implements OnInit, OnDestroy {
     this.courseSelected = this._route.snapshot.data.initialData.course;
     this.assignmentsCourse = this._route.snapshot.data.initialData.assignments;
 
-    /*this._coursesService.courseSelected
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((course: Course | null) => {
-      this.courseSelected = course;
-    })
-
-    this._coursesService.assignmentsCourse
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe((a: Array<Assignment>) => {
-      this.assignmentsCourse = a;
-    })*/
-
     this._stateService.setState(ComponentState.Details);
   }
 

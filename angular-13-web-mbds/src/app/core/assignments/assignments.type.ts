@@ -21,3 +21,15 @@ export interface AssignmentFormUpdate {
   delivryDate: Date;
   courseId: number;
 }
+
+export interface AssignmentDetails {
+  id: number;
+  label: string;
+  state: number;
+  stateLabel: string;
+  delivryDate: Date;
+  courseId: number;
+  courseName: string;
+  courseDescription: string;
+  coursePictureId: number;
+}

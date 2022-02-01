@@ -7,10 +7,11 @@ import { ApiService } from "app/core/api/api.service";
 import { PaginationForm, PaginationResult } from "../api/api.types";
 import {
   Assignment,
+  AssignmentDetails,
   AssignmentFormCreate,
   AssignmentFormUpdate,
 } from "./assignments.type";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
@@ -24,12 +25,8 @@ export class AssignmentsService extends ApiService {
     pagination: { page: 1, pagesize: 20 },
   };
 
-  private _assignmentSelected = new BehaviorSubject<Assignment | null>(
-    this.store.assignmentSelected
-  );
-  private _pagination$ = new BehaviorSubject<PaginationResult<Assignment> | null>(
-    null
-  );
+  private _assignmentSelected = new BehaviorSubject<Assignment | null>(this.store.assignmentSelected);
+  private _pagination$ = new BehaviorSubject<PaginationResult<Assignment> | null>(null);
 
   public assignmentSelected = this._assignmentSelected.asObservable();
   public pagination = this._pagination$.asObservable();
@@ -60,6 +57,7 @@ export class AssignmentsService extends ApiService {
 
   public setAssignmentSelected(assignment: Assignment) {
     this.store.assignmentSelected = this.store.assignmentSelected != null && this.store.assignmentSelected.id === assignment.id ? null : assignment;
+    console.log(this.store.assignmentSelected)
     this._assignmentSelected.next(this.store.assignmentSelected);
   }
 
@@ -80,6 +78,12 @@ export class AssignmentsService extends ApiService {
   public async getByIdAsync(id: number): Promise<Assignment> {
     return this.executeGetAsync<Assignment>(
       `${this.baseUrl}/assignments/${id}`
+    );
+  }
+
+  public getAssignmentDetails(id: number): Observable<AssignmentDetails>{
+    return this.http.get<AssignmentDetails>(
+      `${this.baseUrl}/assignments/${id}/details`
     );
   }
 

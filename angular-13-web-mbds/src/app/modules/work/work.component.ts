@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
@@ -12,15 +12,23 @@ import BaseComponent, { NavigationAction } from '../base/basecomponent';
 })
 export class WorkComponent extends BaseComponent implements OnInit {
 
+  private _title = 'Work'
+
+  protected getComponentName(): string{
+    return this._title;
+  }
+
   constructor(
     _stateService: ComponentStateService,
     _router: Router,
-    _activatedRoute: ActivatedRoute) {
-    super(_stateService, _router, _activatedRoute);
-  }
+    _activatedRoute: ActivatedRoute,
+    _ref: ChangeDetectorRef
+    ) {
+      super(_stateService, _router, _activatedRoute, _ref)
+    }
 
   ngOnInit(): void {
-    this.OnInit();
+    super.ngOnInit();
   }
 
   protected getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction {

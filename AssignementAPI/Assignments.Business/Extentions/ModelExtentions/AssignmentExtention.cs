@@ -16,5 +16,20 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 CourseId = entity.CourseId
             };
         }
+
+        public static AssignmentDetails ToAssignmentDetails(this AssignmentEntity entity)
+        {
+            return new AssignmentDetails()
+            {
+                Id = entity.Id,
+                State = entity.State,
+                DelivryDate = entity.DelivryDate,
+                Label = entity.Label,
+                CourseId = entity.CourseId,
+                CourseName = entity.Course.Name,
+                CourseDescription = entity.Course.Description,
+                CoursePictureId = entity.Course.ImageId
+            };
+        }
     }
 }

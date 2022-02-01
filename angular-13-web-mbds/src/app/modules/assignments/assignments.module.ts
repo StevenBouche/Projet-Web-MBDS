@@ -18,6 +18,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NavcomponentModule } from 'app/shared/navcomponent/navcomponent.module';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ RouterModule.forChild(AssignmentsRoutes),
     MatAutocompleteModule,
     MatDatepickerModule,
     MatProgressSpinnerModule,
-    NavcomponentModule
+    NavcomponentModule,
+    MatCardModule
   ]
 })
 export class AssignmentsModule { }

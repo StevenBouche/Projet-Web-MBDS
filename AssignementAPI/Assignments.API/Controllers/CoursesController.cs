@@ -54,7 +54,6 @@ namespace Assignments.API.Controllers
             });
         }
 
-
         [HttpPost("all")]
         [ProducesResponseType(typeof(PaginationResult<Course>), 200)]
         public async Task<ActionResult> GetAll([FromBody] PaginationForm form)
@@ -84,8 +83,6 @@ namespace Assignments.API.Controllers
                 return Ok(Service.SearchCourses(form));
             });
         }
-
-
 
         [HttpPost]
         [ProducesResponseType(typeof(Course), 200)]

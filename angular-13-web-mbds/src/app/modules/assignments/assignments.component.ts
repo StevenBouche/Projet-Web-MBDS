@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { CoursesStateActions } from '../courses/courses.component';
@@ -7,6 +7,7 @@ import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import BaseComponent, { NavigationAction } from '../base/basecomponent';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { filter, takeUntil } from 'rxjs';
+import { AssignmentsService } from 'app/core/assignments/assignments.service';
 
 @Component({
   selector: 'app-assignments',
@@ -16,30 +17,55 @@ import { filter, takeUntil } from 'rxjs';
 })
 export class AssignmentsComponent extends BaseComponent implements OnInit {
 
-  private redirect : string | null = null;
+  private redirect: string | null = null;
   private assignmentSelected: Assignment | null = null
 
+  private _title = 'Assignment'
+
+  protected getComponentName(): string {
+    return this._title;
+  }
+
   constructor(
+    private _assignmentsService: AssignmentsService,
     _stateService: ComponentStateService,
     _router: Router,
-    _activatedRoute: ActivatedRoute
+    _activatedRoute: ActivatedRoute,
+    _ref: ChangeDetectorRef
   ) {
-    super(_stateService, _router, _activatedRoute)
+    super(_stateService, _router, _activatedRoute, _ref)
+  }
+
+  ngOnDestroy(): void {
+    this._unsubscribeAll.next(null);
+    this._unsubscribeAll.complete();
   }
 
   ngOnInit(): void {
-    this.OnInit();
+
+    super.ngOnInit();
 
     this._activatedRoute.queryParamMap
       .subscribe((params) => {
         this.redirect = params.get('redirect');
       });
+
+    this._assignmentsService.assignmentSelected
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe(ass => this.handleSelected(ass));
+
+  }
+
+  private handleSelected(ass: Assignment | null) {
+    console.log(ass)
+    this.assignmentSelected = ass;
+    this.refreshStateActions();
   }
 
   protected getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction {
     let url: string | null = null;
 
-    if(isback && this.redirect){
+    if (isback && this.redirect) {
       return { url: this.redirect, relativeToComponent: false };
     }
 

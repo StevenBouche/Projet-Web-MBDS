@@ -1,3 +1,4 @@
+import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ComponentStateService } from "app/core/componentstate/componentstate.service";
 import { ComponentState, ComponentStateActions } from "app/core/componentstate/componentstate.types";
@@ -8,13 +9,15 @@ export interface NavigationAction{
   relativeToComponent: boolean;
 }
 
-export default abstract class BaseComponent {
+@Component({ template: '' })
+export default abstract class BaseComponent implements OnInit, AfterContentChecked {
 
   protected _unsubscribeAll: Subject<any> = new Subject<any>();
 
   private _lastState: ComponentState | null = null
   private _state: ComponentState | null = null
   public stateActions: ComponentStateActions | null = null
+  public title : string | null = null;
 
   get state() { return this._state; }
   set state(value) {
@@ -24,15 +27,17 @@ export default abstract class BaseComponent {
   constructor(
     protected _stateService: ComponentStateService,
     protected _router: Router,
-    protected _activatedRoute: ActivatedRoute
+    protected _activatedRoute: ActivatedRoute,
+    protected _changeDetector: ChangeDetectorRef
   ) {
 
   }
 
-  protected abstract getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction;
-  protected abstract refreshStateActions(): void;
+  ngAfterContentChecked(): void {
+    this._changeDetector.detectChanges();
+  }
 
-  protected OnInit() {
+  ngOnInit(): void {
     this._stateService.state
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(state => this.onStateChange(state))
@@ -41,6 +46,12 @@ export default abstract class BaseComponent {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe(state => this.handleStateAction(state))
   }
+
+  protected abstract getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction;
+  protected abstract refreshStateActions(): void;
+  protected abstract getComponentName(): string;
+
+
 
   public createNavigation(): void {
     this.navigate(ComponentState.Create);
@@ -87,5 +98,19 @@ export default abstract class BaseComponent {
     this._state = state;
 
     this.refreshStateActions();
+    this.title = this.handleTitle();
+    
+  }
+
+  private handleTitle() : string {
+    console.log('handle title', this._state)
+    const _title = this.getComponentName();
+    switch (this._state) {
+      case ComponentState.List: return `List ${_title}`
+      case ComponentState.Create: return `Create ${_title}`
+      case ComponentState.Details: return `Details ${_title}`
+      case ComponentState.Edit: return `Edit ${_title}`
+    }
+    return _title;
   }
 }

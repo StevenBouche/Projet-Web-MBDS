@@ -55,8 +55,10 @@ export class AssignmentListComponent implements OnInit, OnDestroy {
       this._stateService.setState(ComponentState.List);
       this._assignmentsService.getAllAsync();
   }
+  
 
   onClickItem(assignment: Assignment){
+    console.log(assignment)
     this._assignmentsService.setAssignmentSelected(assignment);
   }
 

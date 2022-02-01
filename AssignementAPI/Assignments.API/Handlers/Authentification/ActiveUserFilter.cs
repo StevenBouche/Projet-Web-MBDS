@@ -22,6 +22,7 @@ namespace Assignments.API.Handlers.Authentification
                 identity.Role = user.Role.ToString();
                 identity.PictureId = user.Image?.Id;
                 identity.Name = user.Name;
+                identity.UpdatedAt = user.UpdatedDate;
             }
  
             return next();

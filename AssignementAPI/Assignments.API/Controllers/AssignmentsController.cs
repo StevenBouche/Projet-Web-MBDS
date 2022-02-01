@@ -34,6 +34,16 @@ namespace Assignments.API.Controllers
             });
         }
 
+        [HttpGet("{id}/details")]
+        [ProducesResponseType(typeof(AssignmentDetails), 200)]
+        public async Task<ActionResult<AssignmentDetails>> GetDetails(int id)
+        {
+            return await TryExecuteAsync<ActionResult>(async () =>
+            {
+                return Ok(await Service.GetAssignmentDetailsByIdAsync(id));
+            });
+        }
+
         [HttpPost("all")]
         [ProducesResponseType(typeof(PaginationResult<Assignment>), 200)]
         public async Task<ActionResult> GetAll([FromBody] PaginationForm form)
