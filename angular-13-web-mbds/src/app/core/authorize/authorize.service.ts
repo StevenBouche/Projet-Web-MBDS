@@ -17,6 +17,7 @@ import { Assignment } from '../assignments/assignments.type';
 })
 export class AuthorizeService {
 
+
     private store: {
 
     } = {
@@ -41,6 +42,14 @@ export class AuthorizeService {
 
     public isOwnerOfAssignment(assignment: Assignment | null): boolean {
       return this.identity != null && assignment != null && this.identity.id != assignment.course.user.id;
+    }
+
+    public canCreateAssignment(): boolean {
+      return this.isProfessor();
+    }
+
+    public canUpdateAssignment(): boolean {
+      return this.isProfessor();
     }
 
     private haveRole(role: string): boolean {

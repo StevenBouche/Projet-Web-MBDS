@@ -32,7 +32,7 @@
       <div class="card shadow h-256">
         <img
           class="card-img-top"
-          [src]="sourceImage(course.pictureId)"
+          [src]="imageHelper.sourceImageCourse(course.pictureId)"
           alt="Card image cap"
         />
         <div class="card-body flex flex-col">
@@ -52,7 +52,7 @@
         <div class="card-footer flex flex-col">
           <div class="flew flex-row mb-2">
             <img
-              [src]="sourceImageUser(course.user.pictureId)"
+              [src]="imageHelper.sourceImageUser(course.user.pictureId)"
               alt="user"
               class="rounded-circle"
               width="31"

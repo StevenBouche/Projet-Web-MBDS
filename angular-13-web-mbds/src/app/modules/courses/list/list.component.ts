@@ -5,6 +5,7 @@ import { ComponentStateService } from 'app/core/componentstate/componentstate.se
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
+import { ImageHelper } from 'app/core/helpers/image.helper';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -31,9 +32,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   constructor(
     private _coursesService: CoursesService,
-    private _stateService: ComponentStateService
+    private _stateService: ComponentStateService,
+    private imageHelper: ImageHelper
     ) {
-      
+
     }
 
   ngOnDestroy(): void {
@@ -61,13 +63,5 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   public onClickItem(course: Course): void{
     this._coursesService.setCourseSelected(course);
-  }
-
-  public sourceImage(idpicture: number){
-    return this._coursesService.sourceImage(idpicture);
-  }
-
-  public sourceImageUser(idpicture: number){
-    return this._coursesService.sourceImageUser(idpicture);
   }
 }

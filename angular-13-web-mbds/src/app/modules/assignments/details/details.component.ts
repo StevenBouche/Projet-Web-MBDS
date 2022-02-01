@@ -7,6 +7,7 @@ import { UserIdentity } from 'app/core/authentification/auth.types';
 import { AuthorizeService } from 'app/core/authorize/authorize.service';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
+import { ImageHelper } from 'app/core/helpers/image.helper';
 import { environment } from 'environments/environment';
 
 @Component({
@@ -31,7 +32,8 @@ export class AssignmentDetailsComponent implements OnInit {
     private _stateService: ComponentStateService,
     private _route: ActivatedRoute,
     private _service: AssignmentsService,
-    private _authorizeService: AuthorizeService
+    private _authorizeService: AuthorizeService,
+    public imageHelper: ImageHelper
     ) {
     }
 
@@ -40,10 +42,6 @@ export class AssignmentDetailsComponent implements OnInit {
     this.user = this._route.snapshot.data.initialData.user;
     this._service.setAssignmentDetailsSelected(this.assignment);
     this._stateService.setState(ComponentState.Details);
-  }
-
-  public sourceImageCourse(idpicture: number){
-    return idpicture ? `${environment.apiBaseUrl}/courseimages/${idpicture}` : 'assets/images/bg/bg1.jpg';
   }
 
   public detailsCourse(idCourse : number){

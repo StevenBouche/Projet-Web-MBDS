@@ -10,12 +10,13 @@ import { filter, takeUntil } from 'rxjs';
 import { AssignmentsService } from 'app/core/assignments/assignments.service';
 import { AuthentificationService } from 'app/core/authentification/authentification.service';
 import { IdentityService } from 'app/core/identity/identity.service';
+import { AuthorizeService } from 'app/core/authorize/authorize.service';
 
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
   styleUrls: ['./assignments.component.scss'],
-  providers: [ComponentStateService]
+  providers: [ComponentStateService, AssignmentsService]
 })
 export class AssignmentsComponent extends BaseComponent implements OnInit {
 
@@ -30,6 +31,7 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
 
   constructor(
     private _assignmentsService: AssignmentsService,
+    private _authorizeService: AuthorizeService,
     _identityService: IdentityService,
     _stateService: ComponentStateService,
     _router: Router,
@@ -85,7 +87,10 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
 
     if (!this.stateActions) return;
 
-    const isOwner = this._assignmentsService.isOwnerOf(this.user, this.assignmentSelected);
+    const canCreateAssignment = this._authorizeService.canCreateAssignment();
+    const canUpdateAssignment = this._authorizeService.canUpdateAssignment();
+    const isOwner = this._authorizeService.isOwnerOfAssignment(this.assignmentSelected);
+
     const assignmentIsClose = this.assignmentSelected != null && this.assignmentSelected.state === 1;
 
     console.log(isOwner, assignmentIsClose)
@@ -93,13 +98,13 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
     this.stateActions.back.view = this.state != ComponentState.None && this.state != ComponentState.List;
     this.stateActions.back.disabled = !this.stateActions.back.view;
 
-    this.stateActions.create.view = this.state === ComponentState.List;
+    this.stateActions.create.view = this.state === ComponentState.List && canCreateAssignment;
     this.stateActions.create.disabled = false;
 
     this.stateActions.details.view = this.state === ComponentState.List;
     this.stateActions.details.disabled = this.assignmentSelected === null ;
 
-    this.stateActions.update.view = this.state === ComponentState.List || this.state === ComponentState.Details;
+    this.stateActions.update.view = (this.state === ComponentState.List || this.state === ComponentState.Details) && canUpdateAssignment;
     this.stateActions.update.disabled = !isOwner || assignmentIsClose;
 
     this.stateActions.delete.view = false;

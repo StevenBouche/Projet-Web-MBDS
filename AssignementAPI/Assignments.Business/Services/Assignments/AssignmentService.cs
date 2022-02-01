@@ -8,6 +8,7 @@ using Assignments.Business.Exceptions.Business;
 using Assignments.Business.Extentions.ModelExtentions;
 using Assignments.Business.Services.Base;
 using Assignments.Business.Services.WorkSubmits;
+using Assignments.DAL.Enumerations;
 using Assignments.DAL.Models;
 using Assignments.DAL.Repositories.Assignments;
 using Microsoft.Extensions.Logging;
@@ -82,6 +83,8 @@ namespace Assignments.Business.Services.Assignments
             {
                 result = result.Where(entity => entity.CourseId == form.CourseId);
             }
+
+            result = result.Where(entity => entity.State == AssignmentState.OPEN);
 
             return new AssignmentsSearchResult()
             {
@@ -180,6 +183,18 @@ namespace Assignments.Business.Services.Assignments
         {
             if (entity.Course == null || entity.Course.UserId != Identity.Id)
                 throw new AssignmentBusinessException(AssignmentBusinessExceptionTypes.ASSIGNMENT_UNAUTHORIZE, "Not the owner of the resource");
+        }
+
+        public async Task<WorkSubmit?> GetAssignmentWorkMineAsync(int id)
+        {
+            var entity = await Repository.GetByIdAsync(id);
+
+            if (entity == null)
+                return null;
+
+            var e = entity.WorkSubmits.Where(e => e.UserId == Identity.Id).FirstOrDefault();
+
+            return e != null ? e.ToWorkSubmit() : null;
         }
 
         #endregion VERIFICATION

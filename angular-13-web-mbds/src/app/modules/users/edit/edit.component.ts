@@ -1,16 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from "@angular/router";
-import { ComponentStateService } from "app/core/componentstate/componentstate.service";
 import { Picture, ProgressUpload } from "app/core/core.types";
 import { UsersService } from "app/core/users/users.service";
-import { User } from "app/core/users/users.types";
-import { getBase64 } from "app/core/pictures/pictures.utils";
 import { ToastrService } from "ngx-toastr";
 import { UserIdentity } from "app/core/authentification/auth.types";
 import { Subscription } from "rxjs";
 import { AuthentificationService } from "app/core/authentification/authentification.service";
 import { IdentityService } from "app/core/identity/identity.service";
+import { ImageHelper } from "app/core/helpers/image.helper";
 
 @Component({
   selector: "app-user-edit",
@@ -36,7 +33,8 @@ export class EditComponent implements OnInit {
     private _usersService: UsersService,
     private _identityService: IdentityService,
     private _authService: AuthentificationService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    public imageHelper: ImageHelper
   ) {
     this.form = this._formBuilder.group({
       name: [""],
@@ -101,14 +99,10 @@ export class EditComponent implements OnInit {
     if (file.size > 0) {
       const mimeType = file.type;
       if (mimeType.match(/image\/(jpe?g|png|gif|bmp)/) !== null) {
-        const buffer = await getBase64(file);
+        const buffer = await this.imageHelper.getBase64(file);
         this.image = { file: file, buffer: buffer };
         this.progress = { value: 0, filename: file.name };
       }
     }
-  }
-
-  public sourceImageUser(userId: number, pictureId: number | null) {
-    return this._usersService.sourceImageUser(userId, pictureId);
   }
 }

@@ -1,5 +1,6 @@
 ﻿using Assignments.Business.Dto.Assignments;
 using Assignments.DAL.Models;
+using System.Globalization;
 
 namespace Assignments.Business.Extentions.ModelExtentions
 {
@@ -12,6 +13,7 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 Id = entity.Id,
                 State = entity.State,
                 DelivryDate = entity.DelivryDate,
+                DeliveryDateLabel = entity.DelivryDate.ToString("F", CultureInfo.CreateSpecificCulture("en-US")),
                 Label = entity.Label,
                 Course = entity.Course?.ToCourse(),
             };

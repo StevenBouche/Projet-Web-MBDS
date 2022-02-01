@@ -6,7 +6,7 @@ import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { Picture, ProgressUpload } from 'app/core/core.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
-import { getBase64 } from 'app/core/pictures/pictures.utils';
+import { ImageHelper } from 'app/core/helpers/image.helper';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -28,7 +28,8 @@ export class EditComponent implements OnInit {
     private _coursesService: CoursesService,
     private _stateService: ComponentStateService,
     private _route: ActivatedRoute,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private imageHelper: ImageHelper
     ) {
 
       this.form = this._formBuilder.group({
@@ -44,7 +45,7 @@ export class EditComponent implements OnInit {
     const file: File | null = this._route.snapshot.data.initialData.file;
 
     if(file){
-      const buffer = await getBase64(file);
+      const buffer = await this.imageHelper.getBase64(file);
       this.image = { file: file, buffer: buffer };
     }
 
@@ -87,7 +88,7 @@ export class EditComponent implements OnInit {
     if (file.size > 0) {
       const mimeType = file.type;
       if (mimeType.match(/image\/(jpe?g|png|gif|bmp)/) !== null) {
-        const buffer = await getBase64(file);
+        const buffer = await this.imageHelper.getBase64(file);
         this.image = { file: file, buffer: buffer };
         this.progress = { value: 0, filename: file.name };
       }

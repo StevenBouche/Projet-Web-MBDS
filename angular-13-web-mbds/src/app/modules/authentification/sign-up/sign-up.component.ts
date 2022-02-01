@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup, NgForm, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Picture, ProgressUpload } from "app/core/core.types";
-import { getBase64 } from "app/core/pictures/pictures.utils";
 import { UsersService } from "app/core/users/users.service";
 import { ToastrService } from "ngx-toastr";
 import { AuthentificationService } from "app/core/authentification/authentification.service";
+import { ImageHelper } from "app/core/helpers/image.helper";
 
 @Component({
   selector: "auth-sign-up",
@@ -31,7 +31,8 @@ export class AuthSignUpComponent implements OnInit {
     private toast: ToastrService,
     private _usersService: UsersService,
     private _router: Router,
-    private _authentificationService: AuthentificationService
+    private _authentificationService: AuthentificationService,
+    private imageHelper: ImageHelper
   ) {
     // Create the form
     this.signUpForm = this._formBuilder.group({
@@ -60,7 +61,7 @@ export class AuthSignUpComponent implements OnInit {
     if (file.size > 0) {
       const mimeType = file.type;
       if (mimeType.match(/image\/(jpe?g|png|gif|bmp)/) !== null) {
-        const buffer = await getBase64(file);
+        const buffer = await this.imageHelper.getBase64(file);
         this.image = { file: file, buffer: buffer };
         this.progress = { value: 0, filename: file.name };
       }

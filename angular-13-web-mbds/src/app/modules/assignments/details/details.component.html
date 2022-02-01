@@ -6,7 +6,7 @@
         <mat-card-content>
           <img
             class="object-scale-down h-48 img-responsive"
-            [src]="sourceImageCourse(assignment.coursePictureId)"
+            [src]="imageHelper.sourceImageCourse(assignment.coursePictureId)"
             alt="Card image cap"
           />
           <div class="flex flex-row w-full">
@@ -67,7 +67,7 @@
           <div class="flex flex-row w-full">
             <mat-label>Delivery date : </mat-label>
             <div>
-              {{ assignment.delivryDate }}
+              {{ assignment.deliveryDateLabel }}
             </div>
           </div>
         </mat-card-content>
