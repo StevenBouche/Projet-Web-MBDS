@@ -8,7 +8,7 @@ import { ComponentState, ComponentStateActions, StateAction } from 'app/core/com
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
 import { retryWhen, Subject, takeUntil } from 'rxjs';
-import BaseComponent from '../base/basecomponent';
+import BaseComponent, { NavigationAction } from '../base/basecomponent';
 
 export interface CoursesStateActions {
   back: StateAction;
@@ -69,7 +69,7 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
     this.refreshStateActions();
   }
 
-  protected getNavigationUrl(state: ComponentState) {
+  protected getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction {
     let url: string | null = null;
     switch (state) {
       case ComponentState.List: url = 'list'; break;
@@ -77,7 +77,7 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
       case ComponentState.Details: url = `details/${this.courseSelected?.id}`; break;
       case ComponentState.Edit: url = `edit/${this.courseSelected?.id}`; break;
     }
-    return url;
+    return { url: url, relativeToComponent: true };
   }
 
   protected refreshStateActions() {

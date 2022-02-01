@@ -3,31 +3,24 @@
     <h4 class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800">
       Details
     </h4>
-    <button
-      class="ml-4"
-      mat-flat-button
-      [color]="'primary'"
-      (click)="refresh()"
-    >
-      <mat-icon>visibility</mat-icon>
-      <span class="ml-2 mr-1">Refresh</span>
-    </button>
   </div>
 
   <div class="flex flex-col sm:flex-row p-8 w-full">
-    <!-- Name, SKU & etc. -->
-    <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
-      <!-- Name -->
-
-      <img
-        class="object-scale-down h-48 img-responsive"
-        [src]="sourceImageUser(courseSelected.user.pictureId)"
-        alt="Card image cap"
-      />
-
+    <div
+      class="flex flex-col w-full lg:w-2/4 sm:pl-8 items-center justify-center"
+    >
+      <div class="mb-2">
+        <img
+          class="object-scale-down h-48 img-responsive"
+          [src]="sourceImageUser(courseSelected.user.pictureId)"
+          alt="Card image cap"
+        />
+      </div>
       <div>
-        <mat-label>Owner : </mat-label>
-        {{ courseSelected.user.name }}
+        <div>
+          <b>Owner : </b>
+          <span>{{ courseSelected.user.name }}</span>
+        </div>
       </div>
     </div>
 
@@ -35,7 +28,7 @@
     <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
       <div>
         <mat-label>Title : </mat-label>
-        <div >
+        <div>
           {{ courseSelected.name }}
         </div>
       </div>
@@ -47,11 +40,11 @@
       </div>
       <div>
         <mat-label>Total assignments : </mat-label>
-        0
+        {{ courseSelected.stats.totalassignments }}
       </div>
       <div>
-        <mat-label>Total students : </mat-label>
-        0
+        <mat-label>Total works : </mat-label>
+        {{ courseSelected.stats.totalworks }}
       </div>
     </div>
   </div>
@@ -68,13 +61,25 @@
           <th class="text-dark font-medium fs-4">Label</th>
           <th class="text-dark font-medium fs-4">State</th>
           <th class="text-dark font-medium fs-4">Delivry date</th>
+          <th class="text-dark font-medium fs-4">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let ass of assignmentsCourse">
           <td>{{ ass.label }}</td>
-          <td>{{ ass.state }}</td>
+          <td>{{ ass.stateLabel }}</td>
           <td>{{ ass.delivryDate }}</td>
+          <td>
+            <button
+              class="ml-4"
+              mat-flat-button
+              [color]="'primary'"
+              (click)="detailsAssignments(ass.id)"
+            >
+              <mat-icon>visibility</mat-icon>
+              <span class="ml-2 mr-1">Details</span>
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>

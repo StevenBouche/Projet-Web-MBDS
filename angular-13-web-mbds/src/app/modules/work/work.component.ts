@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
-import BaseComponent from '../base/basecomponent';
+import BaseComponent, { NavigationAction } from '../base/basecomponent';
 
 @Component({
   selector: 'app-work',
@@ -23,7 +23,7 @@ export class WorkComponent extends BaseComponent implements OnInit {
     this.OnInit();
   }
 
-  protected getNavigationUrl(state: ComponentState): string | null {
+  protected getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction {
     let url: string | null = null;
     switch (state) {
       case ComponentState.List: url = 'list'; break;
@@ -31,7 +31,7 @@ export class WorkComponent extends BaseComponent implements OnInit {
       //case ComponentState.Details: url = `details/${this.courseSelected?.id}`; break;
       //case ComponentState.Edit: url = `edit/${this.courseSelected?.id}`; break;
     }
-    return url;
+    return { url: url, relativeToComponent: true };
   }
 
   protected refreshStateActions(): void {

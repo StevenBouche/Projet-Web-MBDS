@@ -11,12 +11,19 @@ export interface CourseFormUpdate {
   description: string;
 }
 
+export interface CourseStats {
+  totalworks: number;
+  totalassignments: number;
+}
+
+
 export interface Course {
   id: number;
   name: string;
   description: string;
   pictureId: number;
   user: User;
+  stats: CourseStats;
 }
 
 export interface CourseSearchForm {
@@ -27,4 +34,3 @@ export interface CourseSearchFormResults {
   term: string;
   results: Course[];
 }
-

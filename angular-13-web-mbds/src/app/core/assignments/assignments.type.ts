@@ -2,6 +2,7 @@ export interface Assignment {
   id: number;
   label: string;
   state: number;
+  stateLabel: string
   delivryDate: Date;
   courseId: number;
 }

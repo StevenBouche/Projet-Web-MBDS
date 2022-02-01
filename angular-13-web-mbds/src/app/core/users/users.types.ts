@@ -6,7 +6,6 @@ export interface User
   pictureId: number;
 }
 
-
 export interface UserFormUpdate {
   id: number;
   name: string;

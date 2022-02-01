@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'app/core/api/api.service';
-import { Course, CourseFormCreate, CourseFormUpdate, CourseSearchForm, CourseSearchFormResults } from './courses.type';
+import { Course, CourseFormCreate, CourseFormUpdate, CourseSearchForm, CourseSearchFormResults, CourseStats } from './courses.type';
 import { PaginationForm, PaginationResult } from '../api/api.types';
 import { Assignment } from '../assignments/assignments.type';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
@@ -102,6 +102,10 @@ export class CoursesService extends ApiService {
     return this.http.get<Array<Assignment>>(
       `${this.baseUrl}/courses/${id}/assignments`
     );
+  }
+
+  public getStatsCourse(id: number) : Observable<CourseStats> {
+    return this.http.get<CourseStats>(`${this.baseUrl}/courses/${id}/stats`);
   }
 
   public async getAssignmentsOfCourseAsync(id: number, form: PaginationForm) {
