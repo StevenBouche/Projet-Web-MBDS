@@ -62,7 +62,6 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
   }
 
   private handleCourseSelected(course: Course | null) {
-    console.log(course)
     this.courseSelected = course;
     this.refreshStateActions();
   }

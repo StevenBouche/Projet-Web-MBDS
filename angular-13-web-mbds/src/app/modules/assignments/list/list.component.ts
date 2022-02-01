@@ -37,9 +37,6 @@ export class AssignmentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('test');
-    console.log(this.paginationResult);
-
     this._assignmentsService.pagination
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((paginationResult: PaginationResult<Assignment> | null) => {
@@ -57,7 +54,6 @@ export class AssignmentListComponent implements OnInit, OnDestroy {
   }
 
   onClickItem(assignment: Assignment){
-    console.log(assignment)
     this._assignmentsService.setAssignmentSelected(assignment);
   }
 }

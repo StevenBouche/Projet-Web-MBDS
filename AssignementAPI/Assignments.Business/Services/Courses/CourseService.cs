@@ -86,10 +86,12 @@ namespace Assignments.Business.Services.Courses
 
         public CoursesSearchResult SearchCourses(CoursesSearchForm form)
         {
+            var result = !string.IsNullOrWhiteSpace(form.Term) ? Search(entity => entity.Name.Contains(form.Term)) : Repository.Set.AsEnumerable();
+
             return new CoursesSearchResult()
             {
                 Term = form.Term,
-                Results = Search(entity => entity.Name.Contains(form.Term)).Select(entity => entity.ToCourse()).OrderBy(entity => entity.Name).ToList()
+                Results = result.Take(20).Select(entity => entity.ToCourse()).OrderBy(entity => entity.Name).ToList()
             };
         }
 

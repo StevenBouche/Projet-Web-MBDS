@@ -47,11 +47,9 @@ export class EditComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log(this.user);
     this.subscription$ = this._authService.identity.subscribe(
       (user) => (this.user = user)
     );
-
     this.form.patchValue({
       name: this.user?.name,
       role: this.user?.role,

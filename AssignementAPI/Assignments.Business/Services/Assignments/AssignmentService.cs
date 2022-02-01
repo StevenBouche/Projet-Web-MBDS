@@ -76,7 +76,7 @@ namespace Assignments.Business.Services.Assignments
 
         public AssignmentsSearchResult SearchAssignments(AssignmentsSearchForm form)
         {
-            var result = Search(entity => entity.Label.Contains(form.Term));
+            var result = !string.IsNullOrWhiteSpace(form.Term) ? Search(entity => entity.Label.Contains(form.Term)) : Repository.Set.AsEnumerable();
 
             if (form.CourseId != null && form.CourseId > 0)
             {
@@ -87,7 +87,7 @@ namespace Assignments.Business.Services.Assignments
             {
                 Term = form.Term,
                 CourseId = form.CourseId,
-                Results = result.Select(entity => entity.ToAssignment()).OrderBy(entity => entity.Label).ToList()
+                Results = result.Take(20).Select(entity => entity.ToAssignment()).OrderBy(entity => entity.Label).ToList()
             };
         }
 

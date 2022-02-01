@@ -59,7 +59,6 @@ export class AssignmentsService extends ApiService {
 
   public setAssignmentSelected(assignment: Assignment) {
     this.store.assignmentSelected = this.store.assignmentSelected != null && this.store.assignmentSelected.id === assignment.id ? null : assignment;
-    console.log(this.store.assignmentSelected)
     this._assignmentSelected.next(this.store.assignmentSelected);
   }
 
@@ -101,10 +100,10 @@ export class AssignmentsService extends ApiService {
     this._pagination$.next(result);
   }
 
-  public async getAllSearchAsync(term: string): Promise<AssignmentSearchFormResults> {
+  public async getAllSearchAsync(term: string, courseId: number | null = null): Promise<AssignmentSearchFormResults> {
     return this.executePostAsync<AssignmentSearchForm, AssignmentSearchFormResults>(
       `${this.baseUrl}/assignment/search`,
-      {term}
+      {term, courseId}
     );
   }
 

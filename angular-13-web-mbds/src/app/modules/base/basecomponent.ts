@@ -93,7 +93,6 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
   }
 
   private handleUserIdentity(user: UserIdentity | null) {
-    console.log(user)
     this.user = user;
     this.refreshStateActions();
   }
@@ -119,7 +118,6 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
   }
 
   private handleTitle() : string {
-    console.log('handle title', this._state)
     const _title = this.getComponentName();
     switch (this._state) {
       case ComponentState.List: return `List ${_title}`

@@ -56,7 +56,7 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    
+
   }
 
   ngOnInit() {
@@ -79,21 +79,15 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
 
   async create(): Promise<void> {
     if(this.selectedCourse) {
-      // const course = this.selectedCourse;
-      console.log('form', this.form);
       const assignment = this.form.getRawValue();
       assignment.courseId = this.selectedCourse.id;
-      console.log('assignmentSend', assignment);
       this.isLoading=true;
       try {
         const response = await this.assignmentService.createAsync(
           assignment
         );
         if(response) {
-          console.log('response', response);
           this.toast.success('Assignment created');
-          this.isLoading=false;
-          console.log(response);
         }
       } catch (error) {
         console.log(error);

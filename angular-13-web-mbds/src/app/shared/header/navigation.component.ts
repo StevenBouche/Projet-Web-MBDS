@@ -32,7 +32,6 @@ export class NavigationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log(this.user);
     this.subscription$ = this._authService.identity.subscribe(user => this.user = user);
   }
 

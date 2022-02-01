@@ -48,8 +48,6 @@ export class EditComponent implements OnInit {
       this.image = { file: file, buffer: buffer };
     }
 
-    console.log(this.image)
-
     this.form.patchValue({
       id: data.id,
       name: data.name,

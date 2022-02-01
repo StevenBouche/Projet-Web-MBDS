@@ -59,7 +59,6 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
   }
 
   private handleSelected(ass: Assignment | null) {
-    console.log(ass)
     this.assignmentSelected = ass;
     this.refreshStateActions();
   }
@@ -88,8 +87,6 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
     const isOwner = this._assignmentsService.isOwnerOf(this.user, this.assignmentSelected);
     const assignmentIsClose = this.assignmentSelected != null && this.assignmentSelected.state === 1;
 
-    console.log(this.user, this.assignmentSelected)
-    console.log(isOwner)
     this.stateActions.back.view = this.state != ComponentState.None && this.state != ComponentState.List;
     this.stateActions.back.disabled = !this.stateActions.back.view;
 

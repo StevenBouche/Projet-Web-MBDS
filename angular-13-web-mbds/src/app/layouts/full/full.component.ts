@@ -30,7 +30,6 @@ export class FullComponent implements OnInit {
       switch (true) {
         case event instanceof NavigationStart: {
           this.loading = true;
-          console.log('loading true')
           break;
         }
 
@@ -38,7 +37,6 @@ export class FullComponent implements OnInit {
         case event instanceof NavigationCancel:
         case event instanceof NavigationError: {
           this.loading = false;
-          console.log('loading false')
           break;
         }
         default: {

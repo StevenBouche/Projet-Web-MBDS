@@ -25,10 +25,12 @@ export interface AssignmentFormUpdate {
 }
 
 export interface AssignmentSearchForm {
+  courseId: number | null;
   term: string
 }
 
 export interface AssignmentSearchFormResults {
+  courseId: number | null;
   term: string;
   results: Assignment[];
 }
