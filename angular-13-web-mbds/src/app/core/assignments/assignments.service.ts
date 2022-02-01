@@ -102,7 +102,7 @@ export class AssignmentsService extends ApiService {
 
   public async getAllSearchAsync(term: string, courseId: number | null = null): Promise<AssignmentSearchFormResults> {
     return this.executePostAsync<AssignmentSearchForm, AssignmentSearchFormResults>(
-      `${this.baseUrl}/assignment/search`,
+      `${this.baseUrl}/assignments/search`,
       {term, courseId}
     );
   }
