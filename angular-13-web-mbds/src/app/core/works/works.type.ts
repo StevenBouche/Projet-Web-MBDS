@@ -34,6 +34,7 @@ export interface Work {
   description: string;
   comment: string;
   state: number,
+  stateLabel: string,
   assignment: Assignment;
   User: User;
 }
@@ -45,4 +46,21 @@ export interface WorkSearchForm {
 export interface WorkSearchFormResults {
   term: string;
   results: Work[];
+}
+
+export interface WorkPaginationForm {
+  pagesize: number;
+  page: number;
+  assignmentId: number;
+  state: number;
+}
+
+export interface WorkPaginationResult {
+  pageSize: number;
+  page: number;
+  totalPage: number;
+  total: number;
+  assignmentId: number;
+  state: number;
+  results: Array<Work>
 }

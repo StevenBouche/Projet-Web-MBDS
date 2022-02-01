@@ -1,4 +1,5 @@
 ﻿using Assignments.Business.Dto.Search;
+using Assignments.Business.Dto.Search.Work;
 using Assignments.Business.Dto.WorkSubmits;
 using Assignments.Business.Services.Base;
 using Assignments.DAL.Models;
@@ -26,5 +27,7 @@ namespace Assignments.Business.Services.WorkSubmits
         Task<PaginationResult<WorkSubmit>> GetAllSubmitsOfAssignmentAsync(PaginationIdForm form);
 
         Task<PaginationResult<WorkSubmit>> GetAllWorksAssignmentAsync(int id, PaginationForm form);
+
+        WorkPaginationResult SearchWorkSubmitsAsync(WorkPaginationForm form);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Assignments.Business.Dto.Authentification;
 using Assignments.Business.Dto.Authorization;
 using Assignments.Business.Dto.Search;
+using Assignments.Business.Dto.Search.Work;
 using Assignments.Business.Dto.WorkSubmits;
 using Assignments.Business.Exceptions.Business;
 using Assignments.Business.Extentions.ModelExtentions;
@@ -55,6 +56,28 @@ namespace Assignments.Business.Services.WorkSubmits
         {
             var pagination = await GetPaginationAsync(form, entity => entity.AssignmentId == form.Id);
             return MapPagination(pagination, entity => entity.ToWorkSubmit());
+        }
+
+        public WorkPaginationResult SearchWorkSubmitsAsync(WorkPaginationForm form)
+        {
+            var filter = Repository.Set
+                .Where(entity => entity.AssignmentId == form.AssignmentId && entity.State == form.State);
+
+            var pageEntity = filter.OrderByDescending(x => x.UpdatedDate)
+                .ThenByDescending(x => x.CreatedDate)
+                .ThenBy(x => x.Label)
+                .Skip((form.Page - 1) * form.PageSize).Take(form.PageSize);
+
+            return new WorkPaginationResult()
+            {
+                AssignmentId = form.AssignmentId,
+                State = form.State,
+                Page = form.Page,
+                PageSize = form.PageSize,
+                Total = filter.Count(),
+                TotalPage = pageEntity.Count(),
+                Results = pageEntity.Select(entity => entity.ToWorkSubmit()).ToList(),
+            };
         }
 
         #endregion GET

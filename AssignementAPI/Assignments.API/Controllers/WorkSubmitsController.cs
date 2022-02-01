@@ -2,6 +2,7 @@
 using Assignments.Business.Dto.Authentification;
 using Assignments.Business.Dto.Authorization;
 using Assignments.Business.Dto.Search;
+using Assignments.Business.Dto.Search.Work;
 using Assignments.Business.Dto.WorkSubmits;
 using Assignments.Business.Services.WorkSubmits;
 using Microsoft.AspNetCore.Authorization;
@@ -39,6 +40,16 @@ namespace Assignments.API.Controllers
             return await TryExecuteAsync<ActionResult>(async () =>
             {
                 return Ok(await Service.GetAllWorkSubmitsAsync(form));
+            });
+        }
+
+        [HttpPost("search")]
+        [ProducesResponseType(typeof(WorkPaginationResult), 200)]
+        public ActionResult Search([FromBody] WorkPaginationForm form)
+        {
+            return TryExecute<ActionResult>(() =>
+            {
+                return Ok(Service.SearchWorkSubmitsAsync(form));
             });
         }
 
