@@ -20,5 +20,8 @@ namespace Assignments.Business.Dto.Courses
 
         [JsonPropertyName("user")]
         public User? User { get; set; }
+
+        [JsonPropertyName("stats")]
+        public CourseStats? Stats { get; set; } = null;
     }
 }
