@@ -11,7 +11,7 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)"
       >
-        <div class="example-box" *ngFor="let item of created" cdkDrag>
+        <div class="example-box d-block" *ngFor="let item of created" cdkDrag>
           <ul class="list-group">
             <li class="list-group-item">
               <div class="input-group">
@@ -54,8 +54,8 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)"
       >
-      <div class="example-box" *ngFor="let item of submitted" cdkDrag>
-        <app-work-professor-item [state]="submitted" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
+      <div class="example-box d-block" *ngFor="let item of submitted" cdkDrag>
+        <app-work-professor-item [isInEvaluation]="false" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
       </div>
       </div>
     </div>
@@ -71,7 +71,7 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)"
       >
-      <div class="example-box" *ngFor="let item of evaluated" cdkDrag>
+      <div class="example-box d-block" *ngFor="let item of evaluated" cdkDrag>
         <app-work-professor-item [isInEvaluation]="true" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
       </div>
       </div>

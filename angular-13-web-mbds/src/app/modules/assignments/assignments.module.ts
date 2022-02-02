@@ -27,6 +27,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { WorkProfessorItemComponent } from './work-professor/work-professor-item/work-professor-item.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { WorkProfessorItemComponent } from './work-professor/work-professor-item
     NavcomponentModule,
     MatCardModule,
     MatSlideToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    ScrollingModule
   ]
 })
 export class AssignmentsModule {}

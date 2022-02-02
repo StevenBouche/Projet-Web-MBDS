@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import {CollectionViewer, DataSource} from '@angular/cdk/collections';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -9,6 +11,7 @@ import { Assignment } from "app/core/assignments/assignments.type";
 import { Work } from "app/core/works/works.type";
 import { FormGroup } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 
 @Component({
   selector: "app-assignment-work-professor",
