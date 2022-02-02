@@ -26,6 +26,7 @@ import { WorkProfessorComponent } from './work-professor/work-professor.componen
 import { MatTabsModule } from '@angular/material/tabs';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { WorkProfessorItemComponent } from './work-professor/work-professor-item/work-professor-item.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     EditComponent,
     WorkStudentComponent,
     WorkProfessorComponent,
+    WorkProfessorItemComponent,
   ],
   imports: [
     RouterModule.forChild(AssignmentsRoutes),

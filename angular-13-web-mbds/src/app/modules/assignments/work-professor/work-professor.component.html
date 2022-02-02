@@ -55,55 +55,7 @@
         (cdkDropListDropped)="drop($event)"
       >
       <div class="example-box" *ngFor="let item of submitted" cdkDrag>
-        <ul class="list-group shadow">
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Label</span>
-              </div>
-              <input disabled type="text" class="form-control" value="{{item.label}}">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Description</span>
-              </div>
-              <input disabled type="text" class="form-control" value="{{item.description}}">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Student</span>
-              </div>
-              <input disabled type="text" class="form-control" value="{{item.user.name}}">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Comment</span>
-              </div>
-              <input type="text" class="form-control" value="{{item.user.comment}}">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Grade</span>
-              </div>
-              <input type="number" class="form-control" name="grade" min="0" max="20">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="my-1 mx-auto">
-                <button class="btn btn-primary">Save</button>
-              </div>
-            </div>
-          </li>
-        </ul>
+        <app-work-professor-item [state]="submitted" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
       </div>
       </div>
     </div>
@@ -121,56 +73,7 @@
         (cdkDropListDropped)="drop($event)"
       >
       <div class="example-box" *ngFor="let item of evaluated" cdkDrag>
-        <ul class="list-group">
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Label</span>
-              </div>
-              <input disabled type="text" class="form-control" value="{{item.label}}">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Description</span>
-              </div>
-              <input disabled type="text" class="form-control" value="{{item.description}}">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Student</span>
-              </div>
-              <input disabled type="text" class="form-control" value="{{item.user.name}}">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Comment</span>
-              </div>
-              <input disabled type="text" class="form-control" value="{{item.user.comment}}">
-            </div>
-          </li>
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="">Grade</span>
-              </div>
-              <input disabled type="number" class="form-control" name="grade" min="0" max="20">
-            </div>
-          </li>
-
-          <li class="list-group-item">
-            <div class="input-group">
-              <div class="my-1 mx-auto">
-                <button class="btn btn-primary">Save</button>
-              </div>
-            </div>
-          </li>
-        </ul>
+        <app-work-professor-item [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
       </div>
       </div>
     </div>

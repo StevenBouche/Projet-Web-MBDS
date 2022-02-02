@@ -1,0 +1,82 @@
+<div [formGroup]="form">
+  <ul class="list-group shadow w-100" *ngIf="item">
+    <li class="list-group-item">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Label</span>
+        </div>
+        <input
+          disabled
+          type="text"
+          class="form-control"
+          value="{{ item.label }}"
+        />
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Description</span>
+        </div>
+        <input
+          disabled
+          type="text"
+          class="form-control"
+          value="{{ item.description }}"
+        />
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Student</span>
+        </div>
+        <input
+          disabled
+          type="text"
+          class="form-control"
+          value="{{ item.user.name }}"
+        />
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Comment</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          value="{{ item.user.comment }}"
+          [formControlName]="'comment'"
+        />
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Grade</span>
+        </div>
+        <input
+          [disabled]="true"
+          type="number"
+          class="form-control"
+          name="grade"
+          min="0"
+          max="20"
+          [formControlName]="'grade'"
+        />
+      </div>
+    </li>
+    <li class="list-group-item" *ngIf="item.state !== 2">
+      <div class="input-group">
+        <div class="flex w-100 justify-evenly">
+          <button (click)="onClickSubmit()" class="btn btn-warning">
+            Submit
+          </button>
+          <button (click)="onClickSave()" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
