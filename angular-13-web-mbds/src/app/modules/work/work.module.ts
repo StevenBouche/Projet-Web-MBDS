@@ -21,9 +21,9 @@ import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 export const routes: Route[] = [
-  { path: 'list', component: WorkListComponent },
-  { path: 'details/:id', component: WorkDetailsComponent },
-  { path: 'edit/:id', component: WorkEditComponent },
+ // { path: 'list', component: WorkListComponent },
+ // { path: 'details/:id', component: WorkDetailsComponent },
+ // { path: 'edit/:id', component: WorkEditComponent },
   { path: 'create', component: WorkCreateComponent }
 ];
 

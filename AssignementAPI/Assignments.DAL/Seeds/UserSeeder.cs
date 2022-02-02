@@ -6,7 +6,6 @@ namespace Assignments.DAL.Seeds
 {
     public class UserSeeder
     {
-
         private readonly AssignmentContext Context;
 
         public UserSeeder(AssignmentContext context)
@@ -16,18 +15,19 @@ namespace Assignments.DAL.Seeds
 
         public void SeedData()
         {
-            AddUniqueUser(new UserEntity() { 
-                Name = "Admin", 
-                Password = "Admin", 
-                Role = UserRoles.ADMIN, 
-                CreatedDate = DateTime.Now, 
-                UpdatedDate = DateTime.Now 
+            AddUniqueUser(new UserEntity()
+            {
+                Name = "Admin",
+                Password = BCrypt.Net.BCrypt.HashPassword("Admin"),
+                Role = UserRoles.ADMIN,
+                CreatedDate = DateTime.Now,
+                UpdatedDate = DateTime.Now
             });
 
             AddUniqueUser(new UserEntity()
             {
                 Name = "Professor",
-                Password = "Professor",
+                Password = BCrypt.Net.BCrypt.HashPassword("Professor"),
                 Role = UserRoles.PROFESSOR,
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now
@@ -36,7 +36,7 @@ namespace Assignments.DAL.Seeds
             AddUniqueUser(new UserEntity()
             {
                 Name = "Student",
-                Password = "Student",
+                Password = BCrypt.Net.BCrypt.HashPassword("Student"),
                 Role = UserRoles.STUDENT,
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now

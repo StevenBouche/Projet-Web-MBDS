@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { UserIdentity } from 'app/core/authentification/auth.types';
 import { AuthentificationService } from 'app/core/authentification/authentification.service';
+import { AuthorizeService } from 'app/core/authorize/authorize.service';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState, ComponentStateActions, StateAction } from 'app/core/componentstate/componentstate.types';
 import { CoursesService } from 'app/core/courses/courses.service';
@@ -42,7 +43,8 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
     _stateService: ComponentStateService,
     _router: Router,
     _activatedRoute: ActivatedRoute,
-    _ref: ChangeDetectorRef
+    _ref: ChangeDetectorRef,
+    private _authService: AuthorizeService
   ) {
     super(_identityService, _stateService, _router, _activatedRoute, _ref)
   }
@@ -82,7 +84,8 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
 
     if (!this.stateActions || !this.state) return;
 
-    const authorizeUserProfessor = this.user != null && this.user.role === 'PROFESSOR';
+    const authorizeUserProfessor = this._authService.isProfessor();
+    const isOwner = this._authService.isOwnerOfCourse(this.courseSelected);
 
     this.stateActions.back.view = this.state != ComponentState.None && this.state != ComponentState.List;
     this.stateActions.back.disabled = !this.stateActions.back.view;
@@ -94,7 +97,7 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
     this.stateActions.details.disabled = this.courseSelected === null;
 
     this.stateActions.update.view = (this.state === ComponentState.List || this.state === ComponentState.Details) && authorizeUserProfessor;
-    this.stateActions.update.disabled = this.courseSelected === null;
+    this.stateActions.update.disabled = this.courseSelected === null || !isOwner;
 
     this.stateActions.delete.view = false;
     this.stateActions.delete.disabled = this.courseSelected === null;

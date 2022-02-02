@@ -23,17 +23,6 @@
             </div>
           </div>
         </mat-card-content>
-        <mat-card-actions>
-          <button
-            class="ml-4"
-            mat-flat-button
-            [color]="'primary'"
-            (click)="detailsCourse(assignment.courseId)"
-          >
-            <mat-icon>visibility</mat-icon>
-            <span class="ml-2 mr-1">Details</span>
-          </button>
-        </mat-card-actions>
       </mat-card>
     </div>
     <div class="col-md-6">
@@ -58,7 +47,7 @@
               <mat-slide-toggle
                 [color]="'primary'"
                 [checked]="assignment.state === 0"
-                [disabled]="canEditAssignmentState"
+                [disabled]="!canEditAssignmentState"
                 (change)="changeState($event)"
               >
               </mat-slide-toggle>

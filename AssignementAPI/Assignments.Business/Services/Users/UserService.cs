@@ -44,7 +44,7 @@ namespace Assignments.Business.Services.Users
                 var entity = new UserEntity()
                 {
                     Name = element.Name,
-                    Password = element.Password
+                    Password = BCrypt.Net.BCrypt.HashPassword(element.Password)
                 };
 
                 entity.Role = element.Role switch

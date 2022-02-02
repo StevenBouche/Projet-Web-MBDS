@@ -55,12 +55,12 @@ namespace Assignments.API.Controllers
         }
 
         [HttpPost("all")]
-        [ProducesResponseType(typeof(PaginationResult<Course>), 200)]
-        public async Task<ActionResult> GetAll([FromBody] PaginationForm form)
+        [ProducesResponseType(typeof(CoursesPaginationResult), 200)]
+        public ActionResult GetAll([FromBody] CoursesPaginationForm form)
         {
-            return await TryExecuteAsync<ActionResult>(async () =>
+            return TryExecute<ActionResult>(() =>
             {
-                return Ok(await Service.GetAllCoursesAsync(form));
+                return Ok(Service.GetAllCourses(form));
             });
         }
 

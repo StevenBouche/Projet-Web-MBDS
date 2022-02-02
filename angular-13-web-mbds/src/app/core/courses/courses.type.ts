@@ -34,3 +34,20 @@ export interface CourseSearchFormResults {
   term: string;
   results: Course[];
 }
+
+export interface CoursePaginationForm {
+  pagesize: number;
+  page: number;
+  courseName: string;
+  username: string;
+}
+
+export interface CoursePaginationResult {
+  pageSize: number;
+  page: number;
+  totalPage: number;
+  total: number;
+  courseName: string;
+  username: string;
+  results: Array<Course>
+}

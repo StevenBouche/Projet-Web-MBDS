@@ -11,7 +11,7 @@ namespace Assignments.Business.Services.Courses
     {
         Task<Course> GetCourseByIdAsync(int id);
 
-        Task<PaginationResult<Course>> GetAllCoursesAsync(PaginationForm form);
+        CoursesPaginationResult GetAllCourses(CoursesPaginationForm form);
 
         Task<PaginationResult<Course>> GetMineCoursesAsync(PaginationForm form);
 
@@ -26,7 +26,9 @@ namespace Assignments.Business.Services.Courses
         Task AddPictureId(int courseId, int id);
 
         CoursesSearchResult SearchCourses(CoursesSearchForm form);
+
         IList<Assignment> GetAllAssignmentCourse(int id);
+
         Task<CourseStats> GetStatsAsync(int id);
     }
 }

@@ -10,6 +10,7 @@ import { Work } from "app/core/works/works.type";
 import { AssignmentsService } from "app/core/assignments/assignments.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-assignment-work-student",
@@ -42,7 +43,8 @@ export class WorkStudentComponent implements OnInit {
     private _worksService: WorksService,
     private _assignmentService: AssignmentsService,
     private _formBuilder: FormBuilder,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private _router: Router
   ) {
     // Create the form
     this.form = this._formBuilder.group({
@@ -83,7 +85,7 @@ export class WorkStudentComponent implements OnInit {
   }
 
   async submit(): Promise<void> {
-    if (this.work) {
+    if (this.work && this.assignment && this.assignment.state === 0 ) {
       await this.save();
       try {
         const response = await this._worksService.submitWorkAsync({
@@ -97,5 +99,19 @@ export class WorkStudentComponent implements OnInit {
         console.log(error);
       }
     }
+    else {
+      this.toast.error('Assignment is closed, cannot submit your work !')
+    }
+  }
+
+  public createWork(): void{
+
+    if(this.assignment == null)
+      return;
+
+    this._router.navigate(
+      [`/works/create`],
+      { queryParams: { 'redirect': `/assignments/details/${this.assignment.id}`,  'course': `${this.assignment.course.id}`, 'assignment': `${this.assignment.id}` } }
+    );
   }
 }

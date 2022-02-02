@@ -20,13 +20,12 @@
         </div>
         <!-- CourseId -->
 
-        <mat-form-field class="fuse-mat-no-subscript w-full">
+        <mat-form-field class="fuse-mat-no-subscript w-full" *ngIf="!courseIsPreload">
           <mat-label>Course</mat-label>
           <input
             type="text"
             name="SelectCourse"
             matInput
-            required
             placeholder="Enter course's name"
             [formControl]="searchInputControl"
             [matAutocomplete]="auto"
@@ -44,15 +43,12 @@
           <mat-error *ngIf="form.get('courseId')?.hasError('required')">
             Please select an existing course
           </mat-error>
-          <mat-error *ngIf="searchInputControl.hasError('required')">
-            This is <strong>required</strong>
-          </mat-error>
         </mat-form-field>
         <div
           class="flex flex-col gt-xs:flex-row gt-xs:items-baseline"
           *ngIf="selectedCourse"
         >
-          <span class="text-grey-500">( {{ selectedCourse.name }} : {{ selectedCourse.id }})</span>
+          <span class="text-grey-500"> Course Selected : ( {{ selectedCourse.name }} : {{ selectedCourse.id }})</span>
         </div>
         <!-- Delivery Date -->
         <mat-form-field appearance="outline">

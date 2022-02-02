@@ -1,23 +1,40 @@
-<div class="flex flex-col items-center justify-center">
-  <h4
-    class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800 w-full"
-  >
-    List
-  </h4>
-  <div>
-    <mat-checkbox [formControl]="hideRequiredControl"
-      >Hide required marker</mat-checkbox
-    >
-  </div>
-  <div>
-    <ngb-pagination
-      [collectionSize]="total"
-      [(page)]="page"
-      [(pageSize)]="pageSize"
-      [maxSize]="5"
-      [rotate]="true"
-      [boundaryLinks]="true"
-    ></ngb-pagination>
+<div class="flex flex-col w-full">
+  <div class="row">
+    <div class="col-3">
+      <mat-checkbox [formControl]="hideRequiredControl">Hide required marker</mat-checkbox>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="fuse-mat-no-subscript w-full">
+        <mat-label>course name</mat-label>
+        <input
+          matInput
+          [formControl]="searchInputCourse"
+          [placeholder]="'Course name'"
+          [spellcheck]="false"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="fuse-mat-no-subscript w-full">
+        <mat-label>user name</mat-label>
+        <input
+          matInput
+          [formControl]="searchInputUser"
+          [placeholder]="'Username'"
+          [spellcheck]="false"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <ngb-pagination
+        [collectionSize]="total"
+        [(page)]="page"
+        [(pageSize)]="pageSize"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+      ></ngb-pagination>
+    </div>
   </div>
   <div class="row w-full" *ngIf="paginationResult != null">
     <div

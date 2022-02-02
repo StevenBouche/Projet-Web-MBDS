@@ -8,6 +8,7 @@ export interface Assignment {
   delivryDate: Date;
   deliveryDateLabel: string;
   course: Course;
+  haveWork: boolean;
 }
 
 export interface AssignmentFormCreate {

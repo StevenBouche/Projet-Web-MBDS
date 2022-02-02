@@ -30,20 +30,20 @@ namespace Assignments.Business.Services.Assignments
 
         public async Task<Assignment> GetAssignmentByIdAsync(int? id)
         {
-            var entity = await GetEntityAndVerifyOwner(id);
+            var entity = await VerifyAndGetEntity(id);
             return entity.ToAssignment();
         }
 
         public async Task<Assignment> GetAssignmentDetailsByIdAsync(int? id)
         {
             var entity = await VerifyAndGetEntity(id);
-            return entity.ToAssignment();
+            return entity.ToAssignment(Identity);
         }
 
         public async Task<PaginationResult<Assignment>> GetAllAssignmentsAsync(PaginationForm form)
         {
             var pagination = await GetPaginationAsync(form);
-            return MapPagination(pagination, entity => entity.ToAssignment());
+            return MapPagination(pagination, entity => entity.ToAssignment(Identity));
         }
 
         public async Task<PaginationResult<Assignment>> GetMineAssignmentsAsync(PaginationForm form)
@@ -55,19 +55,19 @@ namespace Assignments.Business.Services.Assignments
                 _ => await GetPaginationAsync(form)
             };
 
-            return MapPagination(pagination, entity => entity.ToAssignment());
+            return MapPagination(pagination, entity => entity.ToAssignment(Identity));
         }
 
         public async Task<PaginationResult<Assignment>> GetAllAssignmentsOfCourseAsync(int course, PaginationForm form)
         {
             var pagination = await GetPaginationAsync(form, entity => entity.CourseId == course);
 
-            return MapPagination(pagination, entity => entity.ToAssignment());
+            return MapPagination(pagination, entity => entity.ToAssignment(Identity));
         }
 
         public IList<Assignment> GetAllAssignmentsOfCourse(int id)
         {
-            return Repository.FilterByCriteria(entity => entity.CourseId == id).Select(entity => entity.ToAssignment()).ToList();
+            return Repository.FilterByCriteria(entity => entity.CourseId == id).Select(entity => entity.ToAssignment(Identity)).ToList();
         }
 
         public async Task<PaginationResult<WorkSubmit>> GetAllWorksAssignmentAsync(int id, PaginationForm form)
@@ -90,7 +90,7 @@ namespace Assignments.Business.Services.Assignments
             {
                 Term = form.Term,
                 CourseId = form.CourseId,
-                Results = result.Take(20).Select(entity => entity.ToAssignment()).OrderBy(entity => entity.Label).ToList()
+                Results = result.Take(20).Select(entity => entity.ToAssignment(Identity)).OrderBy(entity => entity.Label).ToList()
             };
         }
 
@@ -110,7 +110,7 @@ namespace Assignments.Business.Services.Assignments
 
             Repository.LooadChildren(entity, e => e.Course);
 
-            return entity.ToAssignment();
+            return entity.ToAssignment(Identity);
         }
 
         #endregion CREATE
@@ -125,7 +125,7 @@ namespace Assignments.Business.Services.Assignments
 
             await Repository.UpdateAsync(entity);
 
-            return entity.ToAssignment();
+            return entity.ToAssignment(Identity);
         }
 
         public async Task<Assignment> CloseAssignmentAsync(int? id)
@@ -136,7 +136,7 @@ namespace Assignments.Business.Services.Assignments
 
             await Repository.UpdateAsync(entity);
 
-            return entity.ToAssignment();
+            return entity.ToAssignment(Identity);
         }
 
         public async Task<Assignment> UpdateAssignmentAsync(AssignmentForm form)
@@ -150,7 +150,7 @@ namespace Assignments.Business.Services.Assignments
 
             await Repository.UpdateAsync(entity);
 
-            return entity.ToAssignment();
+            return entity.ToAssignment(Identity);
         }
 
         #endregion UPDATE

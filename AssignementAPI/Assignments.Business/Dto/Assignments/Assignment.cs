@@ -21,11 +21,15 @@ namespace Assignments.Business.Dto.Assignments
 
         [JsonPropertyName("delivryDate")]
         public DateTime DelivryDate { get; set; }
+
         [JsonPropertyName("deliveryDateLabel")]
         public string DeliveryDateLabel { get; set; }
 
         [JsonPropertyName("course")]
         public Course? Course { get; set; }
+
+        [JsonPropertyName("haveWork")]
+        public bool HaveWork { get; set; }
 
         public Assignment()
         {

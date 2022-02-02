@@ -11,12 +11,12 @@ import { AuthentificationService } from '../authentification/authentification.se
 import { UserIdentity } from '../authentification/auth.types';
 import { IdentityService } from '../identity/identity.service';
 import { Assignment } from '../assignments/assignments.type';
+import { Course } from '../courses/courses.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeService {
-
 
     private store: {
 
@@ -41,7 +41,11 @@ export class AuthorizeService {
     }
 
     public isOwnerOfAssignment(assignment: Assignment | null): boolean {
-      return this.identity != null && assignment != null && this.identity.id != assignment.course.user.id;
+      return this.identity != null && assignment != null && this.identity.id === assignment.course.user.id;
+    }
+
+    public isOwnerOfCourse(courseSelected: Course | null): boolean {
+      return this.identity != null && courseSelected != null && this.identity.id === courseSelected.user.id;
     }
 
     public canCreateAssignment(): boolean {

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'app/core/api/api.service';
-import { Course, CourseFormCreate, CourseFormUpdate, CourseSearchForm, CourseSearchFormResults, CourseStats } from './courses.type';
+import { Course, CourseFormCreate, CourseFormUpdate, CoursePaginationForm, CoursePaginationResult, CourseSearchForm, CourseSearchFormResults, CourseStats } from './courses.type';
 import { PaginationForm, PaginationResult } from '../api/api.types';
 import { Assignment } from '../assignments/assignments.type';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
@@ -18,16 +18,16 @@ export class CoursesService extends ApiService {
   private store: {
     courseSelected: Course | null,
     assignmentsCourse: Array<Assignment>,
-    pagination: PaginationForm
+    pagination: CoursePaginationForm
   } = {
       courseSelected: null,
-      pagination: { page: 1, pagesize: 20 },
+      pagination: { page: 1, pagesize: 20, courseName: '', username: '' },
       assignmentsCourse: []
     };
 
   private readonly _assignmentsCourse = new BehaviorSubject<Array<Assignment>>(this.store.assignmentsCourse);
   private readonly _courseSelected = new BehaviorSubject<Course | null>(this.store.courseSelected);
-  private readonly _pagination = new BehaviorSubject<PaginationResult<Course> | null>(null);
+  private readonly _pagination = new BehaviorSubject<CoursePaginationResult | null>(null);
 
   public readonly assignmentsCourse = this._assignmentsCourse.asObservable();
   public readonly courseSelected = this._courseSelected.asObservable();
@@ -42,6 +42,18 @@ export class CoursesService extends ApiService {
   get pagesize() { return this.store.pagination.pagesize; }
   set pagesize(value) {
     this.store.pagination.pagesize = value;
+    this.getAllAsync();
+  }
+
+  setCourseNamePagination(value: string){
+    this.store.pagination.page = 1;
+    this.store.pagination.courseName = value;
+    this.getAllAsync();
+  }
+
+  setUserNamePagination(value: string){
+    this.store.pagination.page = 1;
+    this.store.pagination.username = value;
     this.getAllAsync();
   }
 
@@ -87,7 +99,7 @@ export class CoursesService extends ApiService {
   }
 
   public async getAllAsync() {
-    let result = await this.executePostAsync<PaginationForm, PaginationResult<Course>>(`${this.baseUrl}/courses/all`, this.store.pagination);
+    let result = await this.executePostAsync<CoursePaginationForm, CoursePaginationResult>(`${this.baseUrl}/courses/all`, this.store.pagination);
     this.setPagination(result);
   }
 
@@ -148,7 +160,7 @@ export class CoursesService extends ApiService {
       );
   }
 
-  private setPagination(pagination: PaginationResult<Course>): void{
+  private setPagination(pagination: CoursePaginationResult): void{
 
     if(this.store.courseSelected !== null){
       let element = pagination.results.find(u => this.store.courseSelected != null && u.id === this.store.courseSelected.id)

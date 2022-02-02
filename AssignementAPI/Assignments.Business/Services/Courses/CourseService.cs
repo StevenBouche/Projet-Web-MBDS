@@ -63,10 +63,34 @@ namespace Assignments.Business.Services.Courses
             return AssignmentService.GetAllAssignmentsOfCourse(id);
         }
 
-        public async Task<PaginationResult<Course>> GetAllCoursesAsync(PaginationForm form)
+        public CoursesPaginationResult GetAllCourses(CoursesPaginationForm form)
         {
-            var pagination = await GetPaginationAsync(form);
-            return MapPagination(pagination, entity => entity.ToCourse());
+            var filter = Repository.Set.AsEnumerable();
+
+            if (!string.IsNullOrWhiteSpace(form.CourseName))
+            {
+                filter = filter.Where(entity => entity.Name.Contains(form.CourseName));
+            }
+
+            if (!string.IsNullOrWhiteSpace(form.Username))
+            {
+                filter = filter.Where(entity => entity.User != null && entity.User.Name.Contains(form.Username));
+            }
+
+            var pageEntity = filter.OrderByDescending(x => x.UpdatedDate)
+                .ThenByDescending(x => x.CreatedDate)
+                .Skip((form.Page - 1) * form.PageSize).Take(form.PageSize);
+
+            return new CoursesPaginationResult()
+            {
+                CourseName = form.CourseName,
+                Username = form.Username,
+                Page = form.Page,
+                PageSize = form.PageSize,
+                Total = filter.Count(),
+                TotalPage = pageEntity.Count(),
+                Results = pageEntity.Select(entity => entity.ToCourse()).ToList(),
+            };
         }
 
         public async Task<Course> GetCourseByIdAsync(int id)

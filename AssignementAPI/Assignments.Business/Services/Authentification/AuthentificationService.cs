@@ -41,7 +41,7 @@ namespace Assignments.Business.Services.Authentification
             {
                 throw new AuthentificationException(AuthentificationExceptionTypes.ACCOUNT_NOT_FOUND);
             }
-            else if (!userAccount.Password.Equals(login.Password))
+            else if (!BCrypt.Net.BCrypt.Verify(login.Password, userAccount.Password))
             {
                 throw new AuthentificationException(AuthentificationExceptionTypes.BAD_CREDENTIAL);
             }

@@ -13,6 +13,7 @@ import {
 import { ToastrService } from "ngx-toastr";
 import { ComponentStateService } from "app/core/componentstate/componentstate.service";
 import { ComponentState } from "app/core/componentstate/componentstate.types";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-assignment-create",
@@ -27,7 +28,7 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   public selectedCourse: Course | null = null;
   public isLoading: boolean = false;
-
+  public courseIsPreload = false;
 
   updateMySelection(event: Course) {
     this.selectedCourse = event;
@@ -44,8 +45,9 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
     private assignmentService: AssignmentsService,
     private toast: ToastrService,
     private _stateService: ComponentStateService,
-    private _changeDetectorRef: ChangeDetectorRef
-  ) {
+    private _changeDetectorRef: ChangeDetectorRef,
+    private _activatedRoute: ActivatedRoute
+    ) {
 
     this.form = this._formBuilder.group({
       label: ['', [Validators.required]],
@@ -60,6 +62,18 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this._activatedRoute.queryParamMap
+      .subscribe(async (params) => {
+        const courseId = params.get('course');
+        if(courseId != null){
+          this.courseIsPreload = true;
+          let response = await this.courseService.getByIdAsync(Number(courseId));
+          this.updateMySelection(response);
+          console.log(this.form)
+        }
+      });
+
     this.searchInputControl.valueChanges
       .pipe(
         takeUntil(this._unsubscribeAll),
@@ -83,15 +97,14 @@ export class AssignmentCreateComponent implements OnInit, OnDestroy {
       assignment.courseId = this.selectedCourse.id;
       this.isLoading=true;
       try {
-        const response = await this.assignmentService.createAsync(
-          assignment
-        );
+        const response = await this.assignmentService.createAsync(assignment);
         if(response) {
           this.toast.success('Assignment created');
         }
       } catch (error) {
         console.log(error);
       }
+      this.isLoading=false;
     }
   }
 }

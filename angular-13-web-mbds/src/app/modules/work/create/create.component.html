@@ -21,7 +21,7 @@
 
         <!-- CourseId -->
 
-        <mat-form-field class="fuse-mat-no-subscript w-full">
+        <mat-form-field class="fuse-mat-no-subscript w-full" *ngIf="!isPreload">
           <mat-label>Filter assignments by course</mat-label>
           <input
             type="text"
@@ -44,7 +44,7 @@
         </mat-form-field>
         <!-- AssignmentId -->
 
-        <mat-form-field class="fuse-mat-no-subscript w-full">
+        <mat-form-field class="fuse-mat-no-subscript w-full" *ngIf="!isPreload">
           <mat-label>Assignment</mat-label>
           <input
             type="text"

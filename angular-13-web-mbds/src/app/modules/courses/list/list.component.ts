@@ -6,7 +6,7 @@ import { ComponentState } from 'app/core/componentstate/componentstate.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { Course } from 'app/core/courses/courses.type';
 import { ImageHelper } from 'app/core/helpers/image.helper';
-import { Subject, takeUntil } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-course-list',
@@ -27,6 +27,9 @@ export class CourseListComponent implements OnInit, OnDestroy {
   set pageSize(value) { this._coursesService.pagesize = value; }
 
   get total() { return this.paginationResult != null ? this.paginationResult.total : 0; }
+
+  searchInputCourse: FormControl = new FormControl();
+  searchInputUser: FormControl = new FormControl();
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -56,6 +59,22 @@ export class CourseListComponent implements OnInit, OnDestroy {
       .subscribe((course: Course | null) => {
         this.courseSelected = course;
       })
+
+      this.searchInputCourse.valueChanges
+      .pipe(takeUntil(this._unsubscribeAll),debounceTime(500),distinctUntilChanged())
+      .subscribe(async (value: string | null) => {
+        if(value != null) {
+          this._coursesService.setCourseNamePagination(value)
+        }
+      });
+
+      this.searchInputUser.valueChanges
+      .pipe(takeUntil(this._unsubscribeAll),debounceTime(500),distinctUntilChanged())
+      .subscribe(async (value: string | null) => {
+        if(value != null) {
+          this._coursesService.setUserNamePagination(value)
+        }
+      });
 
       this._stateService.setState(ComponentState.List);
       this._coursesService.getAllAsync();

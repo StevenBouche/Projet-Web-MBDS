@@ -1,145 +1,143 @@
-<div class="flex flex-col items-center justify-center" *ngIf="courseSelected">
-  <div class="flex flex-row w-full">
-    <h4 class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800">
-      Details
-    </h4>
-  </div>
-
-  <div class="flex flex-col sm:flex-row p-8 w-full">
-    <div
-      class="flex flex-col w-full lg:w-2/4 sm:pl-8 items-center justify-center"
-    >
-      <div class="mb-2">
-        <img
-          class="object-scale-down h-48 img-responsive"
-          [src]="imageHelper.sourceImageUser(courseSelected.user.pictureId)"
-          alt="Card image cap"
-        />
-      </div>
-      <div>
-        <div>
-          <b>Owner : </b>
-          <span>{{ courseSelected.user.name }}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Weight & Tags -->
-    <div class="flex flex-col w-full lg:w-2/4 sm:pl-8">
+<div class="w-full row" *ngIf="courseSelected">
+  <div class="col-sm-4">
+    <div class="card shadow h-256">
       <img
-          class="object-scale-down h-48 img-responsive"
-          [src]="imageHelper.sourceImageCourse(courseSelected.pictureId)"
-          alt="Card image cap"
-        />
-      <div>
-        <mat-label>Title : </mat-label>
-        <div>
-          {{ courseSelected.name }}
+        class="card-img-top"
+        [src]="imageHelper.sourceImageCourse(courseSelected.pictureId)"
+        alt="Card image cap"
+      />
+      <div class="card-body flex flex-col">
+        <h4 class="card-title">{{ courseSelected.name }}</h4>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <b>Assignments : </b> {{ courseSelected.stats.totalassignments }}
+          </li>
+          <li class="list-group-item">
+            <b>Works : </b> {{ courseSelected.stats.totalworks }}
+          </li>
+        </ul>
+        <div class="mt-2 card-text h-24 overflow-x-auto">
+          <b>Description : </b> {{ courseSelected.description }}
         </div>
       </div>
-      <div>
-        <mat-label>Description : </mat-label>
-        <div class="h-24 overflow-y-auto break-words">
-          {{ courseSelected.description }}
+      <div class="card-footer flex flex-col">
+        <div class="flew flex-row mb-2">
+          <img
+            [src]="imageHelper.sourceImageUser(courseSelected.user.pictureId)"
+            alt="user"
+            class="rounded-circle"
+            width="31"
+          />
+          <b class="ms-2">{{ courseSelected.user.name }}</b>
         </div>
-      </div>
-      <div>
-        <mat-label>Total assignments : </mat-label>
-        {{ courseSelected.stats.totalassignments }}
-      </div>
-      <div>
-        <mat-label>Total works : </mat-label>
-        {{ courseSelected.stats.totalworks }}
       </div>
     </div>
   </div>
 
-  <div
-    class="flex flex-col items-center justify-center w-full table-responsive"
-  >
-    <h4 class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800">
-      Assignments
-    </h4>
-
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      (matSortChange)="announceSortChange($event)"
-      class="mat-elevation-z8 w-full"
-    >
-
-    <!-- Position Column -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-      No.
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-  </ng-container>
-
-      <!-- Position Column -->
-      <ng-container matColumnDef="label">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by label"
+  <div class="col-sm-8">
+    <div class="card shadow">
+      <h4 class="text-3xl font-normal leading-normal mt-0 mb-2 text-grey-800">
+        Assignments
+      </h4>
+      <button
+        class="ml-4"
+        mat-flat-button
+        *ngIf="canCreateAssignment()"
+        [color]="'primary'"
+        (click)="createAssignment()"
+      >
+        <mat-icon>create</mat-icon>
+        <span class="ml-2 mr-1">Create Assignment</span>
+      </button>
+      <div class="table-responsive h-full overflow-auto">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          (matSortChange)="announceSortChange($event)"
+          class="mat-elevation-z8 w-full"
         >
-        Label
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.label }}</td>
-      </ng-container>
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by number"
+            >
+              No.
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+          </ng-container>
 
+          <!-- Position Column -->
+          <ng-container matColumnDef="label">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by label"
+            >
+              Label
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.label }}</td>
+          </ng-container>
 
-      <ng-container matColumnDef="state">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by state"
-        >
-        State
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.stateLabel }}</td>
-      </ng-container>
+          <ng-container matColumnDef="state">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by state"
+            >
+              State
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.stateLabel }}</td>
+          </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="deliverydate">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by date"
-        >
-        Delivery date
-        </th>
-        <td mat-cell *matCellDef="let element">{{ element.deliveryDateLabel }}</td>
-      </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="deliverydate">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by date"
+            >
+              Delivery date
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.deliveryDateLabel }}
+            </td>
+          </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="action">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-        >
-        Action
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <button
-          class="ml-4"
-          mat-flat-button
-          [color]="'primary'"
-          (click)="detailsAssignments(element.id)"
-        >
-          <mat-icon>visibility</mat-icon>
-          <span class="ml-2 mr-1">Details</span>
-        </button>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="havework" *ngIf="isStudent()">
+            <th mat-header-cell *matHeaderCellDef>Have work</th>
+            <td mat-cell *matCellDef="let element">
+              <span class="p-2 bg-{{getStatus(element)}} rounded-circle d-inline-block ms-3"></span>
+            </td>
+          </ng-container>
 
-        </td>
-      </ng-container>
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let element">
+              <button
+                class="ml-4"
+                mat-flat-button
+                [color]="'primary'"
+                (click)="detailsAssignments(element.id)"
+              >
+                <mat-icon>visibility</mat-icon>
+                <span class="ml-2 mr-1">Details</span>
+              </button>
+            </td>
+          </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+          <tr mat-header-row *matHeaderRowDef="getColumns()"></tr>
+          <tr mat-row *matRowDef="let row; columns: getColumns()"></tr>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

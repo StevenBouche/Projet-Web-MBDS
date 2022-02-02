@@ -4,6 +4,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Assignment } from 'app/core/assignments/assignments.type';
+import { AuthorizeService } from 'app/core/authorize/authorize.service';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
 
@@ -23,10 +24,23 @@ export class CourseDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
   public assignmentsCourse: Array<Assignment> = []
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
-  displayedColumns: string[] = ['id', 'label', 'state', 'deliverydate', 'action'];
+  displayedColumnsStudent: string[] = ['id', 'label', 'state', 'deliverydate', 'havework', 'action'];
+  displayedColumnsProfessor: string[] = ['id', 'label', 'state', 'deliverydate',  'action'];
   dataSource = new MatTableDataSource<Assignment>([]);
 
   @ViewChild(MatSort) sort!: MatSort;
+
+  public getColumns(){
+    return this.isStudent() ? this.displayedColumnsStudent : this.displayedColumnsProfessor;
+  }
+
+  public isStudent(): boolean {
+    return this._authorizeService.isStudent();
+  }
+
+  public isProfessor(): boolean {
+    return this._authorizeService.isProfessor();
+  }
 
   constructor(
     private _coursesService: CoursesService,
@@ -34,7 +48,8 @@ export class CourseDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
     private _route: ActivatedRoute,
     private _router: Router,
     private _liveAnnouncer: LiveAnnouncer,
-    public imageHelper: ImageHelper
+    public imageHelper: ImageHelper,
+    private _authorizeService: AuthorizeService
     ) { }
 
   ngAfterViewInit(): void {
@@ -52,6 +67,17 @@ export class CourseDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
     this.assignmentsCourse = this._route.snapshot.data.initialData.assignments;
     this.dataSource = new MatTableDataSource(this.assignmentsCourse);
     this._stateService.setState(ComponentState.Details);
+  }
+
+  public canCreateAssignment(): boolean{
+    return this._authorizeService.canCreateAssignment()
+  }
+
+  public createAssignment(): void {
+    this._router.navigate(
+      [`/assignments/create`],
+      { queryParams: { 'redirect': `/courses/details/${this.courseSelected?.id}`, 'course': `${this.courseSelected?.id}` }}
+    );
   }
 
   public detailsAssignments(id: number){
@@ -72,5 +98,9 @@ export class CourseDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  public getStatus(element: Assignment): string{
+    return element.haveWork ? 'success' : 'danger';
   }
 }
