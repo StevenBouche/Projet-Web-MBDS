@@ -4,7 +4,7 @@
       <div class="card-header">
         <h4 class="card-title m-0">Work</h4>
       </div>
-      <div class="card-body">
+      <div class="card-body" [formGroup]="form">
         <ul class="list-group w-100">
           <li class="list-group-item">
             <div class="input-group">
@@ -13,8 +13,8 @@
               </div>
               <input
                 type="text"
+                [formControlName]="'label'"
                 class="form-control"
-                value="{{ work.label }}"
               />
             </div>
           </li>
@@ -26,7 +26,7 @@
               <input
                 type="text"
                 class="form-control"
-                value="{{ work.description }}"
+                [formControlName]="'description'"
               />
             </div>
           </li>
@@ -40,6 +40,19 @@
                 type="text"
                 class="form-control"
                 value="{{ work.user.name }}"
+              />
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">State</span>
+              </div>
+              <input
+                disabled
+                type="text"
+                class="form-control"
+                value="{{ work.stateLabel }}"
               />
             </div>
           </li>
@@ -74,8 +87,11 @@
         </ul>
       </div>
       <div class="card-footer d-flex justify-content-end">
-        <div class="my-1">
-          <button class="btn btn-primary">Save</button>
+        <div class="">
+          <button (click)="submit()" type="button" [disabled]="work.state !== 0" class="btn btn-warning">Submit</button>
+        </div>
+        <div class="mx-2">
+          <button (click)="save()" [disabled]="work.state !== 0" class="btn btn-primary">Save</button>
         </div>
       </div>
     </div>

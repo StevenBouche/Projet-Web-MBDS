@@ -8,6 +8,8 @@ import { WorksService } from "app/core/works/works.service";
 import { Assignment } from "app/core/assignments/assignments.type";
 import { Work } from "app/core/works/works.type";
 import { AssignmentsService } from "app/core/assignments/assignments.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-assignment-work-student",
@@ -15,12 +17,9 @@ import { AssignmentsService } from "app/core/assignments/assignments.service";
   styleUrls: ["./work-student.component.scss"],
 })
 export class WorkStudentComponent implements OnInit {
-
   @Input() assignment: Assignment | null = null;
   work: Work | null = null;
-
-
-
+  form: FormGroup;
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -40,35 +39,63 @@ export class WorkStudentComponent implements OnInit {
   }
 
   constructor(
-
     private _worksService: WorksService,
     private _assignmentService: AssignmentsService,
-
-
+    private _formBuilder: FormBuilder,
+    private toast: ToastrService
   ) {
+    // Create the form
+    this.form = this._formBuilder.group({
+      label: ["", Validators.required],
+      description: ["", Validators.required],
+    });
   }
 
   async ngOnInit(): Promise<void> {
-    let response = await this._assignmentService.getWorkById(this.assignment!.id);
+    let response = await this._assignmentService.getWorkById(
+      this.assignment!.id
+    );
     this.work = response;
-    console.log(this.work);
+    if (this.work) {
+      this.form.patchValue({
+        label: this.work.label,
+        description: this.work.description,
+      });
+    }
+  }
 
-    // this.created = response;
-    // this.searchInputControl.valueChanges
-    //   .pipe(
-    //     takeUntil(this._unsubscribeAll),
-    //     debounceTime(500),
-    //     distinctUntilChanged()
-    //   )
-    //   .subscribe(async (value: string | Course | null) => {
-    //     if (typeof value === "string" || value instanceof String) {
-    //       let response = await this.courseService.getAllSearchAsync(
-    //         value as string
-    //       );
-    //       this.courses = response.results;
-    //       this._changeDetectorRef.markForCheck();
-    //     }
-    //   });
-    // this._stateService.setState(ComponentState.Create);
+  async save(): Promise<void> {
+    if (this.work) {
+      try {
+        const response = await this._worksService.updateWorkAsync({
+          label: this.form.value.label,
+          description: this.form.value.description,
+          id: this.work.id,
+          assignmentId: this.assignment!.id,
+        });
+        if (response) {
+          this.toast.success("Work saved");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  async submit(): Promise<void> {
+    if (this.work) {
+      await this.save();
+      try {
+        const response = await this._worksService.submitWorkAsync({
+          id: this.work.id,
+        });
+        if (response) {
+          this.toast.success("Work submitted !");
+          this.ngOnInit();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 }
