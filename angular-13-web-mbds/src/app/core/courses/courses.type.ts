@@ -36,6 +36,7 @@ export interface CourseSearchFormResults {
 }
 
 export interface CoursePaginationForm {
+  userId: number | null;
   pagesize: number;
   page: number;
   courseName: string;

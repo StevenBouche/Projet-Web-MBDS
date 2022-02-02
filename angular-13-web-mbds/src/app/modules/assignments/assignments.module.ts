@@ -27,6 +27,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { WorkProfessorItemComponent } from './work-professor/work-professor-item/work-professor-item.component';
+import { MatSortModule } from "@angular/material/sort";
+import { MatTableModule } from "@angular/material/table";
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import { WorkProfessorItemComponent } from './work-professor/work-professor-item
     NavcomponentModule,
     MatCardModule,
     MatSlideToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTableModule,
+    MatSortModule
   ]
 })
 export class AssignmentsModule {}

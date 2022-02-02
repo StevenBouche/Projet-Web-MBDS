@@ -25,7 +25,7 @@ export class AssignmentDetailsComponent implements OnInit {
     return this._authorizeService.isOwnerOfAssignment(this.assignment) || this.loadingState;
   }
 
-  get isProfessor() { return this._authorizeService.isProfessor(); }
+  get isProfessorAndOwner() { return this._authorizeService.isProfessor() && this._authorizeService.isOwnerOfAssignment(this.assignment); }
   get isStudent() { return this._authorizeService.isStudent(); }
 
   constructor(

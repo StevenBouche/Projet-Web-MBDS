@@ -67,6 +67,11 @@ namespace Assignments.Business.Services.Courses
         {
             var filter = Repository.Set.AsEnumerable();
 
+            if(form.UserId != null && form.UserId > 0)
+            {
+                filter = filter.Where(entity => entity.UserId == form.UserId);
+            }
+
             if (!string.IsNullOrWhiteSpace(form.CourseName))
             {
                 filter = filter.Where(entity => entity.Name.Contains(form.CourseName));

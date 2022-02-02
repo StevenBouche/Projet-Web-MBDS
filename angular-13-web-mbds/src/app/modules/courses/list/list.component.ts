@@ -15,8 +15,6 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 })
 export class CourseListComponent implements OnInit, OnDestroy {
 
-  public hideRequiredControl = new FormControl(false);
-
   public courseSelected: Course | null = null
   public paginationResult: PaginationResult<Course> | null = null;
 

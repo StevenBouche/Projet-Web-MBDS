@@ -14,8 +14,6 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class AssignmentListComponent implements OnInit, OnDestroy {
 
-  public hideRequiredControl = new FormControl(false);
-
   public assignmentSelected: Assignment | null = null
   public paginationResult: PaginationResult<Assignment> | null = null;
 

@@ -106,7 +106,11 @@ export class WorkStudentComponent implements OnInit {
 
   public createWork(): void{
 
-    if(this.assignment == null)
+    console.log(this.assignment)
+    if(!this.assignment)
+      return;
+
+    if(this.assignment.state === 1)
       return;
 
     this._router.navigate(

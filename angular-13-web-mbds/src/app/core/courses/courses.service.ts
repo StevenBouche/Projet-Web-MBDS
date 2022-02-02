@@ -21,7 +21,7 @@ export class CoursesService extends ApiService {
     pagination: CoursePaginationForm
   } = {
       courseSelected: null,
-      pagination: { page: 1, pagesize: 20, courseName: '', username: '' },
+      pagination: { page: 1, pagesize: 20, courseName: '', username: '', userId: null },
       assignmentsCourse: []
     };
 
@@ -101,6 +101,13 @@ export class CoursesService extends ApiService {
   public async getAllAsync() {
     let result = await this.executePostAsync<CoursePaginationForm, CoursePaginationResult>(`${this.baseUrl}/courses/all`, this.store.pagination);
     this.setPagination(result);
+  }
+
+  public async getAllSearchPaginationAsync(term: CoursePaginationForm): Promise<CoursePaginationResult> {
+    return this.executePostAsync<CoursePaginationForm, CoursePaginationResult>(
+      `${this.baseUrl}/courses/all`,
+      term
+    );
   }
 
   public async getAllSearchAsync(term: string): Promise<CourseSearchFormResults> {

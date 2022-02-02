@@ -70,7 +70,7 @@ export class CourseDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
   }
 
   public canCreateAssignment(): boolean{
-    return this._authorizeService.canCreateAssignment()
+    return this._authorizeService.canCreateAssignment() && this._authorizeService.isOwnerOfCourse(this.courseSelected);
   }
 
   public createAssignment(): void {

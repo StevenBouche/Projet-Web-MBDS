@@ -65,7 +65,7 @@
                 disabled
                 type="text"
                 class="form-control"
-                value="{{ work.user.comment }}"
+                value="{{ work.comment }}"
               />
             </div>
           </li>
@@ -81,6 +81,7 @@
                 name="grade"
                 min="0"
                 max="20"
+                value="{{ work.grade }}"
               />
             </div>
           </li>
@@ -103,6 +104,7 @@
             mat-flat-button
             [color]="'primary'"
             (click)="createWork()"
+            [disabled]="assignment.state === 1"
           >
             <mat-icon>create</mat-icon>
             <span class="ml-2 mr-1">Create work</span>

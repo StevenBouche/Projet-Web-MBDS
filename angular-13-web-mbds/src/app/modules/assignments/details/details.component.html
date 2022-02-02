@@ -24,6 +24,22 @@
           </div>
         </mat-card-content>
       </mat-card>
+      <mat-card class="details-card">
+        <mat-card-title>User</mat-card-title>
+        <mat-card-content>
+          <div class="card-footer flex flex-col">
+            <div class="flew flex-row mb-2">
+              <img
+                [src]="imageHelper.sourceImageUser(assignment.course.user.pictureId)"
+                alt="user"
+                class="rounded-circle"
+                width="31"
+              />
+              <b class="ms-2">{{ assignment.course.user.name }}</b>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
     <div class="col-md-6">
       <mat-card class="details-card">
@@ -65,7 +81,7 @@
   </div>
   <div class="w-full">
     <app-assignment-work-student [assignment]="assignment" *ngIf="isStudent"></app-assignment-work-student>
-    <app-assignment-work-professor [assignment]="assignment" *ngIf="isProfessor"></app-assignment-work-professor>
+    <app-assignment-work-professor [assignment]="assignment" *ngIf="isProfessorAndOwner"></app-assignment-work-professor>
   </div>
 
 </div>
