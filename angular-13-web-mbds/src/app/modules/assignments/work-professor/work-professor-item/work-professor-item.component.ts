@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class WorkProfessorItemComponent implements OnInit {
 
   @Input() item: Work | null = null;
+  @Input() isInEvaluation: boolean | null = false;
   @Output() onSave: EventEmitter<FormGroup> = new EventEmitter();
   @Output() onSubmit: EventEmitter<FormGroup> = new EventEmitter();
 
@@ -45,7 +46,12 @@ export class WorkProfessorItemComponent implements OnInit {
   }
 
   onClickSave() {
+    if(this.isInEvaluation){
+      this.onSubmit.emit(this.form);
+    }
+    else{
     this.onSave.emit(this.form);
+    }
   }
 
   onClickSubmit() {

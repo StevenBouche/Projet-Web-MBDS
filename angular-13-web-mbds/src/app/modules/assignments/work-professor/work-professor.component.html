@@ -68,12 +68,11 @@
         cdkDropList
         #evaluatedList="cdkDropList"
         [cdkDropListData]="evaluated"
-        [cdkDropListConnectedTo]="[sumittedList]"
         class="example-list"
         (cdkDropListDropped)="drop($event)"
       >
       <div class="example-box" *ngFor="let item of evaluated" cdkDrag>
-        <app-work-professor-item [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
+        <app-work-professor-item [isInEvaluation]="true" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
       </div>
       </div>
     </div>
