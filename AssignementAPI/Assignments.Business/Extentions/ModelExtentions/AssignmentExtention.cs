@@ -9,6 +9,13 @@ namespace Assignments.Business.Extentions.ModelExtentions
     {
         public static Assignment ToAssignment(this AssignmentEntity entity, UserIdentity? identity = null)
         {
+            var haveWork = identity != null ? identity.Role switch
+            {
+                "STUDENT" => entity.WorkSubmits.Any(e => e.UserId == identity.Id),
+                "PROFESSOR" => !(entity.Course != null && entity.Course.UserId == identity.Id && entity.WorkSubmits.Any(e => e.State == DAL.Enumerations.WorkSubmitState.SUBMITTED)),
+                _ => false
+            } : false; 
+
             return new Assignment()
             {
                 Id = entity.Id,
@@ -17,7 +24,7 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 DeliveryDateLabel = entity.DelivryDate.ToString("F", CultureInfo.CreateSpecificCulture("en-US")),
                 Label = entity.Label,
                 Course = entity.Course?.ToCourse(),
-                HaveWork = identity != null && identity.Role == "STUDENT" ? entity.WorkSubmits.Any(e => e.UserId == identity.Id) : false
+                HaveWork = haveWork
             };
         }
     }

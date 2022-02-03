@@ -7,6 +7,11 @@ namespace Assignments.Business.Extentions.ModelExtentions
     {
         public static WorkSubmit ToWorkSubmit(this WorkSubmitEntity entity)
         {
+            var ass = entity.Assignment?.ToAssignment();
+            var submittedDate = entity.SubmittedDate;
+
+            var isLate = ass != null && DateTime.Compare(submittedDate ?? DateTime.Now, ass.DelivryDate) > 0;
+
             return new WorkSubmit()
             {
                 Id = entity.Id,
@@ -15,8 +20,10 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 Comment = entity.Comment,
                 Description = entity.Description,
                 State = entity.State,
-                Assignment = entity.Assignment?.ToAssignment(),
-                User = entity.User?.ToUser()
+                SubmittedDate = submittedDate,
+                Assignment = ass,
+                User = entity.User?.ToUser(),
+                IsLate = isLate
             };
         }
     }

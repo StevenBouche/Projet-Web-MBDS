@@ -68,6 +68,22 @@
         />
       </div>
     </li>
+    <li class="list-group-item">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Is Late</span>
+        </div>
+        {{ item.isLate }}
+      </div>
+    </li>
+    <li class="list-group-item" *ngIf="item.submittedDate">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="">Submitted Date</span>
+        </div>
+        {{ item.submittedDate }}
+      </div>
+    </li>
     <li class="list-group-item" *ngIf="item.state !== 2">
       <div class="input-group">
         <div class="flex w-100 justify-evenly">

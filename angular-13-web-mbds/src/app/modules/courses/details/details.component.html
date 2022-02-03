@@ -42,7 +42,7 @@
       <button
         class="ml-4"
         mat-flat-button
-        *ngIf="canCreateAssignment() "
+        *ngIf="canCreateAssignment()"
         [color]="'primary'"
         (click)="createAssignment()"
       >
@@ -111,8 +111,8 @@
           </ng-container>
 
           <!-- Symbol Column -->
-          <ng-container matColumnDef="havework" *ngIf="isStudent()">
-            <th mat-header-cell *matHeaderCellDef>Have work</th>
+          <ng-container matColumnDef="havework" *ngIf="isStudent() || canCreateAssignment()">
+            <th mat-header-cell *matHeaderCellDef>{{ isStudent() ?  'Have work' : 'Need evaluate' }}</th>
             <td mat-cell *matCellDef="let element">
               <span class="p-2 bg-{{getStatus(element)}} rounded-circle d-inline-block ms-3"></span>
             </td>

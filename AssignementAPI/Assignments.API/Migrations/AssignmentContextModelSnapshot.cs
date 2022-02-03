@@ -262,6 +262,9 @@ namespace Assignments.API.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("SubmittedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 

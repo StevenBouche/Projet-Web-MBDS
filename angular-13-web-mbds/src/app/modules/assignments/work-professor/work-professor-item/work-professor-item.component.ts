@@ -34,6 +34,7 @@ export class WorkProfessorItemComponent implements OnInit {
   ngOnInit(): void {
 
     if (this.item) {
+      console.log(this.item)
       this.form.patchValue({
         grade: this.item.grade,
         comment: this.item.comment,

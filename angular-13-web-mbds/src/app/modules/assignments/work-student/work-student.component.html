@@ -85,6 +85,22 @@
               />
             </div>
           </li>
+          <li class="list-group-item">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Is Late</span>
+              </div>
+              {{ work.isLate }}
+            </div>
+          </li>
+          <li class="list-group-item" *ngIf="work.submittedDate">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Submitted Date</span>
+              </div>
+              {{ work.submittedDate }}
+            </div>
+          </li>
         </ul>
       </div>
       <div class="card-footer d-flex justify-content-end">

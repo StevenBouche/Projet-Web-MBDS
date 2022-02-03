@@ -52,7 +52,6 @@ namespace Assignments.DAL.Context
             modelBuilder.Entity<CourseEntity>(entity =>
             {
                 entity.Property(e => e.Name).HasMaxLength(255);
-                entity.Property(e => e.Description).HasMaxLength(255);
 
                 entity.HasOne(e => e.Image)
                     .WithOne(p => p.Course)

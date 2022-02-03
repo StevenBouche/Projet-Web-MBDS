@@ -31,7 +31,7 @@ export class CourseDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
   @ViewChild(MatSort) sort!: MatSort;
 
   public getColumns(){
-    return this.isStudent() ? this.displayedColumnsStudent : this.displayedColumnsProfessor;
+    return this.isStudent() || this.canCreateAssignment() ? this.displayedColumnsStudent : this.displayedColumnsProfessor;
   }
 
   public isStudent(): boolean {

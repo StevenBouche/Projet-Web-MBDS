@@ -25,13 +25,20 @@ namespace Assignments.Business.Dto.WorkSubmits
 
         [JsonPropertyName("state")]
         public WorkSubmitState State { get; set; }
+
         [JsonPropertyName("stateLabel")]
         public string StateLabel { get => this.State.ToString(); }
+
+        [JsonPropertyName("submittedDate")]
+        public DateTime? SubmittedDate { get; set; }
 
         [JsonPropertyName("assignment")]
         public Assignment? Assignment { get; set; }
 
         [JsonPropertyName("user")]
         public User? User { get; set; }
+
+        [JsonPropertyName("isLate")]
+        public bool IsLate { get; set; }
     }
 }

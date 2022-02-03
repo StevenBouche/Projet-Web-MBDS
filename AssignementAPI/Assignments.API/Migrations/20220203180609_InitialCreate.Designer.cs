@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Assignments.API.Migrations
 {
     [DbContext(typeof(AssignmentContext))]
-    [Migration("20220125200203_InitialCreate")]
+    [Migration("20220203180609_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -263,6 +263,9 @@ namespace Assignments.API.Migrations
 
                     b.Property<int>("State")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("SubmittedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");

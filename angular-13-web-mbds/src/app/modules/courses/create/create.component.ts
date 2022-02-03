@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentsModule } from 'app/component/component.module';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
@@ -7,7 +8,7 @@ import { Picture, ProgressUpload } from 'app/core/core.types';
 import { CoursesService } from 'app/core/courses/courses.service';
 import { ImageHelper } from 'app/core/helpers/image.helper';
 import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
+import { finalize, Subject, takeWhile, tap, timer } from 'rxjs';
 
 @Component({
   selector: 'app-course-create',
@@ -19,7 +20,14 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
   public form: FormGroup;
   public image: Picture | null = null;
   public progress: ProgressUpload | null = null;
+  public isSuccess = false;
   private _unsubscribeAll: Subject<any> = new Subject<any>();
+
+  public countdown = 5;
+  countdownMapping: any = {
+    '=1'   : '# second',
+    'other': '# seconds'
+  };
 
   get canCreate() { return this.form.invalid || this.image === null || this.form.disabled; }
 
@@ -28,7 +36,9 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
     private _coursesService: CoursesService,
     private _stateService: ComponentStateService,
     private toast: ToastrService,
-    private imageHelper: ImageHelper
+    private imageHelper: ImageHelper,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute
   ) {
     this.form = this._formBuilder.group({
       name: ['', [Validators.required]],
@@ -69,13 +79,27 @@ export class CourseCreateComponent implements OnInit, OnDestroy {
       this.toast.success('Course is created');
       this._coursesService.uploadPicture(courseCreated.id, this.image!.file, (progress: ProgressUpload) => {
         this.progress = progress;
-        if (progress.value === 100)
+        this.isSuccess = progress.value === 100;
+        if (this.isSuccess){
           this.toast.success('Image is uploaded');
-        this.form.enable();
+          this.redirect(courseCreated.id);
+        }
       })
     }
     catch (error) {
       this.form.enable();
     }
+  }
+
+  private redirect(id: number): void {
+    timer(0, 1000)
+            .pipe(
+                finalize(() => {
+                  this._router.navigate([`details/${id}`], { relativeTo: this._activatedRoute.parent })
+                }),
+                takeWhile(() => this.countdown > 0),
+                tap(() => this.countdown--)
+            )
+            .subscribe();
   }
 }

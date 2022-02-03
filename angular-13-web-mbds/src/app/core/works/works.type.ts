@@ -34,9 +34,11 @@ export interface Work {
   description: string;
   comment: string;
   state: number,
+  submittedDate: Date,
   stateLabel: string,
   assignment: Assignment;
-  User: User;
+  user: User;
+  isLate: boolean;
 }
 export interface WorkPaginationForm {
   pagesize: number;

@@ -162,10 +162,14 @@ namespace Assignments.Business.Services.WorkSubmits
 
             VerifyUpdate(entity);
 
-            if (entity.AssignmentId == null)
-                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UPDATE, "Cannot submit a work which is not assigned to an assignments");
+            if (entity.Assignment == null)
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UPDATE, "Cannot submit a work which is not assigned to an assignment");
+
+            if (entity.Assignment.State == AssignmentState.CLOSE)
+                throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UPDATE, "Cannot submit a work which is assigned to an closed assignment");
 
             entity.State = WorkSubmitState.SUBMITTED;
+            entity.SubmittedDate = DateTime.Now;
 
             await Repository.UpdateAsync(entity);
 

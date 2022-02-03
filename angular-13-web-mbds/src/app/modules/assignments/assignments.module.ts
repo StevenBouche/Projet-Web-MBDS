@@ -62,7 +62,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatSlideToggleModule,
     MatTabsModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
     MatTabsModule,
     ScrollingModule
   ]
