@@ -5,6 +5,7 @@ using Assignments.Business.Dto.Authorization;
 using Assignments.Business.Dto.Courses;
 using Assignments.Business.Dto.Search;
 using Assignments.Business.Dto.Search.Courses;
+using Assignments.Business.Dto.Tree;
 using Assignments.Business.Services.Courses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -71,6 +72,16 @@ namespace Assignments.API.Controllers
             return await TryExecuteAsync<ActionResult>(async () =>
             {
                 return Ok(await Service.GetMineCoursesAsync(form));
+            });
+        }
+
+        [HttpGet("mine/tree")]
+        [ProducesResponseType(typeof(IList<CourseTreeNode>), 200)]
+        public ActionResult GetMineTree()
+        {
+            return TryExecute<ActionResult>(() =>
+            {
+                return Ok(Service.GetMineTreeCourses());
             });
         }
 

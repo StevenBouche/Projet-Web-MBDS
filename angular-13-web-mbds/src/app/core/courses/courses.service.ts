@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { ApiService } from 'app/core/api/api.service';
-import { Course, CourseFormCreate, CourseFormUpdate, CoursePaginationForm, CoursePaginationResult, CourseSearchForm, CourseSearchFormResults, CourseStats } from './courses.type';
+import { Course, CourseFormCreate, CourseFormUpdate, CoursePaginationForm, CoursePaginationResult, CourseSearchForm, CourseSearchFormResults, CourseStats, CourseTreeNode } from './courses.type';
 import { PaginationForm, PaginationResult } from '../api/api.types';
 import { Assignment } from '../assignments/assignments.type';
 import { BehaviorSubject, catchError, map, Observable, of } from 'rxjs';
@@ -141,6 +141,10 @@ export class CoursesService extends ApiService {
       `${this.baseUrl}/courses/${id}/assignments`,
       form
     );
+  }
+
+  public getCourseTreeNode(): Observable<Array<CourseTreeNode>> {
+    return this.http.get<Array<CourseTreeNode>>(`${this.baseUrl}/courses/mine/tree`);
   }
 
   public uploadPicture(id: number, file: File, callback: ProgressAction): void {

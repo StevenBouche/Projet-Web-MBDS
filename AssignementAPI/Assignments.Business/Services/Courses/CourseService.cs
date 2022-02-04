@@ -11,6 +11,8 @@ using Assignments.Business.Dto.Search;
 using Assignments.Business.Dto.Assignments;
 using Assignments.Business.Dto.Authorization;
 using Assignments.Business.Dto.Search.Courses;
+using Assignments.Business.Dto.Tree;
+using Assignments.DAL.Repositories.WorkSubmits;
 
 namespace Assignments.Business.Services.Courses
 {
@@ -18,11 +20,13 @@ namespace Assignments.Business.Services.Courses
     {
         private readonly UserIdentity Identity;
         private readonly IAssignmentService AssignmentService;
+        private readonly IWorkSubmitRepository WorkRepository;
 
-        public CourseService(ICourseRepository repository, UserIdentity identity, IAssignmentService assignmentService, ILogger<CourseService> logger) : base(repository, logger)
+        public CourseService(ICourseRepository repository, IWorkSubmitRepository workRepository, UserIdentity identity, IAssignmentService assignmentService, ILogger<CourseService> logger) : base(repository, logger)
         {
             Identity = identity;
             AssignmentService = assignmentService;
+            WorkRepository = workRepository;
         }
 
         public async Task AddPictureId(int courseId, int id)
@@ -67,7 +71,7 @@ namespace Assignments.Business.Services.Courses
         {
             var filter = Repository.Set.AsEnumerable();
 
-            if(form.UserId != null && form.UserId > 0)
+            if (form.UserId != null && form.UserId > 0)
             {
                 filter = filter.Where(entity => entity.UserId == form.UserId);
             }
@@ -114,6 +118,53 @@ namespace Assignments.Business.Services.Courses
                 _ => await GetPaginationAsync(form)
             };
             return MapPagination(pagination, entity => entity.ToCourse());
+        }
+
+        public IList<CourseTreeNode> GetMineTreeCourses()
+        {
+            var mapCourse = new Dictionary<int, CourseTreeNode>();
+
+            var work = WorkRepository.Set.Where(entity => entity.UserId == Identity.Id);
+
+            foreach (var w in work)
+            {
+                if (w.Assignment != null && w.Assignment.Course != null)
+                {
+                    var courseId = w.Assignment.Course.Id;
+
+                    if (!mapCourse.ContainsKey(courseId))
+                    {
+                        mapCourse.Add(courseId, new CourseTreeNode()
+                        {
+                            Id = w.Assignment.Course.Id,
+                            Name = w.Assignment.Course.Name,
+                            IdName = $"{w.Assignment.Course.Id}-{w.Assignment.Course.Name}",
+                            Children = new List<CourseTreeNode>()
+                        });
+                    }
+
+                    var node = mapCourse[courseId];
+
+                    node.Children.Add(new CourseTreeNode()
+                    {
+                        Id = w.Assignment.Id,
+                        Name = w.Assignment.Label,
+                        IdName = $"{w.Assignment.Id}-{w.Assignment.Label}",
+                        DeliveryDate = w.Assignment.DelivryDate,
+                        WorkName = w.Label,
+                        StateWork = w.State.ToString(),
+                        StateAssignment = w.Assignment.State.ToString(),
+                        Grade = w.Grade,
+                        SubmittedDate = w.SubmittedDate,
+                    });
+                }
+            }
+
+            var result = mapCourse.Values.ToList();
+
+            result.ForEach(course => course.Grade = course.Children != null && course.Children.Count > 0 ? course.Children.Where(c => c.StateWork == "EVALUATED").Sum(c => c.Grade) / course.Children.Count() : null);
+
+            return result;
         }
 
         public CoursesSearchResult SearchCourses(CoursesSearchForm form)

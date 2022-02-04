@@ -2,6 +2,7 @@
 using Assignments.Business.Dto.Courses;
 using Assignments.Business.Dto.Search;
 using Assignments.Business.Dto.Search.Courses;
+using Assignments.Business.Dto.Tree;
 using Assignments.Business.Services.Base;
 using Assignments.DAL.Models;
 
@@ -30,5 +31,7 @@ namespace Assignments.Business.Services.Courses
         IList<Assignment> GetAllAssignmentCourse(int id);
 
         Task<CourseStats> GetStatsAsync(int id);
+
+        IList<CourseTreeNode> GetMineTreeCourses();
     }
 }

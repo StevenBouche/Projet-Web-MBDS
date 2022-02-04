@@ -53,3 +53,16 @@ export interface CoursePaginationResult {
   username: string;
   results: Array<Course>
 }
+
+export interface CourseTreeNode {
+  id: number;
+  idName: string;
+  name: string;
+  workName: string | null;
+  grade: number | null;
+  stateAssignment: string | null;
+  stateWork: string | null;
+  deliveryDate: Date | null;
+  submittedDate: Date | null;
+  children: Array<CourseTreeNode> | null;
+}

@@ -37,7 +37,7 @@ export const ROUTES_STUDENT : RouteInfo[] = [
     submenu: []
   },*/
   {
-    path: '/works',
+    path: '/works/mywork',
     title: 'Works',
     icon: 'bi bi-card-checklist',
     class: '',

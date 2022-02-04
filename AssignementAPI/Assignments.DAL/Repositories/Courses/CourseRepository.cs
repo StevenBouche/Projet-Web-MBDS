@@ -10,7 +10,6 @@ namespace Assignments.DAL.Repositories.Courses
     {
         public CourseRepository(AssignmentContext context, ILogger<CourseRepository> logger) : base(context, logger)
         {
-
         }
 
         public IEnumerable<CourseEntity> GetStudentCoursesAsync(int userId)

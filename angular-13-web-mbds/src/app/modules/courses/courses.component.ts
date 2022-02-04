@@ -71,6 +71,11 @@ export class CoursesComponent extends BaseComponent implements OnInit, OnDestroy
 
   protected getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction {
     let url: string | null = null;
+
+    if (isback && this.redirect) {
+      return { url: this.redirect, relativeToComponent: false };
+    }
+
     switch (state) {
       case ComponentState.List: url = 'list'; break;
       case ComponentState.Create: url = 'create'; break;

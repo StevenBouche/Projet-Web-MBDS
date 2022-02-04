@@ -20,14 +20,17 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { StudentWorkComponent } from './student-work/student-work.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatTableModule } from '@angular/material/table';
+import { StudentWorkResolver } from './resolvers/student-work.resolver';
 
 export const routes: Route[] = [
-  { path: 'list', component: WorkListComponent },
+  //{ path: 'list', component: WorkListComponent },
  // { path: 'details/:id', component: WorkDetailsComponent },
  // { path: 'edit/:id', component: WorkEditComponent },
-  { path: 'create', component: WorkCreateComponent }
+  { path: 'create', component: WorkCreateComponent },
+  { path: 'mywork', resolve : { initialData: StudentWorkResolver }, component: StudentWorkComponent }
 ];
-
 
 @NgModule({
   declarations: [
@@ -52,6 +55,8 @@ export const routes: Route[] = [
     MatIconModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    MatTreeModule,
+    MatTableModule
   ]
 })
 export class WorkModule { }
