@@ -7,6 +7,10 @@ using Assignments.DAL.Models;
 using Assignments.DAL.Repositories.CourseImage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Processing;
 
 namespace Assignments.Business.Services.CourseImage
 {
@@ -53,16 +57,51 @@ namespace Assignments.Business.Services.CourseImage
             }
 
             image.Extention = file.ContentType;
+            image.Data = await ProcessImage(file);
 
-            using (var ms = new MemoryStream())
-            {
-                file.CopyTo(ms);
-                image.Data = ms.ToArray();
-            }
+            /* using (var ms = new MemoryStream())
+             {
+                 file.CopyTo(ms);
+                 image.Data = ms.ToArray();
+             }*/
 
             await Repository.UpsertAsync(image);
 
             await CourseService.AddPictureId(image.CourseId, image.Id);
+        }
+
+        private async Task<byte[]> ProcessImage(IFormFile file)
+        {
+            int widthResult = 300;
+            using var image = await Image.LoadAsync(file.OpenReadStream());
+
+            var width = image.Width;
+            var heigth = image.Height;
+
+            if (width > widthResult)
+            {
+                heigth = widthResult / width * heigth;
+                width = widthResult;
+            }
+
+            image.Mutate(i => i.Resize(new Size(width, heigth)));
+
+            image.Metadata.ExifProfile = null;
+
+            using var stream = new MemoryStream();
+
+            Func<Task>? action = file.ContentType switch
+            {
+                "image/gif" => () => image.SaveAsGifAsync(stream),
+                "image/jpeg" => () => image.SaveAsJpegAsync(stream),
+                "image/png" => () => image.SaveAsPngAsync(stream),
+                _ => null
+            };
+
+            if (action != null)
+                await action();
+
+            return stream.ToArray();
         }
     }
 }

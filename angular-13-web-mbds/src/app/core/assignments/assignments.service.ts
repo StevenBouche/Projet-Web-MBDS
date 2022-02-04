@@ -81,7 +81,7 @@ export class AssignmentsService extends ApiService {
   }
 
   public async updateAsync(form: AssignmentFormUpdate): Promise<Assignment> {
-    return this.executePutAsync<AssignmentFormCreate, Assignment>(
+    return this.executePutAsync<AssignmentFormUpdate, Assignment>(
       `${this.baseUrl}/assignments`,
       form
     );

@@ -15,7 +15,7 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 })
 export class CourseListComponent implements OnInit, OnDestroy {
 
-  public courseSelected: Course | null = null
+  public courseSelected: Course | null = null;
   public paginationResult: PaginationResult<Course> | null = null;
 
   get page() { return this._coursesService.page; }
@@ -34,7 +34,7 @@ export class CourseListComponent implements OnInit, OnDestroy {
   constructor(
     private _coursesService: CoursesService,
     private _stateService: ComponentStateService,
-    private imageHelper: ImageHelper
+    public imageHelper: ImageHelper
     ) {
 
     }
@@ -58,19 +58,21 @@ export class CourseListComponent implements OnInit, OnDestroy {
         this.courseSelected = course;
       })
 
+      this.searchInputCourse.setValue(this._coursesService.courseNamePagination);
       this.searchInputCourse.valueChanges
       .pipe(takeUntil(this._unsubscribeAll),debounceTime(500),distinctUntilChanged())
       .subscribe(async (value: string | null) => {
         if(value != null) {
-          this._coursesService.setCourseNamePagination(value)
+          this._coursesService.courseNamePagination = value;
         }
       });
 
+      this.searchInputUser.setValue(this._coursesService.userNamePagination);
       this.searchInputUser.valueChanges
       .pipe(takeUntil(this._unsubscribeAll),debounceTime(500),distinctUntilChanged())
       .subscribe(async (value: string | null) => {
         if(value != null) {
-          this._coursesService.setUserNamePagination(value)
+          this._coursesService.userNamePagination = value;
         }
       });
 

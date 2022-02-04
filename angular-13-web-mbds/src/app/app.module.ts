@@ -35,8 +35,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { EmptyLayoutModule } from './layouts/empty/empty.module';
 import { CoreModule } from './core/core.module';
 import { FullModule } from './layouts/full/full.module';
-
-//Select
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -71,6 +71,8 @@ const routerConfig: ExtraOptions = {
     NgbModule,
     PerfectScrollbarModule,
     ReactiveFormsModule,
+    MatMomentDateModule,
+
     // Core module of your application
     CoreModule,
 
@@ -88,7 +90,14 @@ const routerConfig: ExtraOptions = {
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
+    },
+    {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+         {provide: MAT_DATE_LOCALE, useValue: 'en-EN'},
+         {
+             provide: DateAdapter,
+             useClass: MomentDateAdapter,
+             deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+         },
   ],
   bootstrap: [AppComponent]
 })

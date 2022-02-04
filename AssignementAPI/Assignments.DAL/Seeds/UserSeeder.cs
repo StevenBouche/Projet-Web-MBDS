@@ -20,8 +20,8 @@ namespace Assignments.DAL.Seeds
                 Name = "Admin",
                 Password = BCrypt.Net.BCrypt.HashPassword("Admin"),
                 Role = UserRoles.ADMIN,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                CreatedDate = DateTimeOffset.UtcNow,
+                UpdatedDate = DateTimeOffset.UtcNow
             });
 
             AddUniqueUser(new UserEntity()
@@ -29,8 +29,8 @@ namespace Assignments.DAL.Seeds
                 Name = "Professor",
                 Password = BCrypt.Net.BCrypt.HashPassword("Professor"),
                 Role = UserRoles.PROFESSOR,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                CreatedDate = DateTimeOffset.UtcNow,
+                UpdatedDate = DateTimeOffset.UtcNow
             });
 
             AddUniqueUser(new UserEntity()
@@ -38,8 +38,8 @@ namespace Assignments.DAL.Seeds
                 Name = "Student",
                 Password = BCrypt.Net.BCrypt.HashPassword("Student"),
                 Role = UserRoles.STUDENT,
-                CreatedDate = DateTime.Now,
-                UpdatedDate = DateTime.Now
+                CreatedDate = DateTimeOffset.UtcNow,
+                UpdatedDate = DateTimeOffset.UtcNow
             });
 
             Context.SaveChanges();

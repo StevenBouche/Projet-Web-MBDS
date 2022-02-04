@@ -20,7 +20,7 @@ import { AuthorizeService } from 'app/core/authorize/authorize.service';
 })
 export class AssignmentsComponent extends BaseComponent implements OnInit {
 
-  private redirect: string | null = null;
+
   private assignmentSelected: Assignment | null = null
 
   private _title = 'Assignment'
@@ -49,11 +49,6 @@ export class AssignmentsComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
 
     super.ngOnInit();
-
-    this._activatedRoute.queryParamMap
-      .subscribe((params) => {
-        this.redirect = params.get('redirect');
-      });
 
     this._assignmentsService.assignmentSelected
       .pipe(takeUntil(this._unsubscribeAll))

@@ -19,6 +19,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { StudentWorkComponent } from './student-work/student-work.component';
 
 export const routes: Route[] = [
   { path: 'list', component: WorkListComponent },
@@ -35,6 +36,7 @@ export const routes: Route[] = [
     WorkEditComponent,
     WorkCreateComponent,
     WorkDetailsComponent,
+    StudentWorkComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

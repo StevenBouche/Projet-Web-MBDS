@@ -124,11 +124,11 @@ namespace Assignments.DAL.Context
             {
                 var element = (BaseModel)entry.Entity;
 
-                element.UpdatedDate = DateTime.Now;
+                element.UpdatedDate = DateTimeOffset.UtcNow;
 
                 if (entry.State == EntityState.Added)
                 {
-                    element.CreatedDate = DateTime.Now;
+                    element.CreatedDate = DateTimeOffset.UtcNow;
                 };
             }
         }

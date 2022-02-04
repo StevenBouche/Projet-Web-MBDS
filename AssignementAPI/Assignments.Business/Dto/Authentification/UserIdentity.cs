@@ -9,7 +9,7 @@ namespace Assignments.Business.Dto.Authentification
         public string Role { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public int? PictureId { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTimeOffset UpdatedAt { get; set; }
 
         public UserIdentity()
         {

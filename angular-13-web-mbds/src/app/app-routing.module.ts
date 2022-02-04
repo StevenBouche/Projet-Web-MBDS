@@ -53,7 +53,7 @@ export const Approutes: Routes = [
     children: [
       { path: 'courses', pathMatch: 'full', redirectTo: 'courses/list'},
       { path: 'user', pathMatch: 'full', redirectTo: 'users/edit'},
-      { path: 'assignments', pathMatch: 'full', redirectTo: 'assignments/list'},
+     // { path: 'assignments', pathMatch: 'full', redirectTo: 'assignments/list'},
       { path: 'works', pathMatch: 'full', redirectTo: 'works/list'},
       {
         path: 'courses',

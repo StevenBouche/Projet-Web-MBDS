@@ -23,7 +23,7 @@ namespace Assignments.Business.Dto.Assignments
         public string StateLabel { get => this.State.ToString(); }
 
         [JsonPropertyName("delivryDate")]
-        public DateTime DelivryDate { get; set; }
+        public DateTimeOffset DelivryDate { get; set; }
 
         [JsonPropertyName("userId")]
         public int UserId { get; set; }

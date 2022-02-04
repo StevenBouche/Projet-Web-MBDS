@@ -14,7 +14,6 @@ import BaseComponent, { NavigationAction } from '../base/basecomponent';
 })
 export class WorkComponent extends BaseComponent implements OnInit {
 
-  private redirect: string | null = null;
   private _title = 'Work'
 
   protected getComponentName(): string{
@@ -34,10 +33,10 @@ export class WorkComponent extends BaseComponent implements OnInit {
   ngOnInit(): void {
     super.ngOnInit();
 
-    this._activatedRoute.queryParamMap
+  /*  this._activatedRoute.queryParamMap
       .subscribe((params) => {
         this.redirect = params.get('redirect');
-      });
+      });*/
   }
 
   protected getNavigationUrl(state: ComponentState, isback: boolean): NavigationAction {

@@ -21,7 +21,7 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
   private _state: ComponentState | null = null
   public stateActions: ComponentStateActions | null = null
   public title : string | null = null;
-
+  protected redirect: string | null = null;
   protected user: UserIdentity | null = null
 
   get state() { return this._state; }
@@ -45,6 +45,11 @@ export default abstract class BaseComponent implements OnInit, AfterContentCheck
 
   ngOnInit(): void {
 
+    this._activatedRoute.queryParamMap
+      .subscribe((params) => {
+        this.redirect = params.get('redirect');
+      });
+      
     this._identityService.identity
     .pipe(takeUntil(this._unsubscribeAll))
     .subscribe(user => this.handleUserIdentity(user))

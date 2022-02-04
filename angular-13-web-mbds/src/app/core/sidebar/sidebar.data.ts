@@ -9,14 +9,14 @@ export const ROUTES_PROFESSOR : RouteInfo[] = [
     extralink: false,
     submenu: []
   },
-  {
+ /* {
     path: '/assignments',
     title: 'Assignments',
     icon: 'bi bi-card-checklist',
     class: '',
     extralink: false,
     submenu: []
-  }
+  }*/
 ];
 
 export const ROUTES_STUDENT : RouteInfo[] = [
@@ -28,14 +28,14 @@ export const ROUTES_STUDENT : RouteInfo[] = [
     extralink: false,
     submenu: []
   },
-  {
+  /*{
     path: '/assignments',
     title: 'Assignments',
     icon: 'bi bi-card-checklist',
     class: '',
     extralink: false,
     submenu: []
-  },
+  },*/
   {
     path: '/works',
     title: 'Works',

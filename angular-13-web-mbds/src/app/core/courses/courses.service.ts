@@ -45,13 +45,15 @@ export class CoursesService extends ApiService {
     this.getAllAsync();
   }
 
-  setCourseNamePagination(value: string){
+  get courseNamePagination() { return this.store.pagination.courseName; }
+  set courseNamePagination(value: string){
     this.store.pagination.page = 1;
     this.store.pagination.courseName = value;
     this.getAllAsync();
   }
 
-  setUserNamePagination(value: string){
+  get userNamePagination() { return this.store.pagination.username; }
+  set userNamePagination(value: string){
     this.store.pagination.page = 1;
     this.store.pagination.username = value;
     this.getAllAsync();

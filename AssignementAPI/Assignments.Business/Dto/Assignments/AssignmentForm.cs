@@ -6,10 +6,13 @@ namespace Assignments.Business.Dto.Assignments
     {
         [JsonPropertyName("id")]
         public int? Id { get; set; }
+
         [JsonPropertyName("label")]
         public string Label { get; set; } = string.Empty;
+
         [JsonPropertyName("delivryDate")]
-        public DateTime DelivryDate { get; set; }
+        public DateTimeOffset DelivryDate { get; set; }
+
         [JsonPropertyName("courseId")]
         public int CourseId { get; set; }
     }

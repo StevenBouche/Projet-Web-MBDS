@@ -23,5 +23,11 @@ namespace Assignments.Business.Dto.Courses
 
         [JsonPropertyName("stats")]
         public CourseStats? Stats { get; set; } = null;
+
+        [JsonPropertyName("createAt")]
+        public DateTimeOffset CreateAt { get; set; }
+
+        [JsonPropertyName("updateAt")]
+        public DateTimeOffset UpdateAt { get; set; }
     }
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AssignmentsService } from 'app/core/assignments/assignments.service';
 import { ComponentStateService } from 'app/core/componentstate/componentstate.service';
 import { ComponentState } from 'app/core/componentstate/componentstate.types';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-assignment-edit',
@@ -15,16 +16,18 @@ export class EditComponent implements OnInit {
   form: FormGroup;
   public isLoading: boolean = false;
 
+  get canUpdate() { return this.form.invalid || this.form.disabled; }
+
   constructor(
     private _stateService: ComponentStateService,
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
-    private _service: AssignmentsService
+    private _service: AssignmentsService,
+    private _toastr: ToastrService
   ) {
     this.form = this._formBuilder.group({
       id: ['', [Validators.required]],
       label: ['', [Validators.required]],
-      courseId: ['', [Validators.required]],
       delivryDate: ['', [Validators.required]],
     });
   }
@@ -36,14 +39,25 @@ export class EditComponent implements OnInit {
     this.form.patchValue({
       id: assignment.id,
       label: assignment.label,
-      delivryDate: assignment.delivryDate,
-      courseId : assignment.courseId
+      delivryDate: assignment.delivryDate
     });
 
     this._stateService.setState(ComponentState.Edit);
   }
 
-  public update(): void {
+  public async update(): Promise<void> {
 
+    if (this.canUpdate) return;
+
+    this.form.disable();
+
+    try {
+      const ass = this.form.getRawValue();
+      await this._service.updateAsync(ass);
+      this._toastr.success('Course is updated');
+    }
+    catch (error) {
+      this.form.enable();
+    }
   }
 }

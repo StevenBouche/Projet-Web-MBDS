@@ -9,6 +9,8 @@ export interface Assignment {
   deliveryDateLabel: string;
   course: Course;
   haveWork: boolean;
+  createAt: Date;
+  updateAt: Date;
 }
 
 export interface AssignmentFormCreate {

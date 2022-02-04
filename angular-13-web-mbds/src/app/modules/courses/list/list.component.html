@@ -50,13 +50,21 @@
           alt="Card image cap"
         />
         <div class="card-body flex flex-col">
-          <h4 class="card-title">{{ course.name }}</h4>
           <ul class="list-group">
+            <li class="list-group-item">
+              <b>Course Name : </b> {{ course.name }}
+            </li>
             <li class="list-group-item">
               <b>Assignments : </b> {{ course.stats.totalassignments }}
             </li>
             <li class="list-group-item">
               <b>Works : </b> {{ course.stats.totalworks }}
+            </li>
+            <li class="list-group-item">
+              <b>Created at : </b> {{ course.createAt }}
+            </li>
+            <li class="list-group-item">
+              <b>Updated at : </b> {{ course.updateAt }}
             </li>
           </ul>
           <div class="mt-2 card-text h-24 overflow-x-auto">

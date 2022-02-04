@@ -14,17 +14,19 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 "STUDENT" => entity.WorkSubmits.Any(e => e.UserId == identity.Id),
                 "PROFESSOR" => !(entity.Course != null && entity.Course.UserId == identity.Id && entity.WorkSubmits.Any(e => e.State == DAL.Enumerations.WorkSubmitState.SUBMITTED)),
                 _ => false
-            } : false; 
+            } : false;
 
             return new Assignment()
             {
                 Id = entity.Id,
                 State = entity.State,
                 DelivryDate = entity.DelivryDate,
-                DeliveryDateLabel = entity.DelivryDate.ToString("F", CultureInfo.CreateSpecificCulture("en-US")),
+                DeliveryDateLabel = entity.DelivryDate.ToString("F", CultureInfo.CreateSpecificCulture("en-EN")),
                 Label = entity.Label,
                 Course = entity.Course?.ToCourse(),
-                HaveWork = haveWork
+                HaveWork = haveWork,
+                CreateAt = entity.CreatedDate,
+                UpdateAt = entity.UpdatedDate
             };
         }
     }

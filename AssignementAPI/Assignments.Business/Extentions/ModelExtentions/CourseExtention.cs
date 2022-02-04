@@ -18,7 +18,9 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 {
                     TotalAssignments = entity.Assignments.Count,
                     TotalWorks = entity.Assignments.Select(assignment => assignment.WorkSubmits.Count).Sum()
-                }
+                },
+                CreateAt = entity.CreatedDate,
+                UpdateAt = entity.UpdatedDate
             };
         }
     }

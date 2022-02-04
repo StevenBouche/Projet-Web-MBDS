@@ -16,7 +16,6 @@ export interface CourseStats {
   totalassignments: number;
 }
 
-
 export interface Course {
   id: number;
   name: string;
@@ -24,6 +23,8 @@ export interface Course {
   pictureId: number;
   user: User;
   stats: CourseStats;
+  createAt: Date;
+  updateAt: Date;
 }
 
 export interface CourseSearchForm {

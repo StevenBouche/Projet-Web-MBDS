@@ -10,7 +10,7 @@ namespace Assignments.Business.Extentions.ModelExtentions
             var ass = entity.Assignment?.ToAssignment();
             var submittedDate = entity.SubmittedDate;
 
-            var isLate = ass != null && DateTime.Compare(submittedDate ?? DateTime.Now, ass.DelivryDate) > 0;
+            var isLate = ass != null && DateTimeOffset.Compare(submittedDate ?? DateTimeOffset.Now, ass.DelivryDate) > 0;
 
             return new WorkSubmit()
             {
@@ -23,7 +23,9 @@ namespace Assignments.Business.Extentions.ModelExtentions
                 SubmittedDate = submittedDate,
                 Assignment = ass,
                 User = entity.User?.ToUser(),
-                IsLate = isLate
+                IsLate = isLate,
+                CreateAt = entity.CreatedDate,
+                UpdateAt = entity.UpdatedDate
             };
         }
     }

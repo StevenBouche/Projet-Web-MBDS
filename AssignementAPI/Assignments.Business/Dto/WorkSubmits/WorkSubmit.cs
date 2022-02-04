@@ -30,7 +30,7 @@ namespace Assignments.Business.Dto.WorkSubmits
         public string StateLabel { get => this.State.ToString(); }
 
         [JsonPropertyName("submittedDate")]
-        public DateTime? SubmittedDate { get; set; }
+        public DateTimeOffset? SubmittedDate { get; set; }
 
         [JsonPropertyName("assignment")]
         public Assignment? Assignment { get; set; }
@@ -40,5 +40,11 @@ namespace Assignments.Business.Dto.WorkSubmits
 
         [JsonPropertyName("isLate")]
         public bool IsLate { get; set; }
+
+        [JsonPropertyName("createAt")]
+        public DateTimeOffset CreateAt { get; set; }
+
+        [JsonPropertyName("updateAt")]
+        public DateTimeOffset UpdateAt { get; set; }
     }
 }

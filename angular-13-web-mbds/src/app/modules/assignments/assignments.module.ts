@@ -31,6 +31,7 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatTableModule,
     MatSortModule,
     MatTabsModule,
+    NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule,
     ScrollingModule
   ]
 })

@@ -7,7 +7,7 @@ import { AssignmentDetailsResolver } from './resolvers/assignmentdetails.resolve
 import { AssignmentEditResolver } from './resolvers/assignmentedit.resolver';
 
 export const AssignmentsRoutes: Route[] = [
-  { path: 'list', component: AssignmentListComponent },
+  //{ path: 'list', component: AssignmentListComponent },
   { path: 'details/:id', resolve : { initialData: AssignmentDetailsResolver }, component: AssignmentDetailsComponent },
   { path: 'edit/:id', resolve : { initialData: AssignmentEditResolver },component: EditComponent },
   { path: 'create', component: AssignmentCreateComponent }

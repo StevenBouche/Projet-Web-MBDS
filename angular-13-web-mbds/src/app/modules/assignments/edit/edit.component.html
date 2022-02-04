@@ -21,12 +21,9 @@
         <!-- Delivery Date -->
         <mat-form-field appearance="outline">
           <mat-label>Delivery date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="delivryDate"/>
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <input matInput [ngxMatDatetimePicker]="picker" formControlName="delivryDate"/>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
           <mat-error *ngIf="form.get('delivryDate')?.hasError('required')">
             Valid date required.
          </mat-error>
@@ -39,7 +36,7 @@
         <button
           mat-flat-button
           [color]="'primary'"
-          [disabled]="form.invalid"
+          [disabled]="canUpdate"
           (click)="update()"
         >
           Save

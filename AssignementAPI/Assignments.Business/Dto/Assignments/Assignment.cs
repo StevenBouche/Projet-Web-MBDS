@@ -20,7 +20,7 @@ namespace Assignments.Business.Dto.Assignments
         public string StateLabel { get => this.State.ToString(); }
 
         [JsonPropertyName("delivryDate")]
-        public DateTime DelivryDate { get; set; }
+        public DateTimeOffset DelivryDate { get; set; }
 
         [JsonPropertyName("deliveryDateLabel")]
         public string DeliveryDateLabel { get; set; }
@@ -30,6 +30,12 @@ namespace Assignments.Business.Dto.Assignments
 
         [JsonPropertyName("haveWork")]
         public bool HaveWork { get; set; }
+
+        [JsonPropertyName("createAt")]
+        public DateTimeOffset CreateAt { get; set; }
+
+        [JsonPropertyName("updateAt")]
+        public DateTimeOffset UpdateAt { get; set; }
 
         public Assignment()
         {

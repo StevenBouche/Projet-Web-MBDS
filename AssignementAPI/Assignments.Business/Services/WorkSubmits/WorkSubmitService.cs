@@ -169,7 +169,7 @@ namespace Assignments.Business.Services.WorkSubmits
                 throw new WorkSubmitBusinessException(WorkSubmitBusinessExceptionTypes.WORK_SUBMIT_UPDATE, "Cannot submit a work which is assigned to an closed assignment");
 
             entity.State = WorkSubmitState.SUBMITTED;
-            entity.SubmittedDate = DateTime.Now;
+            entity.SubmittedDate = DateTimeOffset.UtcNow;
 
             await Repository.UpdateAsync(entity);
 
