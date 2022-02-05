@@ -48,14 +48,24 @@
 
       <div
         cdkDropList
-        #sumittedList="cdkDropList"
+        #submittedList="cdkDropList"
         [cdkDropListData]="submitted"
         [cdkDropListConnectedTo]="[evaluatedList]"
         class="example-list"
         (cdkDropListDropped)="drop($event)"
       >
+      <div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScrollSubmitted()"
+      [scrollWindow]="false"
+      alwaysCallback
+    >
       <div class="example-box d-block" *ngFor="let item of submitted" cdkDrag>
         <app-work-professor-item [isInEvaluation]="false" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
+      </div>
       </div>
       </div>
     </div>
@@ -68,11 +78,12 @@
         cdkDropList
         #evaluatedList="cdkDropList"
         [cdkDropListData]="evaluated"
+        [cdkDropListConnectedTo]="[submittedList]"
         class="example-list"
         (cdkDropListDropped)="drop($event)"
       >
-      <div class="example-box d-block" *ngFor="let item of evaluated" cdkDrag>
-        <app-work-professor-item [isInEvaluation]="true" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
+      <div class="example-box d-block" *ngFor="let item of evaluated">
+        <app-work-professor-item [isInEvaluation]="true" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)" cdkDrag [cdkDragDisabled]="item.state === 2" ></app-work-professor-item>
       </div>
       </div>
     </div>

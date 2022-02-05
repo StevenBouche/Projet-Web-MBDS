@@ -1,5 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,6 +30,8 @@ export class CourseDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
   dataSource = new MatTableDataSource<Assignment>([]);
 
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
 
   public getColumns(){
     return this.isStudent() || this.canCreateAssignment() ? this.displayedColumnsStudent : this.displayedColumnsProfessor;
@@ -54,6 +57,7 @@ export class CourseDetailsComponent implements OnInit, OnDestroy, AfterViewInit 
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy(): void {

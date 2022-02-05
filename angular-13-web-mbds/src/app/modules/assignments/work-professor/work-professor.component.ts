@@ -13,16 +13,27 @@ import { FormGroup } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 
+
+export interface ClassePageIndex{
+  pageIndex:number;
+  label:string;
+}
 @Component({
   selector: "app-assignment-work-professor",
   templateUrl: "./work-professor.component.html",
   styleUrls: ["./work-professor.component.scss"],
 })
+
 export class WorkProfessorComponent implements OnInit {
   @Input() assignment: Assignment | null = null;
   created: Work[] = [];
   submitted: Work[] = [];
   evaluated: Work[] = [];
+  createdPageindex: ClassePageIndex = {label: "created", pageIndex: 1};
+  submittedPageindex: ClassePageIndex = {label: "submitted", pageIndex: 1};
+  evaluatedPageindex: ClassePageIndex = {label: "evaluated", pageIndex: 1};
+
+
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -43,33 +54,25 @@ export class WorkProfessorComponent implements OnInit {
 
   constructor(
     private _worksService: WorksService,
-    private toast: ToastrService
+    private toast: ToastrService,
   ) {}
 
+
+  async getWorks(pageIndex: number, state: number): Promise<Work[]> {
+    let response = await this._worksService.getAllSearchAsync({
+      assignmentId: this.assignment!.id,
+      pagesize: 3,
+      page: pageIndex,
+      state: state,
+    });
+    return response.results;
+  }
   async ngOnInit(): Promise<void> {
-    let responseCreated = await this._worksService.getAllSearchAsync({
-      assignmentId: this.assignment!.id,
-      pagesize: 10,
-      page: 1,
-      state: 0,
-    });
-    this.created = responseCreated.results;
 
-    let responseSubmitted = await this._worksService.getAllSearchAsync({
-      assignmentId: this.assignment!.id,
-      pagesize: 10,
-      page: 1,
-      state: 1,
-    });
-    this.submitted = responseSubmitted.results;
+    this.created = await this.getWorks(1, 0);
+    this.submitted = await this.getWorks(1, 1);
+    this.evaluated = await this.getWorks(1, 2);
 
-    let responseEvaluated = await this._worksService.getAllSearchAsync({
-      assignmentId: this.assignment!.id,
-      pagesize: 10,
-      page: 1,
-      state: 2,
-    });
-    this.evaluated = responseEvaluated.results;
   }
 
   async onSave(form: FormGroup): Promise<void> {
@@ -101,4 +104,22 @@ export class WorkProfessorComponent implements OnInit {
       console.log(error);
     }
   }
+
+  async onScrollCreated() {
+    this.createdPageindex.pageIndex++;
+    this.created = [...this.created .concat(await this.getWorks(this.createdPageindex.pageIndex, 0))];
+  }
+
+  async onScrollSubmitted() {
+    this.submittedPageindex.pageIndex++;
+    this.submitted  = [...this.submitted .concat(await this.getWorks(this.submittedPageindex.pageIndex, 1))];
+  }
+
+  async onScrollEvaluated() {
+    this.evaluatedPageindex.pageIndex++;
+    this.evaluated  = [...this.evaluated .concat(await this.getWorks(this.evaluatedPageindex.pageIndex, 2))];
+  }
+
+
+
 }

@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" class="border border-dark">
   <ul class="list-group shadow w-100" *ngIf="item">
     <li class="list-group-item">
       <div class="input-group">
@@ -73,7 +73,13 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="">Is Late</span>
         </div>
-        {{ item.isLate }}
+        <input
+        disabled
+        type="text"
+        class="form-control"
+        name="isLate"
+        value="{{ item.isLate ? 'Yes' : 'No' }}"
+      />
       </div>
     </li>
     <li class="list-group-item" *ngIf="item.submittedDate">
@@ -81,10 +87,16 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="">Submitted Date</span>
         </div>
-        {{ item.submittedDate }}
+        <input
+        disabled
+        type="text"
+        class="form-control"
+        name="deliveryDate"
+        value="{{ item.submittedDate | date }}"
+      />
       </div>
     </li>
-    <li class="list-group-item" *ngIf="item.state !== 2">
+    <li class="list-group-item" *ngIf="item.state === 1">
       <div class="input-group">
         <div class="flex w-100 justify-evenly">
           <button (click)="onClickSubmit()" class="btn btn-warning">

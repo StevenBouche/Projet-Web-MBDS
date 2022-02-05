@@ -30,6 +30,8 @@ import { WorkProfessorItemComponent } from './work-professor/work-professor-item
 import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+
 
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 
@@ -66,7 +68,8 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     MatSortModule,
     MatTabsModule,
     NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule,
-    ScrollingModule
+    ScrollingModule,
+    InfiniteScrollModule
   ]
 })
 export class AssignmentsModule {}

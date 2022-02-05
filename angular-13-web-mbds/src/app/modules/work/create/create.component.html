@@ -1,14 +1,15 @@
-<div class="flex border-b">
+<div class="flex">
   <!-- Selected product form -->
   <form class="flex flex-col w-full" [formGroup]="form">
-    <div class="flex flex-col sm:flex-row p-8">
+    <div class="card shadow">
       <!-- Name, SKU & etc. -->
-      <div class="flex flex-col w-full sm:pl-8">
+      <div class="card-header text-center">
         <h1>Création d&apos;un work</h1>
-
+      </div>
+      <div class="card-body">
         <!-- Name -->
         <div>
-          <mat-form-field class="fuse-mat-no-subscript w-full">
+          <mat-form-field class="fuse-mat-no-subscript"  appearance="outline">
             <mat-label>Label</mat-label>
             <input
               matInput
@@ -21,7 +22,7 @@
 
         <!-- CourseId -->
 
-        <mat-form-field class="fuse-mat-no-subscript w-full" *ngIf="!isPreload">
+        <mat-form-field class="fuse-mat-no-subscript" *ngIf="!isPreload" appearance="outline">
           <mat-label>Filter assignments by course</mat-label>
           <input
             type="text"
@@ -44,7 +45,7 @@
         </mat-form-field>
         <!-- AssignmentId -->
 
-        <mat-form-field class="fuse-mat-no-subscript w-full" *ngIf="!isPreload">
+        <mat-form-field class="fuse-mat-no-subscript" *ngIf="!isPreload" appearance="outline">
           <mat-label>Assignment</mat-label>
           <input
             type="text"
@@ -77,13 +78,16 @@
           *ngIf="selectedAssignment"
         >
           <span class="text-grey-500">
-            Assignment {{ selectedAssignment.label }} :
-            {{ selectedAssignment.id }}</span>
-            <span *ngIf="selectedCourse"> link to {{ selectedCourse.name }} :
-              {{ selectedCourse.id }} course</span>
+           Assignment :  <b>{{ selectedAssignment.label }} :
+            {{ selectedAssignment.id }}</b></span
+          > <br>
+          <span *ngIf="selectedCourse">
+            Link to Course : <b>{{ selectedCourse.name }} :
+            {{ selectedCourse.id }}</b></span
+          >
         </div>
-        <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
-          <mat-form-field class="fuse-mat-textarea flex-auto">
+        <div class="mt-3 flex flex-col gt-xs:flex-row gt-xs:items-baseline">
+          <mat-form-field class="fuse-mat-textarea flex-auto" appearance="outline">
             <mat-label>Description</mat-label>
             <textarea
               matInput
@@ -93,23 +97,24 @@
           </mat-form-field>
         </div>
       </div>
-    </div>
-
-    <div class="flex items-center justify-between w-full border-t px-8 py-4">
-      <div class="flex items-center">
-        <button
-          mat-flat-button
-          [color]="'primary'"
-          [disabled]="form.invalid"
-          (click)="create()"
-        >
-          Save
-        </button>
+      <div
+        class="card-footer items-center justify-between w-full border-t px-8 py-4"
+      >
+        <div class="flex items-center">
+          <button
+            mat-flat-button
+            [color]="'primary'"
+            [disabled]="form.invalid"
+            (click)="create()"
+          >
+            Save
+          </button>
+        </div>
+        <mat-progress-spinner
+          mode="indeterminate"
+          *ngIf="isLoading"
+        ></mat-progress-spinner>
       </div>
-      <mat-progress-spinner
-        mode="indeterminate"
-        *ngIf="isLoading"
-      ></mat-progress-spinner>
     </div>
   </form>
 </div>

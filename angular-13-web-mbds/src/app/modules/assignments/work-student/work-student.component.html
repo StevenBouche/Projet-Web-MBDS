@@ -81,7 +81,7 @@
                 name="grade"
                 min="0"
                 max="20"
-                value="{{ work.grade }}"
+                value="{{ work.state !== 0 ? work.grade : '' }}"
               />
             </div>
           </li>
@@ -90,7 +90,13 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="">Is Late</span>
               </div>
-              {{ work.isLate }}
+              <input
+              disabled
+              type="text"
+              class="form-control"
+              name="isLate"
+              value="{{ work.isLate ? 'Yes' : 'No' }}"
+            />
             </div>
           </li>
           <li class="list-group-item" *ngIf="work.submittedDate">

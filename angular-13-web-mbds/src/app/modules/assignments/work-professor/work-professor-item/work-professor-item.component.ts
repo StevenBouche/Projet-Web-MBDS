@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Work } from 'app/core/works/works.type';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-work-professor-item',
