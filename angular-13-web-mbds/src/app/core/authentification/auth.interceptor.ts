@@ -36,7 +36,7 @@ export class AuthInterceptor implements HttpInterceptor
         const token = this._authService.getAuth();
         const jwtToken = token?.jwtToken.accessToken;
 
-        if (jwtToken && jwtToken && !AuthUtils.isTokenExpired(jwtToken) )
+        if (jwtToken && !AuthUtils.isTokenExpired(jwtToken) )
         {
             newReq = req.clone({
                 headers: req.headers.set('Authorization', 'Bearer ' + jwtToken)
