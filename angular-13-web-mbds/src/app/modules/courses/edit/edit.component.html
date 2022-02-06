@@ -1,102 +1,105 @@
 <div class="flex border-b">
   <!-- Selected product form -->
   <form class="flex flex-col w-full" [formGroup]="form">
-    <div class="flex flex-col sm:flex-row p-8">
+    <div class="flex flex-col sm:flex-row justify-center" >
       <!-- Name, SKU & etc. -->
-      <div class="flex flex-col w-full sm:pl-8">
-        <!-- Name -->
-        <div>
-          <mat-form-field class="fuse-mat-no-subscript w-full">
-            <mat-label>Title</mat-label>
-            <input
-              matInput
-              [formControlName]="'name'"
-              [placeholder]="'Name'"
-              [spellcheck]="false"
-            />
-          </mat-form-field>
-        </div>
-
-        <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
-          <mat-form-field class="fuse-mat-textarea flex-auto">
-            <mat-label>Description</mat-label>
-            <textarea
-              matInput
-              [formControlName]="'description'"
-              [rows]="12"
-            ></textarea>
-          </mat-form-field>
-        </div>
-
-        <ng-container *ngIf="image != null">
-          <div class="flex flex-col m-2 p-4 shadow rounded-2xl bg-card">
-            <div class="flex items-center justify-center">
-              <img
-                class="object-scale-down h-48 w-96"
-                mat-card-image
-                [src]="image.buffer"
+      <div class="flex col-md-6">
+        <mat-card class="example-card w-full shadow">
+          <!-- Name -->
+          <div>
+            <mat-form-field class="fuse-mat-no-subscript w-full" appearance="outline">
+              <mat-label>Title</mat-label>
+              <input
+                matInput
+                [formControlName]="'name'"
+                [placeholder]="'Name'"
+                [spellcheck]="false"
               />
-            </div>
+            </mat-form-field>
+          </div>
 
-            <div
-              *ngIf="progress != null && progress.value > 0"
-              class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
-            >
-              <mat-progress-bar
-                [mode]="determinate"
-                [value]="progress.value"
-              ></mat-progress-bar>
-            </div>
-            <div
-              class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
-            >
-              <div class="truncate" [matTooltip]="image.file.name">
-                {{ image.file.name }}
+          <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
+            <mat-form-field class="fuse-mat-textarea flex-auto" appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea
+                matInput
+                [formControlName]="'description'"
+                [rows]="12"
+              ></textarea>
+            </mat-form-field>
+          </div>
+
+          <ng-container *ngIf="image != null">
+            <div class="flex flex-col m-2 p-4 shadow rounded-2xl bg-card">
+              <div class="flex items-center justify-center">
+                <img
+                  class="object-scale-down h-48 w-96"
+                  mat-card-image
+                  [src]="image.buffer"
+                />
+              </div>
+
+              <div
+                *ngIf="progress != null && progress.value > 0"
+                class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
+              >
+                <mat-progress-bar
+                  [mode]="determinate"
+                  [value]="progress.value"
+                ></mat-progress-bar>
+              </div>
+              <div
+                class="flex flex-col flex-auto justify-center text-center text-sm font-medium"
+              >
+                <div class="truncate" [matTooltip]="image.file.name">
+                  {{ image.file.name }}
+                </div>
               </div>
             </div>
+          </ng-container>
+
+          <div class="flex flex-col items-center mt-4 mb-4 sm:mt-0 md:mt-4">
+            <button
+              type="button"
+              class="ml-4"
+              mat-flat-button
+              [color]="'primary'"
+              (click)="fileInput.click()"
+            >
+              <mat-icon>upload</mat-icon>
+              <span class="ml-2 mr-1">Upload Picture</span>
+              <input
+                #fileInput
+                type="file"
+                accept="image/png, image/jpeg"
+                (change)="selectFiles($event)"
+                style="display: none"
+              />
+            </button>
+            <mat-error *ngIf="image === null">Image is required </mat-error>
           </div>
-        </ng-container>
-
-        <div class="flex flex-col items-center mt-4 mb-4 sm:mt-0 md:mt-4">
-          <button
-            type="button"
-            class="ml-4"
-            mat-flat-button
-            [color]="'primary'"
-            (click)="fileInput.click()"
-          >
-            <mat-icon>upload</mat-icon>
-            <span class="ml-2 mr-1">Upload Picture</span>
-            <input
-              #fileInput
-              type="file"
-              accept="image/png, image/jpeg"
-              (change)="selectFiles($event)"
-              style="display: none"
-            />
-          </button>
-          <mat-error *ngIf="image === null">Image is required </mat-error>
-        </div>
-      </div>
-    </div>
-
-    <div class="flex items-center justify-between w-full border-t px-8 py-4">
-      <div class="flex items-center">
-        <button
-          mat-flat-button
-          [color]="'primary'"
-          [disabled]="canUpdate"
-          (click)="update()"
-        >
-          Save
-        </button>
-        <div class="flex flex-col flex-auto items-center sm:justify-center">
-          <mat-progress-spinner
-            *ngIf="form.disabled"
-            [diameter]="24"
-            [mode]="'indeterminate'"
-          ></mat-progress-spinner>
-        </div>
+          <mat-card-actions>
+            <div class="flex items-center justify-between w-full border-t px-8 py-4">
+              <div class="flex items-center">
+                <button
+                  mat-flat-button
+                  [color]="'primary'"
+                  [disabled]="canUpdate"
+                  (click)="update()"
+                >
+                  Save
+                </button>
+                <div class="flex flex-col flex-auto items-center sm:justify-center">
+                  <mat-progress-spinner
+                    *ngIf="form.disabled"
+                    [diameter]="24"
+                    [mode]="'indeterminate'"
+                  ></mat-progress-spinner>
+                </div>
+              </div>
+            </div>
+          </mat-card-actions>
+        </mat-card>
       </div>
     </div>
   </form>
