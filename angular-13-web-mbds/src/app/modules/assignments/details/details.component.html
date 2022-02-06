@@ -1,11 +1,11 @@
 <div class="flex flex-col items-center justify-center" *ngIf="assignment">
-  <div class="row w-full px-5 mb-5">
+  <div class="row w-full mb-5">
     <div class="col-md-6">
       <mat-card class="details-card">
         <mat-card-title>Course</mat-card-title>
         <mat-card-content>
           <img
-            class="object-scale-down h-48 img-responsive"
+            class="object-scale-down mat-card-image "
             [src]="imageHelper.sourceImageCourse(assignment.coursePictureId)"
             alt="Card image cap"
           />

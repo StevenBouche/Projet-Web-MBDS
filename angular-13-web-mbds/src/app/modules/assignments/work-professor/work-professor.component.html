@@ -11,6 +11,15 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)"
       >
+      <div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScrollEvaluated()"
+      [scrollWindow]="false"
+      alwaysCallback
+    >
         <div class="example-box d-block" *ngFor="let item of created" cdkDrag>
           <ul class="list-group">
             <li class="list-group-item">
@@ -41,6 +50,7 @@
         </div>
       </div>
     </div>
+    </div>
     <div class="example-container p-0 shadow card">
       <div class="card-header text-center">
         <h2 class=>Submited</h2>
@@ -63,10 +73,10 @@
       [scrollWindow]="false"
       alwaysCallback
     >
-      <div class="example-box d-block" *ngFor="let item of submitted" cdkDrag>
-        <app-work-professor-item [isInEvaluation]="false" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
-      </div>
-      </div>
+        <div class="example-box d-block" *ngFor="let item of submitted" cdkDrag>
+          <app-work-professor-item [isInEvaluation]="false" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)"></app-work-professor-item>
+        </div>
+        </div>
       </div>
     </div>
 
@@ -82,9 +92,19 @@
         class="example-list"
         (cdkDropListDropped)="drop($event)"
       >
-      <div class="example-box d-block" *ngFor="let item of evaluated">
-        <app-work-professor-item [isInEvaluation]="true" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)" cdkDrag [cdkDragDisabled]="item.state === 2" ></app-work-professor-item>
-      </div>
+      <div
+      class="search-results"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScrollEvaluated()"
+      [scrollWindow]="false"
+      alwaysCallback
+    >
+          <div class="example-box d-block" *ngFor="let item of evaluated">
+            <app-work-professor-item [isInEvaluation]="true" [item]="item" (onSave)="onSave($event)" (onSubmit)="onSubmit($event)" cdkDrag [cdkDragDisabled]="item.state === 2" ></app-work-professor-item>
+          </div>
+        </div>
       </div>
     </div>
   </div>

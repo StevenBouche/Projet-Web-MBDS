@@ -1,7 +1,7 @@
 <div class="flex w-full justify-center" *ngIf="work">
   <div class="row w-full justify-center">
     <div class="shadow card col-md-4 p-0 m-0">
-      <div class="card-header">
+      <div class="card-header text-center">
         <h4 class="card-title m-0">Work</h4>
       </div>
       <div class="card-body" [formGroup]="form">
@@ -104,7 +104,14 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="">Submitted Date</span>
               </div>
-              {{ work.submittedDate }}
+              <input
+              disabled
+              type="text"
+              class="form-control"
+              name="deliveryDate"
+              value="{{ work.submittedDate | date }}"
+            />
+
             </div>
           </li>
         </ul>
