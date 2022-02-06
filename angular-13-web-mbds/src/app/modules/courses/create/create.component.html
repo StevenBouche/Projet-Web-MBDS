@@ -1,12 +1,13 @@
 <div class="flex border-b">
   <!-- Selected product form -->
   <form class="flex flex-col w-full" [formGroup]="form">
-    <div class="flex flex-col sm:flex-row p-8">
+    <div class="flex flex-col sm:flex-row justify-center">
       <!-- Name, SKU & etc. -->
-      <div class="flex flex-col w-full sm:pl-8">
-        <!-- Name -->
+      <div class="flex col-md-6">
+        <mat-card class="example-card w-full shadow">
+                  <!-- Name -->
         <div>
-          <mat-form-field class="fuse-mat-no-subscript w-full">
+          <mat-form-field class="fuse-mat-no-subscript w-full" appearance="outline">
             <mat-label>Title</mat-label>
             <input
               matInput
@@ -18,7 +19,7 @@
         </div>
 
         <div class="flex flex-col gt-xs:flex-row gt-xs:items-baseline">
-          <mat-form-field class="fuse-mat-textarea flex-auto">
+          <mat-form-field class="fuse-mat-textarea flex-auto" appearance="outline">
             <mat-label>Description</mat-label>
             <textarea
               matInput
@@ -77,29 +78,31 @@
           </button>
           <mat-error *ngIf="image === null">Image is required </mat-error>
         </div>
-      </div>
-    </div>
-
-    <div class="flex items-center justify-between w-full border-t px-8 py-4">
-      <div class="flex items-center">
-        <button
-          mat-flat-button
-          [color]="'primary'"
-          [disabled]="canCreate"
-          (click)="create()"
-        >
-          Save
-        </button>
-        <div class="flex flex-col flex-auto items-center sm:justify-center">
-          <mat-progress-spinner
-            *ngIf="form.disabled && !isSuccess"
-            [diameter]="24"
-            [mode]="'indeterminate'"
-          ></mat-progress-spinner>
-        </div>
-        <ng-container *ngIf="countdown > 0 && isSuccess">
-          Redirecting in {{countdown | i18nPlural: countdownMapping }}
-        </ng-container>
+        <mat-card-actions>
+          <div class="flex items-center justify-between w-full border-t px-8 py-4">
+            <div class="flex items-center">
+              <button
+                mat-flat-button
+                [color]="'primary'"
+                [disabled]="canCreate"
+                (click)="create()"
+              >
+                Save
+              </button>
+              <div class="flex flex-col flex-auto items-center sm:justify-center">
+                <mat-progress-spinner
+                  *ngIf="form.disabled && !isSuccess"
+                  [diameter]="24"
+                  [mode]="'indeterminate'"
+                ></mat-progress-spinner>
+              </div>
+              <ng-container *ngIf="countdown > 0 && isSuccess">
+                Redirecting in {{countdown | i18nPlural: countdownMapping }}
+              </ng-container>
+            </div>
+          </div>
+        </mat-card-actions>
+      </mat-card>
       </div>
     </div>
   </form>
