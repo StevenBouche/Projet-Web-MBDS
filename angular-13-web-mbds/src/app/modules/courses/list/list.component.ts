@@ -31,6 +31,10 @@ export class CourseListComponent implements OnInit, OnDestroy {
 
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
+  public setPageSize(value: number): void {
+    this._coursesService.pagesize = value;
+  }
+
   constructor(
     private _coursesService: CoursesService,
     private _stateService: ComponentStateService,

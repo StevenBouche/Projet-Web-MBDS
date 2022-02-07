@@ -21,7 +21,7 @@ export class CoursesService extends ApiService {
     pagination: CoursePaginationForm
   } = {
       courseSelected: null,
-      pagination: { page: 1, pagesize: 20, courseName: '', username: '', userId: null },
+      pagination: { page: 1, pagesize: 5, courseName: '', username: '', userId: null },
       assignmentsCourse: []
     };
 
