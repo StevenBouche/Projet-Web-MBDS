@@ -10,7 +10,9 @@ services:
     build:
       context: ./../AssignementAPI
       dockerfile: Assignments.API/Dockerfile
-  
+    links:
+        - sqlserver
+
   front:
     image: ${DOCKER_REGISTRY-}front
     build:
