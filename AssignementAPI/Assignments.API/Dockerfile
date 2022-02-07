@@ -9,6 +9,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Assignments.API/Assignments.API.csproj", "Assignments.API/"]
 COPY ["Assignments.DAL/Assignments.DAL.csproj", "Assignments.DAL/"]
+COPY ["Assignments.Business/Assignments.Business.csproj", "Assignments.Business/"]
 RUN dotnet restore "Assignments.API/Assignments.API.csproj"
 COPY . .
 WORKDIR "/src/Assignments.API"

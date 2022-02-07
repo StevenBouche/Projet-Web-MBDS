@@ -5,6 +5,10 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "local": "ng serve --host 0.0.0.0 --port 80",
+    "localSsl": "ng serve --host 0.0.0.0 --port 443 --ssl --ssl-key ../Certificates/self/privateKey.key --ssl-cert ../Certificates/self/certificat.crt",
+    "dockerSsl": "ng serve --host 0.0.0.0 --port 443 --ssl --ssl-key /https/privateKey.key --ssl-cert /https/certificat.crt",
+    "dockerSslProd": "ng serve --host 0.0.0.0 --port 443 --ssl --ssl-key /https/privateKey.key --ssl-cert /https/certificat.crt --configuration=production --public-host vps-a6945b2a.vps.ovh.net",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

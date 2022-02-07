@@ -124,7 +124,7 @@ namespace Assignments.Business.Services.Courses
         {
             var mapCourse = new Dictionary<int, CourseTreeNode>();
 
-            var work = WorkRepository.Set.Where(entity => entity.UserId == Identity.Id);
+            var work = WorkRepository.Set.Where(entity => entity.UserId == Identity.Id).ToList();
 
             foreach (var w in work)
             {

@@ -4,10 +4,17 @@ services:
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server
-    container_name: sqlserver
 
   assignmentapi:
     image: ${DOCKER_REGISTRY-}assignmentapi
     build:
-      context: ./../AssignementAPI/Assignments.API
+      context: ./../AssignementAPI
+      dockerfile: Assignments.API/Dockerfile
+  
+  front:
+    image: ${DOCKER_REGISTRY-}front
+    build:
+      context: ./../angular-13-web-mbds
       dockerfile: Dockerfile
+    links:
+        - assignmentapi
