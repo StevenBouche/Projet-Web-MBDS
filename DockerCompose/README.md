@@ -12,8 +12,7 @@ Pour plus de détails : https://docs.docker.com/compose/
 
 Nous avons plusieurs conteneurs :
 
-- Un conteneur de base de données MongoDB
-- Un conteneur pour le remplissage de données MongoDB
+- Un conteneur de base de données SQL Server
 - Un conteneur hébergeant le front web Angular
 - Un conteneur hébergeant le serveur applicatif .NET
 
